@@ -35,7 +35,7 @@
 }
 
 .login-button {
-    width: 100%;
+    width: 80%;
     padding: 15px;
     margin-top: 20px;
     border: none;
@@ -57,4 +57,9 @@
     color: #333;
     text-decoration: none;
     font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.create-account-link:hover {
+    color: #f8c009;
 }
