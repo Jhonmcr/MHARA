@@ -1,23 +1,28 @@
 .login-card {
     background-color: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(10px);
-    padding: 40px;
+    padding: 70px 40px 40px 40px;
     border-radius: 20px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: end;
     width: 250px;
+
 }
 
 .logo {
+    position: fixed;
+    bottom: 17.5rem;
     width: 80px;
     height: auto;
     margin-bottom: 20px;
-    background-color: #fff;
+    background-color: rgba(216, 216, 216, 0.925);
+    backdrop-filter: blur(10px);
     border-radius: 50%;
     padding: 10px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+
 }
 
 .login-button {
@@ -26,7 +31,7 @@
     margin-top: 20px;
     border: none;
     border-radius: 10px;
-    background-color: #f7e099;
+    background-color: #f1c237be;
     font-size: 1.2em;
     font-weight: bold;
     cursor: pointer;
@@ -35,7 +40,7 @@
 }
 
 .login-button:hover {
-    background-color: #f5d777;
+    background-color: #f8c009;
 }
 
 .create-account-link {

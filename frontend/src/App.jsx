@@ -15,14 +15,18 @@ function App() {
       <div className="App" style={appStyle}>
         <h1 className="main-title">Mhara Estate Home</h1>
         
-        {showRegistration ? (
-          <RegistrationForm onClose={() => setShowRegistration(false)} />
-        ) : (
-          <LoginForm onShowRegistration={() => setShowRegistration(true)} />
-        )}
+        <div className="form-container">
+            <div className={`form-wrapper ${!showRegistration ? 'active' : 'inactive-left'}`}>
+                <LoginForm onShowRegistration={() => setShowRegistration(true)} />
+            </div>
+            <div className={`form-wrapper ${showRegistration ? 'active' : 'inactive-right'}`}>
+                <RegistrationForm onClose={() => setShowRegistration(false)} />
+            </div>
+        </div>
 
       </div>
     );
 }
 
 export default App;
+

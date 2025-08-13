@@ -8,15 +8,15 @@ import './LoginForm.css';
 const LoginForm = ({ onShowRegistration }) => {
     return (
         <div className="login-card">
-        <img src={logo} alt="Mhara Estate Home" className="logo" />
-        
-        <InputWithIcon type="text" placeholder="usuario" icon={userIcon} />
-        <InputWithIcon type="password" placeholder="Contraseña" icon={lockIcon} />
+            <img src={logo} alt="Mhara Estate Home" className="logo" />
+            
+            <InputWithIcon type="text" placeholder="usuario" icon={userIcon} />
+            <InputWithIcon type="password" placeholder="Contraseña" icon={lockIcon} />
 
-        <button className="login-button">Listo</button>
-        <a href="#" className="create-account-link" onClick={onShowRegistration}>
-            Crear cuenta
-        </a>
+            <button className="login-button">Ingresar</button>
+            <a href="#" className="create-account-link" onClick={onShowRegistration}>
+                Crear cuenta
+            </a>
         </div>
     );
 };
