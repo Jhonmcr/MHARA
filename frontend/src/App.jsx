@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import LoginForm from './components/LoginForm';
 import RegistrationForm from './components/RegistrationForm';
 import './App.css';
-import backgroundImage from './assets/images/background.jpg';
+import backgroundImage from './assets/images/background2.png';
 
 function App() {
     const [showRegistration, setShowRegistration] = useState(false);
