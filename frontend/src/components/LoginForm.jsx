@@ -8,6 +8,7 @@ import './LoginForm.css';
 const LoginForm = ({ onShowRegistration }) => {
     return (
         <div className="login-card">
+            <div className='logo-card'></div>
             <img src={logo} alt="Mhara Estate Home" className="logo" />
             
             <InputWithIcon type="text" placeholder="usuario" icon={userIcon} />

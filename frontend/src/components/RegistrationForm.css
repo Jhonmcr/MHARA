@@ -12,19 +12,6 @@
 
 }
 
-.logo {
-    position: fixed;
-    bottom: 17.5rem;
-    width: 80px;
-    height: auto;
-    margin-bottom: 20px;
-    background-color: rgba(216, 216, 216, 0.925);
-    backdrop-filter: blur(10px);
-    border-radius: 50%;
-    padding: 10px;
-
-}
-
 .register-button {
     width: 100%;
     padding: 15px;

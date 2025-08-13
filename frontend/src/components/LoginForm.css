@@ -1,5 +1,5 @@
 .login-card {
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.89);
     backdrop-filter: blur(10px);
     padding: 70px 40px 40px 40px;
     border-radius: 20px;
@@ -9,7 +9,19 @@
     align-items: center;
     justify-content: end;
     width: 250px;
+}
 
+.logo-card {
+    position: fixed;
+    bottom: 17rem;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+    box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.89);
+    backdrop-filter: blur(10px);
+    border-radius: 50%;
+    padding: 10px;
 }
 
 .logo {
@@ -18,11 +30,8 @@
     width: 80px;
     height: auto;
     margin-bottom: 20px;
-    background-color: rgba(90, 10, 10, 0.7);
-    backdrop-filter: blur(10px);
     border-radius: 50%;
     padding: 10px;
-
 }
 
 .login-button {
