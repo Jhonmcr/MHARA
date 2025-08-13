@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import InputWithIcon from '../InputWithIcon';
@@ -14,6 +14,19 @@ const LoginForm = ({ onShowRegistration }) => {
     const navigate = useNavigate();
     const { login } = useAuth();
 
+    // --- 2. Añadir este bloque useEffect ---
+    useEffect(() => {
+        if (error) {
+            const timer = setTimeout(() => {
+                setError('');
+            }, 5000); // 5 segundos
+
+            // Limpiar el temporizador si el componente se desmonta o el error cambia
+            return () => clearTimeout(timer);
+        }
+    }, [error]);
+    // ------------------------------------
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
@@ -24,9 +37,6 @@ const LoginForm = ({ onShowRegistration }) => {
             return;
         }
 
-        // --- Mock Login Logic ---
-        // In a real app, you would make an API call here.
-        // For now, we'll use hardcoded credentials.
         if (username === 'admin' && password === 'password') {
             console.log('Login successful');
             login(); // Update the auth context
@@ -38,7 +48,9 @@ const LoginForm = ({ onShowRegistration }) => {
 
     return (
         <div className="login-card">
-            <img src={logo} alt="Mhara Estate Home" className="logo" />
+            <div className='logo-card'>
+                <img src={logo} alt="Mhara Estate Home" className="logo" />
+            </div>
 
             <form onSubmit={handleSubmit}>
                 <InputWithIcon
