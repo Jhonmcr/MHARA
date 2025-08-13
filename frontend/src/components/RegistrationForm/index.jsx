@@ -1,8 +1,8 @@
 import React from 'react';
-import InputWithIcon from './InputWithIcon';
-import userIcon from '../assets/icons/user_icon.png';
-import lockIcon from '../assets/icons/lock_icon.png';
-import emailIcon from '../assets/icons/email_icon.png';
+import InputWithIcon from '../InputWithIcon';
+import userIcon from '../../assets/icons/user_icon.png';
+import lockIcon from '../../assets/icons/lock_icon.png';
+import emailIcon from '../../assets/icons/email_icon.png';
 import './RegistrationForm.css'; // Reutilizamos los estilos del login
 
 const RegistrationForm = ({ onClose }) => {

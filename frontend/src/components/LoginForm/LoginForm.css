@@ -63,3 +63,10 @@
 .create-account-link:hover {
     color: #f8c009;
 }
+
+.error-message {
+    color: #d9534f; /* A standard red color for errors */
+    font-size: 0.9em;
+    margin-top: 10px;
+    text-align: center;
+}

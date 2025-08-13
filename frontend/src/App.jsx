@@ -1,32 +1,30 @@
-import React, { useState } from 'react';
-import LoginForm from './components/LoginForm';
-import RegistrationForm from './components/RegistrationForm';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import LoginPage from './pages/Login';
+import Home from './pages/Home';
+import NotFound from './pages/NotFound';
+import ProtectedRoutes from './components/ProtectedRoutes';
 import './App.css';
-import backgroundImage from './assets/images/background2.png';
 
 function App() {
-    const [showRegistration, setShowRegistration] = useState(false);
-
-    const appStyle = {
-      backgroundImage: `url(${backgroundImage})`
-    };
-
     return (
-      <div className="App" style={appStyle}>
-        <h1 className="main-title">Mhara Estate Home</h1>
-        
-        <div className="form-container">
-            <div className={`form-wrapper ${!showRegistration ? 'active' : 'inactive-left'}`}>
-                <LoginForm onShowRegistration={() => setShowRegistration(true)} />
-            </div>
-            <div className={`form-wrapper ${showRegistration ? 'active' : 'inactive-right'}`}>
-                <RegistrationForm onClose={() => setShowRegistration(false)} />
-            </div>
-        </div>
+        <AuthProvider>
+            <Routes>
+                {/* Public Routes */}
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/" element={<LoginPage />} /> {/* Default route */}
 
-      </div>
+                {/* Protected Routes */}
+                <Route element={<ProtectedRoutes />}>
+                    <Route path="/home" element={<Home />} />
+                </Route>
+
+                {/* Catch-all route for 404 */}
+                <Route path="*" element={<NotFound />} />
+            </Routes>
+        </AuthProvider>
     );
 }
 
 export default App;
-
