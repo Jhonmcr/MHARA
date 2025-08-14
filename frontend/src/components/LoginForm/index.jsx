@@ -37,12 +37,25 @@ const LoginForm = ({ onShowRegistration }) => {
             return;
         }
 
-        if (username === 'admin' && password === 'password') {
-            console.log('Login successful');
-            login(); // Update the auth context
-            navigate('/home'); // Redirect to home
-        } else {
-            setError('Usuario o contraseña incorrectos.');
+        try {
+            const response = await fetch('/api/v1/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+            });
+
+            if (response.ok) {
+                login(); // Actualiza el contexto de autenticación
+                navigate('/home'); // Redirige al home
+            } else {
+                const errorData = await response.json();
+                setError(errorData.detail || 'Usuario o contraseña incorrectos.');
+            }
+        } catch (error) {
+            setError('No se pudo conectar con el servidor. Inténtalo de nuevo más tarde.');
+            console.error('Error de inicio de sesión:', error);
         }
     };
 

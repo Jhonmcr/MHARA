@@ -34,6 +34,31 @@ def get_database():
         return client.get_database("Cluster0")
     return None
 
+def get_user(username: str):
+    """
+    Busca un usuario por su nombre de usuario en la base de datos.
+    """
+    db = get_database()
+    if db is not None:
+        return db.users.find_one({"username": username})
+    return None
+
+def create_user(user_data: dict):
+    """
+    Crea un nuevo usuario en la base de datos.
+    Espera que la contraseña ya esté hasheada.
+    """
+    db = get_database()
+    if db is not None:
+        # Aquí podrías añadir lógica para evitar duplicados si lo necesitas
+        # Por ejemplo, comprobando si ya existe un usuario con ese email o username
+        existing_user = get_user(user_data["username"])
+        if existing_user:
+            return None # O lanzar una excepción específica
+        
+        return db.users.insert_one(user_data)
+    return None
+
 def close_mongo_connection():
     """Cierra la conexión a MongoDB."""
     if client:

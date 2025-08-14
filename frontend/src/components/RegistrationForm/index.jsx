@@ -22,8 +22,9 @@ const RegistrationForm = ({ onClose }) => {
         }
     }, [error]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
 
         // --- Lógica de Validación ---
         if (!fullName || !email || !username || !password || !confirmPassword) {
@@ -36,11 +37,34 @@ const RegistrationForm = ({ onClose }) => {
             return;
         }
 
-        // --- Lógica de Registro (Simulada) ---
-        // En una aplicación real, aquí harías una llamada a la API para registrar al usuario.
-        console.log('Registro exitoso para el usuario:', { fullName, email, username });
-        alert('¡Registro exitoso! Ahora puedes iniciar sesión.'); // Mensaje simple de éxito
-        onClose(); // Cierra el formulario de registro para mostrar el de login
+        try {
+            const response = await fetch('/api/v1/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    fullName,
+                    email,
+                    username,
+                    password,
+                }),
+            });
+
+            if (response.ok) {
+                // El registro fue exitoso
+                alert('¡Registro exitoso! Ahora puedes iniciar sesión.');
+                onClose(); // Cierra el formulario para mostrar el de login
+            } else {
+                // El servidor devolvió un error
+                const errorData = await response.json();
+                setError(errorData.detail || 'Ocurrió un error durante el registro.');
+            }
+        } catch (error) {
+            // Error de red o algo impidió la comunicación con la API
+            setError('No se pudo conectar con el servidor. Inténtalo de nuevo más tarde.');
+            console.error('Error de registro:', error);
+        }
     };
 
     return (
