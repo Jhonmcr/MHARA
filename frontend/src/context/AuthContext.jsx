@@ -1,31 +1,45 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [token, setToken] = useState(null);
+    const [loading, setLoading] = useState(true); // 1. Add loading state
 
-    // In a real app, you might check localStorage here to persist login state
-    // useEffect(() => {
-    //     const token = localStorage.getItem('token');
-    //     if (token) {
-    //         setIsAuthenticated(true);
-    //     }
-    // }, []);
+    useEffect(() => {
+        try {
+            const storedToken = localStorage.getItem('userToken');
+            if (storedToken) {
+                setToken(storedToken);
+            }
+        } catch (error) {
+            console.error("Failed to access localStorage", error);
+        } finally {
+            setLoading(false); // 2. Set loading to false after checking
+        }
+    }, []);
 
     const login = () => {
-        // In a real app, you'd set a token in localStorage here
-        // localStorage.setItem('token', 'some-dummy-token');
-        setIsAuthenticated(true);
+        const dummyToken = 'dummy-auth-token';
+        localStorage.setItem('userToken', dummyToken);
+        setToken(dummyToken);
     };
 
     const logout = () => {
-        // localStorage.removeItem('token');
-        setIsAuthenticated(false);
+        localStorage.removeItem('userToken');
+        setToken(null);
+    };
+
+    const value = {
+        token,
+        loading, // 3. Expose loading state
+        login,
+        logout,
+        isAuthenticated: !!token,
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+        <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
     );
