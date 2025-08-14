@@ -5,29 +5,36 @@ body {
 }
 
 .home-container {
-    height: 100vh;
+    height: 96.7vh;
     width: 100vw;
     display: flex;
+    align-items: center;
+    gap: 4rem;
     flex-direction: column;
     background-image: url('../../assets/images/HOME.png'); /* Ruta a tu imagen de fondo */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     overflow: hidden;
+    padding-top: 1.5rem;
+
 }
 
 .main-content {
-    flex-grow: 1;
+    width: 90%;
+    max-height: 1000rem;
     display: flex;
     justify-content: center;
     align-items: center;
     justify-content: space-evenly;
-    padding: 0 50px;
+    padding: 0 25px;
+    margin-bottom: 5rem;
+
 }
 
 .glassmorphism-panel {
     background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 20px;
@@ -66,6 +73,7 @@ body {
     max-width: 300px;
 }
 
-.home-logo {
-    height: 50px;
+.logoHome {
+    width: 45rem;
+    height: auto;
 }

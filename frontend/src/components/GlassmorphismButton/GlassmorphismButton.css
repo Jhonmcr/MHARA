@@ -6,8 +6,8 @@
     color: #333;
     cursor: pointer;
     border: none;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.253);
+    backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 20px;
@@ -18,4 +18,5 @@
 .glassmorphism-button:hover {
     transform: translateY(-3px);
     background: rgba(255, 255, 255, 0.4);
+    color: black;
 }

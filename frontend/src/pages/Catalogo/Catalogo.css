@@ -1,0 +1,186 @@
+/* Estilos del contenedor principal */
+.catalogo-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #f0f2f5;
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Estilos del encabezado */
+.catalogo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+.catalogo-header-left {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.catalogo-header-left h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.catalogo-header-left h1 a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.catalogo-header-left nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+}
+
+.catalogo-header-left nav a {
+    text-decoration: none;
+    color: #555;
+    font-weight: 500;
+}
+
+.catalogo-header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-input {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8px 12px;
+}
+
+.search-button {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+/* Estilos del contenido principal */
+.catalogo-main {
+    display: flex;
+    gap: 30px;
+    padding: 30px 40px;
+}
+
+.main-house-display {
+    flex: 3;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.house-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    background-color: #eee;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.house-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.code-tag {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: rgba(0,0,0,0.5);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+.house-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.details-text h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.details-text p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.price {
+    font-weight: bold;
+    color: #000;
+}
+
+.details-contact {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.contact-icon {
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    padding: 10px;
+}
+
+.contact-button {
+    background-color: #ffd700;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.sidebar {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.sidebar-image {
+    width: 100px;
+    height: 80px;
+    object-fit: cover;
+}
+
+.sidebar-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    flex-grow: 1;
+}
