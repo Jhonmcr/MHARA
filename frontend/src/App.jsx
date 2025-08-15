@@ -21,7 +21,7 @@ function App() {
                 <Route element={<ProtectedRoutes />}>
                     <Route path="/home" element={<Home />} />
                     <Route path="/catalogo" element={<Catalogo />} />
-                    <Route path="/aboutUs" element={<AboutUs />} />
+                    <Route path="/nosotros" element={<AboutUs />} />
                 </Route>
 
                 {/* Catch-all route for 404 */}

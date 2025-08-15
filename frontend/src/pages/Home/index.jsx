@@ -2,7 +2,7 @@ import React from 'react';
 import Header from '../../components/Header';
 import GlassmorphismButton from '../../components/GlassmorphismButton';
 import logo from '../../assets/icons/Logo.png';
-import './Home.css';
+import './home.css';
 import { Link } from 'react-router-dom';
 
 const Home = () => {
@@ -23,7 +23,7 @@ const Home = () => {
                     <Link to="/catalogo">
                         <GlassmorphismButton text="Catalogo" />
                     </Link>
-                    <Link to="/aboutUs">
+                    <Link to="/nosotros">
                         <GlassmorphismButton text="Nosotros" />
                     </Link>
                     <Link to="/contactanos">

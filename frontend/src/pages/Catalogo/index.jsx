@@ -8,11 +8,12 @@ const Catalogo = () => {
         <div className="catalogo-container">
             <HeaderElements/>
             <div className="catalogo-main">
-                {/* Sección principal de la casa */}
                 <div className="main-house-display">
                     {/* ... contenido ... */}
                 </div>
-                {/* Sección de casas en la barra lateral */}
+                <div className='main-price-display'>
+
+                </div>
                 <div className="sidebar">
                     {/* ... contenido ... */}
                 </div>
