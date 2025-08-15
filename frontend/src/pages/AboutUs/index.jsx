@@ -1,28 +1,16 @@
 import React from 'react';
 import './AboutUs.css';
 import { Link } from 'react-router-dom';
-// import teamImage from '../../assets/team.jpg';
+import teamImage from '../../assets/images/imageAboutUs.png';
+import HeaderElements from '../../components/HeaderElements';
 
 const AboutUs = () => {
     return (
         <div className="about-us-container">
-            <header className="about-us-header">
-                <div className="header-left">
-                    <h1><Link to="/">MHARA ESTATE HOME</Link></h1>
-                </div>
-                <nav className="header-right">
-                    <ul>
-                        <li><Link to="/">Home</Link></li>
-                        <li><Link to="/asesores">Asesores</Link></li>
-                        <li><Link to="/contactanos">Contactanos</Link></li>
-                        <li><Link to="/catalogo">Catalogo</Link></li>
-                    </ul>
-                </nav>
-            </header>
+            <HeaderElements/>
             <main className="about-us-content">
                 <div className="content-left">
-                    {/* Aquí va la imagen del equipo */}
-                    {/* <img src={teamImage} alt="Equipo" className="team-image" /> */}
+                    <img src={teamImage} alt="Equipo" className="team-image" />
                 </div>
                 <div className="content-right">
                     <div className="about-us-title">

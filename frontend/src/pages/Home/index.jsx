@@ -23,14 +23,14 @@ const Home = () => {
                     <Link to="/catalogo">
                         <GlassmorphismButton text="Catalogo" />
                     </Link>
-                    <Link to="/asesores">
-                        <GlassmorphismButton text="Asesores" />
+                    <Link to="/aboutUs">
+                        <GlassmorphismButton text="Nosotros" />
                     </Link>
                     <Link to="/contactanos">
                         <GlassmorphismButton text="Contactanos" />
                     </Link>
-                    <Link to="/nosotros">
-                        <GlassmorphismButton text="Nosotros" />
+                    <Link to="/asesores">
+                        <GlassmorphismButton text="Asesores" />
                     </Link>
                 </div>
             </main>

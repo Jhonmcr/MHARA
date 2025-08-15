@@ -4,6 +4,8 @@ import { AuthProvider } from './context/AuthContext';
 import LoginPage from './pages/Login';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
+import Catalogo from './pages/Catalogo';
+import AboutUs from './pages/AboutUs';
 import ProtectedRoutes from './components/ProtectedRoutes';
 import './App.css';
 
@@ -18,6 +20,8 @@ function App() {
                 {/* Protected Routes */}
                 <Route element={<ProtectedRoutes />}>
                     <Route path="/home" element={<Home />} />
+                    <Route path="/catalogo" element={<Catalogo />} />
+                    <Route path="/aboutUs" element={<AboutUs />} />
                 </Route>
 
                 {/* Catch-all route for 404 */}

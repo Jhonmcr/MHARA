@@ -5,7 +5,7 @@
     align-items: center;
     padding: 10px 40px;
     margin: 20px;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.459);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.3);
@@ -42,8 +42,8 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    width: 15vh;
-    height: 15vh;
+    width: 12vh;
+    height: 12vh;
     border-radius: 50%;
     padding: 5px;
     display: flex;
@@ -65,10 +65,24 @@
     cursor: pointer;
 }
 
+.header-icons span {
+    display: flex;
+    align-items: center;
+}
+
 .header-icons .icon {
     color: black;
 }
 
 .logo-small {
-    width: 8rem;
+    width: 6rem;
+}
+
+.iconShoping {
+    width: 2.2rem;
+}
+
+.iconUser {
+    width: 1.8rem;
+    height: 2rem;
 }

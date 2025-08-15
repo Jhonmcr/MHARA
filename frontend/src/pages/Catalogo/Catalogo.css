@@ -5,55 +5,11 @@
     background-color: #f0f2f5;
     color: #333;
     font-family: 'Poppins', sans-serif;
+    width: 207vh;
+    height: 100vh;
 }
 
-/* Estilos del encabezado */
-.catalogo-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 40px;
-    background-color: #fff;
-    border-bottom: 1px solid #ddd;
-}
-
-.catalogo-header-left {
-    display: flex;
-    align-items: center;
-    gap: 30px;
-}
-
-.catalogo-header-left h1 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin: 0;
-}
-
-.catalogo-header-left h1 a {
-    text-decoration: none;
-    color: inherit;
-}
-
-.catalogo-header-left nav ul {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-    padding: 0;
-    margin: 0;
-}
-
-.catalogo-header-left nav a {
-    text-decoration: none;
-    color: #555;
-    font-weight: 500;
-}
-
-.catalogo-header-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
+/* Estilos del Buscador */
 .search-input {
     border: 1px solid #ccc;
     border-radius: 5px;

@@ -1,6 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Header.css';
 import logoSmall from '../../assets/images/mhara_logo.png';
+import iconShoping from '../../assets/icons/shoping.png'
+import iconUser from '../../assets/icons/user.png'
 
 const Header = () => {
     return (
@@ -10,15 +13,15 @@ const Header = () => {
             </div>
             <nav className="navbar">
                 <ul className="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#catalogo">Catalogo</a></li>
-                <li><a href="#nosotros">nosotros</a></li>
-                <li><a href="#contactanos">contactanos</a></li>
+                <li><Link to="/home">Home</Link></li>
+                <li><Link to="/catalogo">Catalogo</Link></li>
+                <li><Link to="/aboutUs">Nosotros</Link></li>
+                <li><Link to="/contactanos">Contactanos</Link></li>
                 </ul>
             </nav>
             <div className="header-icons">
-                <span>👜</span>
-                <span>👤</span>
+                <span><img src={iconShoping} alt="Icon Shoping" className='iconShoping'/></span>
+                <span><img src={iconUser} alt="Icon User" className='iconUser'/></span>
                 <span>☰</span>
             </div>
         </header>
