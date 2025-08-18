@@ -3,6 +3,7 @@ import { useOutletContext } from 'react-router-dom';
 import './Catalogo.css';
 import MainHouseDisplay from '../../components/MainHouseDisplay';
 import Sidebar from '../../components/Sidebar';
+import HeaderElements from '../../components/HeaderElements'
 
 const Catalogo = () => {
     // Get properties from the layout component (ProtectedRoutes)
@@ -27,10 +28,11 @@ const Catalogo = () => {
 
     return (
         <div className="catalogo-container">
-        <div className="catalogo-main">
-            <MainHouseDisplay property={selectedProperty} />
-            <Sidebar properties={properties} onSelectProperty={handleSelectProperty} />
-        </div>
+            <div className="catalogo-main">
+                <HeaderElements/>
+                <MainHouseDisplay property={selectedProperty} />
+                <Sidebar properties={properties} onSelectProperty={handleSelectProperty} />
+            </div>
         </div>
     );
 };

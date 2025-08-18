@@ -1,12 +1,29 @@
 # Archivo: backend/main.py
 from fastapi import FastAPI, APIRouter, HTTPException, status
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
-from database import get_database, close_mongo_connection, client, create_user, get_user
+from database import get_database, close_mongo_connection, client, create_user, get_user, get_properties
 from auth import hash_password, verify_password
 from pymongo.errors import ConnectionFailure
 
 app = FastAPI()
+
+# --- Configuración de CORS ---
+origins = [
+    "http://localhost:5173",  # El origen de tu frontend
+    # Puedes añadir más orígenes si es necesario
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 auth_router = APIRouter()
+properties_router = APIRouter()
 
 # --- Modelos Pydantic ---
 class UserRegistration(BaseModel):
@@ -106,5 +123,20 @@ def test_db_connection():
     else:
         return {"status": "error", "message": "El cliente de MongoDB no está inicializado."}
 
+# --- Endpoints de Propiedades ---
+@properties_router.get("/")
+def list_properties():
+    """
+    Endpoint para obtener todas las propiedades.
+    """
+    properties = get_properties()
+    if properties is None:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="No se pudieron recuperar las propiedades de la base de datos."
+        )
+    return properties
+
 # Incluir el router de autenticación en la aplicación principal
 app.include_router(auth_router, prefix="/api/v1/auth", tags=["auth"])
+app.include_router(properties_router, prefix="/api/v1/properties", tags=["properties"])

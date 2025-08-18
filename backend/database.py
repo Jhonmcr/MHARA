@@ -59,6 +59,20 @@ def create_user(user_data: dict):
         return db.users.insert_one(user_data)
     return None
 
+def get_properties():
+    """
+    Recupera todas las propiedades de la colección 'properties'.
+    """
+    db = get_database()
+    if db is not None:
+        properties = []
+        for prop in db.properties.find():
+            prop['id'] = str(prop['_id'])  # Renombrar _id a id
+            del prop['_id']  # Eliminar el campo original _id
+            properties.append(prop)
+        return properties
+    return None
+
 def close_mongo_connection():
     """Cierra la conexión a MongoDB."""
     if client:
