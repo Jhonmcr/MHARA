@@ -3,14 +3,6 @@ import styles from './MainHouseDisplay.module.css';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 const MainHouseDisplay = ({ property }) => {
-    if (!property) {
-        return (
-        <div className={styles.container}>
-            <p>Selecciona una propiedad de la lista para ver los detalles.</p>
-        </div>
-        );
-    }
-
     const {
         image_url,
         code,

@@ -1,0 +1,107 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    background-color: #2a2a2a;
+    color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    width: 200vh;
+}
+
+.imageContainer {
+    width: 100%;
+    height: 400px;
+    background-color: #3a3a3a;
+}
+
+.detailsContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    width: 70%; /* Take up most of the space */
+}
+
+.skeletonText {
+    background-color: #3a3a3a;
+    border-radius: 4px;
+}
+
+.title {
+    height: 28px;
+    width: 60%;
+    margin-bottom: 10px;
+}
+
+.specs {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+}
+
+.specItem {
+    height: 20px;
+    width: 80px;
+}
+
+.price {
+    height: 24px;
+    width: 30%;
+    margin-top: 10px;
+}
+
+.contact {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profileIcon {
+    width: 40px;
+    height: 40px;
+    background-color: #3a3a3a;
+    border-radius: 50%;
+}
+
+.contactButton {
+    width: 100px;
+    height: 40px;
+    background-color: #3a3a3a;
+    border-radius: 5px;
+}
+
+/* Shimmer Animation */
+.shimmer {
+    position: relative;
+    overflow: hidden;
+}
+
+.shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0,
+        rgba(255, 255, 255, 0.1) 20%,
+        rgba(255, 255, 255, 0.3) 60%,
+        rgba(255, 255, 255, 0)
+    );
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}

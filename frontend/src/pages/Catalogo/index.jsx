@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import './Catalogo.css';
 import MainHouseDisplay from '../../components/MainHouseDisplay';
+import MainHouseDisplaySkeleton from '../../components/MainHouseDisplaySkeleton';
 import Sidebar from '../../components/Sidebar';
 import HeaderElements from '../../components/HeaderElements'
 
@@ -26,7 +27,11 @@ const Catalogo = () => {
         <div className="catalogo-container">
             <HeaderElements/>
             <div className="catalogo-body">
-                <MainHouseDisplay property={selectedProperty} />
+                {selectedProperty ? (
+                    <MainHouseDisplay property={selectedProperty} />
+                ) : (
+                    <MainHouseDisplaySkeleton />
+                )}
                 <Sidebar properties={properties} onSelectProperty={handleSelectProperty} />
             </div>
         </div>
