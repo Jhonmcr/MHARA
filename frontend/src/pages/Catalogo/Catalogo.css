@@ -7,6 +7,7 @@
     font-family: 'Poppins', sans-serif;
     width: 207vh;
     height: 100vh;
+    overflow: hidden;
 }
 
 /* Estilos del Buscador */
@@ -31,8 +32,6 @@
     display: flex;
     gap: 30px;
     padding: 30px 40px;
-    background-color: red;
-    
 }
 
 .main-house-display {

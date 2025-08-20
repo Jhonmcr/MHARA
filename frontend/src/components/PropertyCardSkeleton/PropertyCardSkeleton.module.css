@@ -1,0 +1,73 @@
+.skeletonCard {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #333; /* Slightly different background to distinguish */
+    margin-bottom: 10px; /* Add some space between skeleton cards */
+
+}
+
+.skeletonImage {
+    height: 150px;
+    border-radius: 5px;
+    background-color: #444;
+    display: flex;
+    align-items: start;
+    justify-content: end;
+}
+
+.skeletonInfo {
+    flex: 1;
+
+}
+
+.skeletonText {
+    height: 1em;
+    background-color: #444;
+    border-radius: 4px;
+    margin-bottom: 5px;
+}
+
+.skeletonText:last-child {
+    margin-bottom: 0;
+}
+
+.skeletonText.title {
+    width: 70%;
+}
+
+.skeletonText.subtitle {
+    width: 50%;
+}
+
+/* Shimmer Animation */
+.shimmer {
+    position: relative;
+    overflow: hidden;
+}
+
+.shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0,
+        rgba(255, 255, 255, 0.2) 20%,
+        rgba(255, 255, 255, 0.5) 60%,
+        rgba(255, 255, 255, 0)
+    );
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}
