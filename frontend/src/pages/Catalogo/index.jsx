@@ -22,14 +22,10 @@ const Catalogo = () => {
         setSelectedProperty(property);
     };
 
-    if (!properties) {
-        return <div>Cargando propiedades...</div>;
-    }
-
     return (
         <div className="catalogo-container">
-            <div className="catalogo-main">
-                <HeaderElements/>
+            <HeaderElements/>
+            <div className="catalogo-body">
                 <MainHouseDisplay property={selectedProperty} />
                 <Sidebar properties={properties} onSelectProperty={handleSelectProperty} />
             </div>

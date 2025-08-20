@@ -25,10 +25,14 @@
 }
 
 /* Estilos del contenido principal */
-.catalogo-main {
+.catalogo-body {
+    max-width: 196.5vh;
+    height: 82vh;
     display: flex;
     gap: 30px;
     padding: 30px 40px;
+    background-color: red;
+    
 }
 
 .main-house-display {

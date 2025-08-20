@@ -1,0 +1,96 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    background-color: #2a2a2a;
+    color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    width: 200vh;
+}
+
+.imageContainer {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    background-image: url('URL_DE_LA_IMAGEN_GRANDE');
+    background-size: cover;
+    background-position: center;
+}
+
+.navButtonLeft, .navButtonRight {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.navButtonLeft {
+    left: 10px;
+}
+
+.navButtonRight {
+    right: 10px;
+}
+
+.detailsContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    }
+
+.code {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+}
+
+.specs {
+    display: flex;
+    gap: 15px;
+    margin-top: 5px;
+    font-size: 0.9em;
+}
+
+.price {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.contact {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profileIcon {
+    width: 40px;
+    height: 40px;
+    background-color: #555;
+    border-radius: 50%;
+}
+
+.contactButton {
+    background-color: #ff9900;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
