@@ -6,12 +6,26 @@ import iconShoping from '../../assets/icons/shoping.png';
 import iconUser from '../../assets/icons/user.png';
 import DropdownMenu from '../DropdownMenu';
 
-const Header = ({ onUploadPropertyClick }) => {
+const Header = ({ onUploadPropertyClick, onContactClick, onHomeClick }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
+
+    const handleContactClick = (e) => {
+        e.preventDefault();
+        if(onContactClick) {
+            onContactClick();
+        }
+    }
+
+    const handleHomeClick = (e) => {
+        e.preventDefault();
+        if(onHomeClick) {
+            onHomeClick();
+        }
+    }
 
     return (
         <header className="header-glassmorphism">
@@ -20,10 +34,10 @@ const Header = ({ onUploadPropertyClick }) => {
         </div>
         <nav className="navbar">
             <ul className="nav-links">
-            <li><Link to="/home">Home</Link></li>
+            <li><Link to="/home" onClick={handleHomeClick}>Home</Link></li>
             <li><Link to="/catalogo">Catalogo</Link></li>
             <li><Link to="/nosotros">Nosotros</Link></li>
-            <li><Link to="/contactanos">Contactanos</Link></li>
+            <li><a href="#" onClick={handleContactClick}>Contactanos</a></li>
             </ul>
         </nav>
         <div className="header-icons">
