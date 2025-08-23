@@ -13,13 +13,10 @@ const MainHouseDisplay = ({ property }) => {
 
     const {
         photos,
-        code,
-        property_type,
-        address,
-        rooms,
-        bathrooms,
-        area,
+        negotiationType,
+        detailedAddress,
         price,
+        customOptions,
     } = property;
 
     // Usar la primera foto para la imagen principal, con un fallback.
@@ -36,17 +33,29 @@ const MainHouseDisplay = ({ property }) => {
                 </button>
             </div>
             <div className={styles.detailsContainer}>
-                <div className={styles.code}>Code: {code}</div>
+                {/* <div className={styles.code}>Code: {code}</div> */}
                     <div className={styles.info}>
-                        <h2 className={styles.title}>{property_type} en {address}</h2>
-                        <div className={styles.specs}>
-                            <span>Habitaciones: {rooms}</span>
-                            <span>Baños: {bathrooms}</span>
-                            <span>Mts2: {area}</span>
+                        <div>
+                            <h2 className={styles.title}>{negotiationType} en {detailedAddress}</h2>
+                            {/* <div className={styles.specs}>
+                                <span>Habitaciones: {rooms}</span>
+                                <span>Baños: {bathrooms}</span>
+                                <span>Mts2: {area}</span>
+                            </div> */}
+                            <div className={styles.price}>
+                                Precio: ${price ? price.toLocaleString() : 'No disponible'}
+                            </div>
                         </div>
-                        <div className={styles.price}>
-                            Precio: {price}
-                        </div>
+                        {customOptions && customOptions.length > 0 && (
+                            <div className={styles.customOptions}>
+                                <h5>Otras características:</h5>
+                                <ul>
+                                    {customOptions.map((option, index) => (
+                                        <li key={index}>{option}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
                         </div>
                         <div className={styles.contact}>
                         <div className={styles.profileIcon}>

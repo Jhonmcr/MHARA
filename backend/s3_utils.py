@@ -39,12 +39,14 @@ def upload_file_to_s3(file, object_name: str, content_type: str) -> str | None:
             file,
             S3_BUCKET_NAME,
             object_name,
-            ExtraArgs={'ContentType': content_type}
+            ExtraArgs={'ContentType': content_type, 'ACL': 'public-read'}
         )
-        # Construir la URL del objeto
-        # La URL puede variar según la configuración de la región y del bucket
-        # Este es un formato común.
-        file_url = f"https://{S3_BUCKET_NAME}.s3.{AWS_REGION}.amazonaws.com/{object_name}"
+        # Construir la URL del objeto, manejando el caso especial de us-east-1
+        if AWS_REGION == "us-east-1":
+            file_url = f"https://{S3_BUCKET_NAME}.s3.amazonaws.com/{object_name}"
+        else:
+            file_url = f"https://{S3_BUCKET_NAME}.s3.{AWS_REGION}.amazonaws.com/{object_name}"
+        
         logger.info(f"Archivo subido exitosamente a S3. URL: {file_url}")
         return file_url
     except NoCredentialsError:
