@@ -47,7 +47,8 @@ const LoginForm = ({ onShowRegistration }) => {
             });
 
             if (response.ok) {
-                login(); // Actualiza el contexto de autenticación
+                const data = await response.json(); // Obtener los datos de la respuesta
+                login(data.user); // Pasar el objeto de usuario a la función de login del contexto
                 navigate('/home'); // Redirige al home
             } else {
                 const errorData = await response.json();

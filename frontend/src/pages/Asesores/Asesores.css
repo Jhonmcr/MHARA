@@ -11,12 +11,36 @@
 
 .asesores-content {
     text-align: center;
-    color: rgb(0, 0, 0); /* Adding color to make text visible on dark background */
+    color: #ffffff; /* Changed to white for better visibility on dark background */
+}
+
+.slider-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
 }
 
 .ContentAdvisorCard {
     display: flex;
-    flex-direction: column;
+    flex-direction: row; /* Changed from column to row */
     align-items: center;
     justify-content: center;
+    gap: 20px; /* Adds space between cards */
+    width: 80%; /* Adjust width to make room for buttons */
+    overflow: hidden;
+}
+
+.slider-button {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #ffffff; /* White buttons for dark background */
+    padding: 0 20px;
+    transition: color 0.3s;
+}
+
+.slider-button:hover {
+    color: #cccccc; /* Lighter gray on hover */
 }

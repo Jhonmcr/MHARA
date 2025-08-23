@@ -19,11 +19,11 @@ function App() {
                 <Route path="/" element={<LoginPage />} /> {/* Default route */}
 
                 {/* Protected Routes */}
+                <Route path="/asesores" element={<Asesores />} />
                 <Route element={<ProtectedRoutes />}>
                     <Route path="/home" element={<Home />} />
                     <Route path="/catalogo" element={<Catalogo />} />
                     <Route path="/nosotros" element={<AboutUs />} />
-                    <Route path="/asesores" element={<Asesores />} />
                 </Route>
 
                 {/* Catch-all route for 404 */}

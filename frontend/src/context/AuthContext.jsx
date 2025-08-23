@@ -3,44 +3,45 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-    const [token, setToken] = useState(null);
-    const [loading, setLoading] = useState(true); // 1. Add loading state
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         try {
-            const storedToken = localStorage.getItem('userToken');
-            if (storedToken) {
-                setToken(storedToken);
+            const storedUser = localStorage.getItem('user');
+            if (storedUser) {
+                setUser(JSON.parse(storedUser));
             }
         } catch (error) {
-            console.error("Failed to access localStorage", error);
+            console.error("Failed to parse user from localStorage", error);
+            localStorage.removeItem('user'); // Clear corrupted data
         } finally {
-            setLoading(false); // 2. Set loading to false after checking
+            setLoading(false);
         }
     }, []);
 
-    const login = () => {
-        const dummyToken = 'dummy-auth-token';
-        localStorage.setItem('userToken', dummyToken);
-        setToken(dummyToken);
+    const login = (userData) => {
+        localStorage.setItem('user', JSON.stringify(userData));
+        setUser(userData);
     };
 
     const logout = () => {
-        localStorage.removeItem('userToken');
-        setToken(null);
+        localStorage.removeItem('user');
+        setUser(null);
     };
 
     const value = {
-        token,
-        loading, // 3. Expose loading state
+        user,
+        loading,
         login,
         logout,
-        isAuthenticated: !!token,
+        isAuthenticated: !!user,
     };
 
+    // Render children only when not loading to prevent flicker or race conditions
     return (
         <AuthContext.Provider value={value}>
-            {children}
+            {!loading && children}
         </AuthContext.Provider>
     );
 };

@@ -7,6 +7,7 @@ const DropdownMenu = ({ onUploadPropertyClick }) => {
         <ul>
             <li onClick={onUploadPropertyClick}>Subir Propiedad</li>
             <li>Editar Propiedad</li>
+            <li>Agregar Asesor</li>
             <li>Ajustes</li>
         </ul>
         </div>

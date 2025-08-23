@@ -11,6 +11,7 @@ const RegistrationForm = ({ onClose }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [token, setToken] = useState(''); // Estado para el token
     const [error, setError] = useState('');
 
     useEffect(() => {
@@ -28,7 +29,7 @@ const RegistrationForm = ({ onClose }) => {
 
         // --- Lógica de Validación ---
         if (!fullName || !email || !username || !password || !confirmPassword) {
-            setError('Por favor, completa todos los campos.');
+            setError('Por favor, completa todos los campos obligatorios.');
             return;
         }
 
@@ -38,17 +39,22 @@ const RegistrationForm = ({ onClose }) => {
         }
 
         try {
+            const requestBody = {
+                fullName,
+                email,
+                username,
+                password,
+            };
+            if (token) {
+                requestBody.token = token;
+            }
+
             const response = await fetch('/api/v1/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    fullName,
-                    email,
-                    username,
-                    password,
-                }),
+                body: JSON.stringify(requestBody),
             });
 
             if (response.ok) {
@@ -107,8 +113,14 @@ const RegistrationForm = ({ onClose }) => {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                 />
+                <InputWithIcon 
+                    type="password" 
+                    placeholder="Token de Administrador (Opcional)" 
+                    icon={lockIcon}
+                    value={token}
+                    onChange={(e) => setToken(e.target.value)}
+                />
                 
-                {/* Reutilizamos la clase de error del login, si no existe, el estilo inline funcionará */}
                 {error && <p className="error-message" style={{ color: '#d9534f', fontSize: '0.9em', marginTop: '10px' }}>{error}</p>}
 
                 <button type="submit" className="register-button">Crear Cuenta</button> 
