@@ -110,29 +110,37 @@ const UploadPropertyPopup = ({ onClose, onPublish }) => {
 
     const handlePublish = async () => {
         // 1. Validación básica
-        if (!propertyData.price || !propertyData.agentCode || !propertyData.detailedAddress) {
-            alert('Por favor, complete los campos obligatorios: Precio, Código del Asesor y Dirección Detallada.');
+        if (!propertyData.price || !propertyData.agentCode || !propertyData.detailedAddress || propertyData.photos.length === 0) {
+            alert('Por favor, complete todos los campos obligatorios y suba al menos una foto.');
             return;
         }
 
-        // 2. Formatear los datos para el backend
-        // NOTA: La subida de archivos real es compleja. Por ahora, enviaremos
-        // nombres de archivo como marcadores de posición.
-        const photosAsStrings = propertyData.photos.map(p => p.file.name);
+        // 2. Crear el objeto FormData para la subida de archivos
+        const formData = new FormData();
 
-        const payload = {
-            ...propertyData,
-            price: parseFloat(propertyData.price),
-            photos: photosAsStrings, // Enviamos un array de strings
-        };
+        // 3. Adjuntar los datos del formulario
+        formData.append('price', parseFloat(propertyData.price));
+        formData.append('negotiationType', propertyData.negotiationType);
+        formData.append('agentCode', propertyData.agentCode);
+        formData.append('lat', propertyData.location.lat);
+        formData.append('lng', propertyData.location.lng);
+        formData.append('detailedAddress', propertyData.detailedAddress);
+        
+        // Adjuntar cada opción personalizada
+        propertyData.customOptions.forEach(option => {
+            formData.append('customOptions', option);
+        });
+
+        // 4. Adjuntar las fotos
+        propertyData.photos.forEach(photo => {
+            formData.append('photos', photo.file);
+        });
 
         try {
             const response = await fetch('http://localhost:8000/api/v1/properties/', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(payload),
+                // No se necesita 'Content-Type', el navegador lo establece automáticamente para FormData
+                body: formData,
             });
 
             if (!response.ok) {

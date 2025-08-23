@@ -1,20 +1,22 @@
 import os
-from fastapi import FastAPI, APIRouter, HTTPException, status
+import uuid
+from fastapi import FastAPI, APIRouter, HTTPException, status, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
 from dotenv import load_dotenv
 from typing import List, Dict, Any
 from database import (
-    connect_to_mongo, 
-    close_mongo_connection, 
-    get_user, 
-    create_user, 
-    get_properties, 
+    connect_to_mongo,
+    close_mongo_connection,
+    get_user,
+    create_user,
+    get_properties,
     get_advisors,
     create_property,
-    update_user_to_advisor
+    update_user_to_advisor,
 )
 from auth import hash_password, verify_password
+from s3_utils import upload_file_to_s3
 from pymongo.errors import ConnectionFailure
 
 # Cargar variables de entorno
@@ -67,19 +69,6 @@ class AdvisorUpdate(BaseModel):
     username: str
     advisor_code: str
 
-class Location(BaseModel):
-    lat: float
-    lng: float
-
-class Property(BaseModel):
-    photos: List[str]
-    price: float
-    negotiationType: str
-    agentCode: str
-    location: Location
-    detailedAddress: str
-    customOptions: List[str]
-
 # --- Endpoints de Autenticación ---
 @auth_router.post("/register", status_code=status.HTTP_201_CREATED)
 def register_user(user: UserRegistration):
@@ -125,15 +114,44 @@ def list_properties():
     return get_properties()
 
 @properties_router.post("/", status_code=status.HTTP_201_CREATED)
-def add_property(property_data: Property):
-    # En una aplicación real, aquí validarías que el usuario tiene permiso (es admin o asesor)
-    
-    # Comprobar si el asesor existe (opcional pero recomendado)
-    # Por ahora, confiamos en que el código de asesor es válido
-    
-    new_property = create_property(property_data.dict())
+async def add_property(
+    photos: List[UploadFile] = File(...),
+    price: float = Form(...),
+    negotiationType: str = Form(...),
+    agentCode: str = Form(...),
+    lat: float = Form(...),
+    lng: float = Form(...),
+    detailedAddress: str = Form(...),
+    customOptions: List[str] = Form(...)
+):
+    photo_urls = []
+    for photo in photos:
+        # Generar un nombre de archivo único para evitar colisiones en S3
+        file_extension = os.path.splitext(photo.filename)[1]
+        unique_filename = f"properties/{uuid.uuid4()}{file_extension}"
+        
+        # Subir el archivo a S3
+        file_url = upload_file_to_s3(photo.file, unique_filename)
+        
+        if not file_url:
+            raise HTTPException(status_code=500, detail="Error al subir una de las imágenes a S3.")
+        
+        photo_urls.append(file_url)
+
+    # Crear el diccionario de la propiedad para guardarlo en la base de datos
+    property_data = {
+        "photos": photo_urls,
+        "price": price,
+        "negotiationType": negotiationType,
+        "agentCode": agentCode,
+        "location": {"lat": lat, "lng": lng},
+        "detailedAddress": detailedAddress,
+        "customOptions": customOptions
+    }
+
+    new_property = create_property(property_data)
     if new_property is None:
-        raise HTTPException(status_code=500, detail="La propiedad no pudo ser creada.")
+        raise HTTPException(status_code=500, detail="La propiedad no pudo ser creada en la base de datos.")
         
     return {"message": "Propiedad creada exitosamente.", "property_id": str(new_property.inserted_id)}
 
