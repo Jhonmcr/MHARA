@@ -6,35 +6,32 @@ const ProtectedRoutes = () => {
     const { isAuthenticated, loading } = useAuth();
     const [properties, setProperties] = useState(null);
 
-    useEffect(() => {
-        const fetchProperties = async () => {
-            try {
-                // Adjust the fetch URL to your backend endpoint
-                const response = await fetch('/api/v1/properties');
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                setProperties(data);
-            } catch (error) {
-                console.error("Failed to fetch properties:", error);
-                // Handle error appropriately
+    // Encapsulate the fetch logic in a useCallback to pass it down safely
+    const fetchProperties = React.useCallback(async () => {
+        try {
+            const response = await fetch('http://localhost:8000/api/v1/properties/');
+            if (!response.ok) {
+                throw new Error('La respuesta de la red no fue correcta');
             }
-        };
+            const data = await response.json();
+            setProperties(data);
+        } catch (error) {
+            console.error("Fallo al obtener las propiedades:", error);
+        }
+    }, []); // No dependencies, the endpoint is static
 
+    useEffect(() => {
         if (isAuthenticated) {
             fetchProperties();
         }
-    }, [isAuthenticated]);
+    }, [isAuthenticated, fetchProperties]);
 
     if (loading) {
-        // While the authentication state is loading, show a loading indicator
-        // or return null to render nothing.
         return <div>Cargando...</div>;
     }
 
-    // Pass the properties to the child routes
-    return isAuthenticated ? <Outlet context={{ properties }} /> : <Navigate to="/login" />;
+    // Pass down both properties and the function to refetch them
+    return isAuthenticated ? <Outlet context={{ properties, refetchProperties: fetchProperties }} /> : <Navigate to="/login" />;
 };
 
 export default ProtectedRoutes;

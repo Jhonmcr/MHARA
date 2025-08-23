@@ -12,7 +12,7 @@ const MainHouseDisplay = ({ property }) => {
     }
 
     const {
-        image_url,
+        photos,
         code,
         property_type,
         address,
@@ -22,9 +22,12 @@ const MainHouseDisplay = ({ property }) => {
         price,
     } = property;
 
+    // Usar la primera foto para la imagen principal, con un fallback.
+    const mainImageUrl = photos && photos.length > 0 ? photos[0] : '';
+
     return (
         <div className={styles.container}>
-            <div className={styles.imageContainer} style={{ backgroundImage: `url(${image_url})` }}>
+            <div className={styles.imageContainer} style={{ backgroundImage: `url(${mainImageUrl})` }}>
                 <button className={styles.navButtonLeft}>
                 <FaChevronLeft />
                 </button>

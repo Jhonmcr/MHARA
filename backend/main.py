@@ -122,7 +122,7 @@ async def add_property(
     lat: float = Form(...),
     lng: float = Form(...),
     detailedAddress: str = Form(...),
-    customOptions: List[str] = Form(...)
+    customOptions: List[str] = Form([])
 ):
     photo_urls = []
     for photo in photos:
@@ -131,7 +131,11 @@ async def add_property(
         unique_filename = f"properties/{uuid.uuid4()}{file_extension}"
         
         # Subir el archivo a S3
-        file_url = upload_file_to_s3(photo.file, unique_filename)
+        file_url = upload_file_to_s3(
+            file=photo.file, 
+            object_name=unique_filename, 
+            content_type=photo.content_type
+        )
         
         if not file_url:
             raise HTTPException(status_code=500, detail="Error al subir una de las imágenes a S3.")

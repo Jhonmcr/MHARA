@@ -25,12 +25,13 @@ s3_client = boto3.client(
     region_name=AWS_REGION
 )
 
-def upload_file_to_s3(file, object_name: str) -> str | None:
+def upload_file_to_s3(file, object_name: str, content_type: str) -> str | None:
     """
     Sube un archivo a un bucket de S3 y devuelve la URL pública.
 
     :param file: Archivo a subir (objeto tipo file).
     :param object_name: Nombre del objeto en S3 (incluyendo carpetas si es necesario).
+    :param content_type: El tipo MIME del archivo (ej. 'image/jpeg').
     :return: La URL del archivo subido, o None si hubo un error.
     """
     try:
@@ -38,7 +39,7 @@ def upload_file_to_s3(file, object_name: str) -> str | None:
             file,
             S3_BUCKET_NAME,
             object_name,
-            ExtraArgs={'ContentType': file.content_type}
+            ExtraArgs={'ContentType': content_type}
         )
         # Construir la URL del objeto
         # La URL puede variar según la configuración de la región y del bucket

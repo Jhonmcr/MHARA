@@ -5,12 +5,13 @@ import ContactPanel from '../../components/ContactPanel';
 import UploadPropertyPopup from '../../components/popups/UploadPropertyPopup'; // 1. Importar
 import logo from '../../assets/icons/Logo.png';
 import './home.css';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useOutletContext } from 'react-router-dom';
 
 const Home = () => {
     const [showContactInfo, setShowContactInfo] = useState(false);
-    const [isUploadPopupOpen, setUploadPopupOpen] = useState(false); // 2. Añadir estado
+    const [isUploadPopupOpen, setUploadPopupOpen] = useState(false);
     const location = useLocation();
+    const { refetchProperties } = useOutletContext(); // Get the refetch function
 
     useEffect(() => {
         if (location.state?.scrollTo === 'contact') {
@@ -37,7 +38,9 @@ const Home = () => {
     
     const handlePropertyPublished = (data) => {
         console.log('Propiedad publicada:', data);
-        // Aquí se podría añadir lógica para refrescar la lista de propiedades, etc.
+        if (refetchProperties) {
+            refetchProperties();
+        }
     };
 
 
