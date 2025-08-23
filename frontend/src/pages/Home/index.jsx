@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header';
 import GlassmorphismButton from '../../components/GlassmorphismButton';
 import ContactPanel from '../../components/ContactPanel';
+import UploadPropertyPopup from '../../components/popups/UploadPropertyPopup'; // 1. Importar
 import logo from '../../assets/icons/Logo.png';
 import './home.css';
 import { Link, useLocation } from 'react-router-dom';
 
 const Home = () => {
     const [showContactInfo, setShowContactInfo] = useState(false);
+    const [isUploadPopupOpen, setUploadPopupOpen] = useState(false); // 2. Añadir estado
     const location = useLocation();
 
     useEffect(() => {
@@ -22,11 +24,39 @@ const Home = () => {
 
     const handleHomeClick = () => {
         setShowContactInfo(false);
-    }
+    };
+
+    // 3. Handlers para el popup
+    const handleUploadPropertyClick = () => {
+        setUploadPopupOpen(true);
+    };
+
+    const handleClosePopup = () => {
+        setUploadPopupOpen(false);
+    };
+    
+    const handlePropertyPublished = (data) => {
+        console.log('Propiedad publicada:', data);
+        // Aquí se podría añadir lógica para refrescar la lista de propiedades, etc.
+    };
+
 
     return (
         <div className="home-container">
-            <Header onContactClick={handleContactClick} onHomeClick={handleHomeClick} />
+            {/* 4. Pasar el handler al Header */}
+            <Header 
+                onContactClick={handleContactClick} 
+                onHomeClick={handleHomeClick} 
+                onUploadPropertyClick={handleUploadPropertyClick} 
+            />
+
+            {/* 5. Renderizar el popup condicionalmente */}
+            {isUploadPopupOpen && (
+                <UploadPropertyPopup 
+                    onClose={handleClosePopup}
+                    onPublish={handlePropertyPublished}
+                />
+            )}
 
             <main className="main-content">
                 {/* Panel de la izquierda con el logo */}

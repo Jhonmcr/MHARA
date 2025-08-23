@@ -94,3 +94,10 @@ def update_user_to_advisor(username: str, advisor_code: str):
         )
         return result.modified_count > 0
     return False
+
+def create_property(property_data: dict):
+    """Crea una nueva propiedad en la base de datos."""
+    db = get_database()
+    if db is not None:
+        return db.properties.insert_one(property_data)
+    return None

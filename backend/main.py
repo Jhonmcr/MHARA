@@ -3,13 +3,16 @@ from fastapi import FastAPI, APIRouter, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
 from dotenv import load_dotenv
+from typing import List, Dict, Any
 from database import (
     connect_to_mongo, 
     close_mongo_connection, 
     get_user, 
     create_user, 
     get_properties, 
-    get_advisors
+    get_advisors,
+    create_property,
+    update_user_to_advisor
 )
 from auth import hash_password, verify_password
 from pymongo.errors import ConnectionFailure
@@ -60,6 +63,23 @@ class UserLogin(BaseModel):
     username: str
     password: str
 
+class AdvisorUpdate(BaseModel):
+    username: str
+    advisor_code: str
+
+class Location(BaseModel):
+    lat: float
+    lng: float
+
+class Property(BaseModel):
+    photos: List[str]
+    price: float
+    negotiationType: str
+    agentCode: str
+    location: Location
+    detailedAddress: str
+    customOptions: List[str]
+
 # --- Endpoints de Autenticación ---
 @auth_router.post("/register", status_code=status.HTTP_201_CREATED)
 def register_user(user: UserRegistration):
@@ -104,42 +124,18 @@ def login_user(user_credentials: UserLogin):
 def list_properties():
     return get_properties()
 
-from database import (
-    connect_to_mongo, 
-    close_mongo_connection, 
-    get_user, 
-    create_user, 
-    get_properties, 
-    get_advisors,
-    update_user_to_advisor
-)
-# ... (keep other imports)
-
-# ... (keep FastAPI app and middleware setup)
-
-# ... (keep event handlers)
-
-# ... (keep routers definition)
-
-# --- Modelos Pydantic ---
-class UserRegistration(BaseModel):
-    fullName: str
-    email: EmailStr
-    username: str
-    password: str
-    token: str | None = None
-
-class UserLogin(BaseModel):
-    username: str
-    password: str
-
-class AdvisorUpdate(BaseModel):
-    username: str
-    advisor_code: str
-
-# ... (keep auth endpoints)
-
-# ... (keep properties endpoints)
+@properties_router.post("/", status_code=status.HTTP_201_CREATED)
+def add_property(property_data: Property):
+    # En una aplicación real, aquí validarías que el usuario tiene permiso (es admin o asesor)
+    
+    # Comprobar si el asesor existe (opcional pero recomendado)
+    # Por ahora, confiamos en que el código de asesor es válido
+    
+    new_property = create_property(property_data.dict())
+    if new_property is None:
+        raise HTTPException(status_code=500, detail="La propiedad no pudo ser creada.")
+        
+    return {"message": "Propiedad creada exitosamente.", "property_id": str(new_property.inserted_id)}
 
 # --- Endpoints de Usuarios ---
 @users_router.get("/advisors")
