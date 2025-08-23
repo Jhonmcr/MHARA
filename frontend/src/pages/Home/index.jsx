@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header';
 import GlassmorphismButton from '../../components/GlassmorphismButton';
 import ContactPanel from '../../components/ContactPanel';
 import logo from '../../assets/icons/Logo.png';
 import './home.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Home = () => {
     const [showContactInfo, setShowContactInfo] = useState(false);
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.state?.scrollTo === 'contact') {
+            setShowContactInfo(true);
+        }
+    }, [location]);
 
     const handleContactClick = () => {
         setShowContactInfo(true);

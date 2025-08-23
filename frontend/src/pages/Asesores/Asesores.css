@@ -1,0 +1,22 @@
+/* Add your styles for the Asesores page here */
+.asesores-container {
+    min-height: 100vh;
+    width: 207vh;
+    background-image: url('../../assets/images/home.png');
+    background-size: cover;
+    background-position: center;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.asesores-content {
+    text-align: center;
+    color: rgb(0, 0, 0); /* Adding color to make text visible on dark background */
+}
+
+.ContentAdvisorCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

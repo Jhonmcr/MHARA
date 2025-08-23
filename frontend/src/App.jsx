@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import NotFound from './pages/NotFound';
 import Catalogo from './pages/Catalogo';
 import AboutUs from './pages/AboutUs';
+import Asesores from './pages/Asesores';
 import ProtectedRoutes from './components/ProtectedRoutes';
 import './App.css';
 
@@ -22,6 +23,7 @@ function App() {
                     <Route path="/home" element={<Home />} />
                     <Route path="/catalogo" element={<Catalogo />} />
                     <Route path="/nosotros" element={<AboutUs />} />
+                    <Route path="/asesores" element={<Asesores />} />
                 </Route>
 
                 {/* Catch-all route for 404 */}

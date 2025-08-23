@@ -12,11 +12,16 @@ const HeaderElements = () => {
         { path: '/home', label: 'Home' },
         { path: '/catalogo', label: 'Catalogo' },
         { path: '/nosotros', label: 'Nosotros' },
-        { path: '/contactanos', label: 'Contactanos' },
+        { path: '/home', label: 'Contactanos', state: { scrollTo: 'contact' } },
         { path: '/asesores', label: 'Asesores' },
     ];
 
-    const filteredLinks = navLinks.filter(link => link.path !== location.pathname);
+    const filteredLinks = navLinks.filter(link => {
+        if (location.pathname === '/home') {
+            return link.label !== 'Home';
+        }
+        return link.path !== location.pathname;
+    });
 
     return (
         <header className="about-us-header">
@@ -26,8 +31,8 @@ const HeaderElements = () => {
             <nav className="header-right">
                 <ul>
                     {filteredLinks.map(link => (
-                        <li key={link.path}>
-                            <Link to={link.path}>{link.label}</Link>
+                        <li key={link.label}>
+                            <Link to={link.path} state={link.state}>{link.label}</Link>
                         </li>
                     ))}
                 </ul>
