@@ -104,10 +104,68 @@ def login_user(user_credentials: UserLogin):
 def list_properties():
     return get_properties()
 
+from database import (
+    connect_to_mongo, 
+    close_mongo_connection, 
+    get_user, 
+    create_user, 
+    get_properties, 
+    get_advisors,
+    update_user_to_advisor
+)
+# ... (keep other imports)
+
+# ... (keep FastAPI app and middleware setup)
+
+# ... (keep event handlers)
+
+# ... (keep routers definition)
+
+# --- Modelos Pydantic ---
+class UserRegistration(BaseModel):
+    fullName: str
+    email: EmailStr
+    username: str
+    password: str
+    token: str | None = None
+
+class UserLogin(BaseModel):
+    username: str
+    password: str
+
+class AdvisorUpdate(BaseModel):
+    username: str
+    advisor_code: str
+
+# ... (keep auth endpoints)
+
+# ... (keep properties endpoints)
+
 # --- Endpoints de Usuarios ---
 @users_router.get("/advisors")
 def list_advisors():
     return get_advisors()
+
+@users_router.post("/make-advisor", status_code=status.HTTP_200_OK)
+def make_user_advisor(advisor_data: AdvisorUpdate):
+    # In a real-world scenario, this endpoint should be protected
+    # and only accessible by an admin.
+    
+    db_user = get_user(advisor_data.username)
+    if not db_user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado.")
+
+    # Optional: Check if the user is already an advisor
+    if db_user.get("role") == "asesor":
+        # You can decide to return a specific message or just confirm the state
+        return {"message": "El usuario ya es un asesor."}
+
+    success = update_user_to_advisor(advisor_data.username, advisor_data.advisor_code)
+
+    if not success:
+        raise HTTPException(status_code=500, detail="No se pudo actualizar el rol del usuario.")
+
+    return {"message": f"El usuario {advisor_data.username} ahora es un asesor."}
 
 
 # Incluir routers en la aplicación principal

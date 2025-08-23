@@ -78,3 +78,19 @@ def get_advisors():
             advisors.append(advisor)
         return advisors
     return None
+
+def update_user_to_advisor(username: str, advisor_code: str):
+    """Updates a user's role to 'asesor' and adds an advisor code."""
+    db = get_database()
+    if db is not None:
+        # Check if the user exists first
+        user = get_user(username)
+        if not user:
+            return None # Or raise an exception
+
+        result = db.users.update_one(
+            {"username": username},
+            {"$set": {"role": "asesor", "advisor_code": advisor_code}}
+        )
+        return result.modified_count > 0
+    return False
