@@ -7,9 +7,9 @@ import iconShoping from '../../assets/icons/shoping.png';
 import iconUser from '../../assets/icons/user.png';
 import DropdownMenu from '../DropdownMenu';
 
-const Header = ({ onUploadPropertyClick, onContactClick, onHomeClick }) => {
+const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, onHomeClick }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const { user } = useAuth(); // 2. Obtener el usuario del contexto
+    const { user } = useAuth();
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -29,7 +29,6 @@ const Header = ({ onUploadPropertyClick, onContactClick, onHomeClick }) => {
         }
     }
     
-    // 3. Lógica para determinar si se debe mostrar el menú
     const shouldShowMenu = user && (user.role === 'admin' || user.role === 'asesor');
 
     return (
@@ -49,11 +48,13 @@ const Header = ({ onUploadPropertyClick, onContactClick, onHomeClick }) => {
             <span><img src={iconShoping} alt="Icon Shoping" className='iconShoping'/></span>
             <span><img src={iconUser} alt="Icon User" className='iconUser'/></span>
             
-            {/* 4. Renderizado condicional del menú */}
             {shouldShowMenu && (
                 <>
                     <span onClick={toggleMenu} style={{ cursor: 'pointer' }}>☰</span>
-                    {isMenuOpen && <DropdownMenu onUploadPropertyClick={onUploadPropertyClick} />}
+                    {isMenuOpen && <DropdownMenu 
+                        onUploadPropertyClick={onUploadPropertyClick} 
+                        onEditPropertyClick={onEditPropertyClick} 
+                    />}
                 </>
             )}
         </div>

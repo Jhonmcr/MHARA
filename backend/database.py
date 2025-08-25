@@ -2,6 +2,7 @@ import os
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure
 from dotenv import load_dotenv
+from bson import ObjectId
 
 # Cargar las variables de entorno desde el archivo .env
 load_dotenv()
@@ -133,3 +134,38 @@ def get_user_favorites(username: str):
         if user and "favorites" in user:
             return user["favorites"]
     return []
+
+def get_property_by_id(property_id: str):
+    """Busca una propiedad por su ID."""
+    db = get_database()
+    if db is not None:
+        try:
+            obj_id = ObjectId(property_id)
+            return db.properties.find_one({"_id": obj_id})
+        except Exception:
+            return None
+    return None
+
+def update_property(property_id: str, data: dict):
+    """Actualiza una propiedad existente."""
+    db = get_database()
+    if db is not None:
+        try:
+            obj_id = ObjectId(property_id)
+            result = db.properties.update_one({"_id": obj_id}, {"$set": data})
+            return result.modified_count > 0
+        except Exception:
+            return False
+    return False
+
+def delete_property_by_id(property_id: str):
+    """Elimina una propiedad por su ID."""
+    db = get_database()
+    if db is not None:
+        try:
+            obj_id = ObjectId(property_id)
+            result = db.properties.delete_one({"_id": obj_id})
+            return result.deleted_count > 0
+        except Exception:
+            return False
+    return False

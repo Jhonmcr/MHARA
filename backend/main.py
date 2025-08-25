@@ -6,7 +6,7 @@ from fastapi import FastAPI, APIRouter, HTTPException, status, File, UploadFile,
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
 from dotenv import load_dotenv
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from database import (
     connect_to_mongo,
     close_mongo_connection,
@@ -19,9 +19,12 @@ from database import (
     add_favorite,
     remove_favorite,
     get_user_favorites,
+    get_property_by_id,
+    update_property,
+    delete_property_by_id,
 )
 from auth import hash_password, verify_password
-from s3_utils import upload_file_to_s3
+from s3_utils import upload_file_to_s3, delete_file_from_s3, S3_BUCKET_NAME, AWS_REGION
 from pymongo.errors import ConnectionFailure
 
 # Cargar variables de entorno
@@ -133,15 +136,13 @@ async def add_property(
     lng: float = Form(...),
     detailedAddress: str = Form(...),
     shortAddress: str = Form(...),
-    customOptions: List[str] = Form([])
+    customOptions: List[str] = Form(...)
 ):
     photo_urls = []
     for photo in photos:
-        # Generar un nombre de archivo único para evitar colisiones en S3
         file_extension = os.path.splitext(photo.filename)[1]
         unique_filename = f"properties/{uuid.uuid4()}{file_extension}"
         
-        # Subir el archivo a S3
         file_url = upload_file_to_s3(
             file=photo.file, 
             object_name=unique_filename, 
@@ -153,7 +154,6 @@ async def add_property(
         
         photo_urls.append(file_url)
 
-    # Crear el diccionario de la propiedad para guardarlo en la base de datos
     property_data = {
         "code": generate_property_code(),
         "photos": photo_urls,
@@ -163,7 +163,7 @@ async def add_property(
         "location": {"lat": lat, "lng": lng},
         "detailedAddress": detailedAddress,
         "shortAddress": shortAddress,
-        "customOptions": customOptions
+        "customOptions": [opt for opt in customOptions if opt] # Filtrar opciones vacías
     }
 
     new_property = create_property(property_data)
@@ -171,6 +171,93 @@ async def add_property(
         raise HTTPException(status_code=500, detail="La propiedad no pudo ser creada en la base de datos.")
         
     return {"message": "Propiedad creada exitosamente.", "property_id": str(new_property.inserted_id)}
+
+@properties_router.put("/{property_id}", status_code=status.HTTP_200_OK)
+async def update_property_endpoint(
+    property_id: str,
+    price: Optional[float] = Form(None),
+    negotiationType: Optional[str] = Form(None),
+    agentCode: Optional[str] = Form(None),
+    lat: Optional[float] = Form(None),
+    lng: Optional[float] = Form(None),
+    detailedAddress: Optional[str] = Form(None),
+    customOptions: Optional[List[str]] = Form(None),
+    new_photos: List[UploadFile] = File([]),
+    deleted_photos: Optional[List[str]] = Form(None)
+):
+    # 1. Obtener la propiedad existente
+    existing_property = get_property_by_id(property_id)
+    if not existing_property:
+        raise HTTPException(status_code=404, detail="Propiedad no encontrada.")
+
+    update_data = {}
+    
+    # 2. Actualizar campos de texto si se proporcionan
+    if price is not None:
+        update_data["price"] = price
+    if negotiationType is not None:
+        update_data["negotiationType"] = negotiationType
+    if agentCode is not None:
+        update_data["agentCode"] = agentCode
+    if detailedAddress is not None:
+        update_data["detailedAddress"] = detailedAddress
+    if customOptions is not None:
+        update_data["customOptions"] = [opt for opt in customOptions if opt]
+    if lat is not None and lng is not None:
+        update_data["location"] = {"lat": lat, "lng": lng}
+
+    # 3. Manejar fotos
+    current_photos = existing_property.get("photos", [])
+    
+    # Eliminar fotos marcadas
+    if deleted_photos:
+        for photo_url in deleted_photos:
+            if S3_BUCKET_NAME in photo_url:
+                object_name = photo_url.split(f"{S3_BUCKET_NAME}.s3.{AWS_REGION}.amazonaws.com/")[1]
+                delete_file_from_s3(object_name)
+        current_photos = [p for p in current_photos if p not in deleted_photos]
+
+    # Subir nuevas fotos
+    new_photo_urls = []
+    for photo in new_photos:
+        file_extension = os.path.splitext(photo.filename)[1]
+        unique_filename = f"properties/{uuid.uuid4()}{file_extension}"
+        file_url = upload_file_to_s3(photo.file, unique_filename, photo.content_type)
+        if not file_url:
+            raise HTTPException(status_code=500, detail="Error al subir nueva imagen a S3.")
+        new_photo_urls.append(file_url)
+
+    update_data["photos"] = current_photos + new_photo_urls
+
+    # 4. Aplicar la actualización en la base de datos
+    if update_data:
+        success = update_property(property_id, update_data)
+        if not success:
+            raise HTTPException(status_code=500, detail="No se pudo actualizar la propiedad.")
+
+    return {"message": "Propiedad actualizada exitosamente."}
+
+
+@properties_router.delete("/{property_id}", status_code=status.HTTP_200_OK)
+def delete_property_endpoint(property_id: str):
+    # 1. Obtener la propiedad para conseguir las URLs de las fotos
+    prop_to_delete = get_property_by_id(property_id)
+    if not prop_to_delete:
+        raise HTTPException(status_code=404, detail="Propiedad no encontrada.")
+
+    # 2. Eliminar fotos de S3
+    photos_to_delete = prop_to_delete.get("photos", [])
+    for photo_url in photos_to_delete:
+        if S3_BUCKET_NAME in photo_url:
+            object_name = photo_url.split(f"{S3_BUCKET_NAME}.s3.{AWS_REGION}.amazonaws.com/")[1]
+            delete_file_from_s3(object_name)
+
+    # 3. Eliminar la propiedad de la base de datos
+    success = delete_property_by_id(property_id)
+    if not success:
+        raise HTTPException(status_code=500, detail="No se pudo eliminar la propiedad de la base de datos.")
+
+    return {"message": "Propiedad eliminada exitosamente."}
 
 # --- Endpoints de Usuarios ---
 @users_router.get("/advisors")

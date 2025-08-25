@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import './UploadPropertyPopup.css';
@@ -45,21 +45,43 @@ const AddOptionPopup = ({ onAdd, onClose, existingOptions }) => {
 };
 
 
-const UploadPropertyPopup = ({ onClose, onPublish }) => {
+const UploadPropertyPopup = ({ onClose, onPublish, propertyToEdit }) => {
+    const isEditMode = Boolean(propertyToEdit);
     const [propertyData, setPropertyData] = useState({
-        photos: [], // Almacenará objetos { file, preview }
+        photos: [], // Almacenará objetos { file, preview } o { url, preview }
         price: '',
         negotiationType: 'Venta',
         agentCode: '',
-        location: { lat: 10.6, lng: -66.933 }, // Posición inicial del mapa
+        location: { lat: 10.6, lng: -66.933 },
         detailedAddress: '',
+        shortAddress: '',
         customOptions: [],
     });
     const [negotiationTypes, setNegotiationTypes] = useState(['Venta', 'Alquiler', 'Vacacional']);
     const [newNegotiationType, setNewNegotiationType] = useState('');
     const [isAddOptionPopupOpen, setAddOptionPopupOpen] = useState(false);
+    const [deletedPhotos, setDeletedPhotos] = useState([]); // URLs of photos to delete
     
     const fileInputRef = useRef(null);
+
+    useEffect(() => {
+        if (isEditMode) {
+            setPropertyData({
+                photos: propertyToEdit.photos.map(url => ({ url, preview: url })),
+                price: propertyToEdit.price || '',
+                negotiationType: propertyToEdit.negotiationType || 'Venta',
+                agentCode: propertyToEdit.agentCode || '',
+                location: propertyToEdit.location || { lat: 10.6, lng: -66.933 },
+                detailedAddress: propertyToEdit.detailedAddress || '',
+                shortAddress: propertyToEdit.shortAddress || '',
+                customOptions: propertyToEdit.customOptions || [],
+            });
+            // Poblar también los tipos de negociación por si hay uno personalizado
+            if (propertyToEdit.negotiationType && !negotiationTypes.includes(propertyToEdit.negotiationType)) {
+                setNegotiationTypes(prev => [...prev, propertyToEdit.negotiationType]);
+            }
+        }
+    }, [propertyToEdit, isEditMode]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -76,10 +98,19 @@ const UploadPropertyPopup = ({ onClose, onPublish }) => {
     };
 
     const handleRemovePhoto = (index) => {
+        const photoToRemove = propertyData.photos[index];
+
+        // If the photo has a URL, it's an existing photo. Mark it for deletion.
+        if (photoToRemove.url) {
+            setDeletedPhotos(prev => [...prev, photoToRemove.url]);
+        } else {
+            // If it's a new photo (File object), revoke its preview URL
+            URL.revokeObjectURL(photoToRemove.preview);
+        }
+
+        // Remove the photo from the display array
         setPropertyData(prev => {
             const newPhotos = [...prev.photos];
-            // Revocar el Object URL para liberar memoria
-            URL.revokeObjectURL(newPhotos[index].preview);
             newPhotos.splice(index, 1);
             return { ...prev, photos: newPhotos };
         });
@@ -108,53 +139,93 @@ const UploadPropertyPopup = ({ onClose, onPublish }) => {
         }
     };
 
-    const handlePublish = async () => {
-        // 1. Validación básica
+    const handleDelete = async () => {
+        if (!window.confirm('¿Está seguro de que desea eliminar esta propiedad? Esta acción no se puede deshacer.')) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:8000/api/v1/properties/${propertyToEdit.id}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.detail || 'Error al eliminar la propiedad');
+            }
+
+            alert('Propiedad eliminada con éxito.');
+            onPublish({ action: 'delete' }); // Re-use onPublish to trigger refetch
+            onClose();
+
+        } catch (error) {
+            console.error('Error al eliminar la propiedad:', error);
+            alert(`Error: ${error.message}`);
+        }
+    };
+
+    const handleSubmit = async () => {
+        // Validación
         if (!propertyData.price || !propertyData.agentCode || !propertyData.detailedAddress || propertyData.photos.length === 0) {
             alert('Por favor, complete todos los campos obligatorios y suba al menos una foto.');
             return;
         }
 
-        // 2. Crear el objeto FormData para la subida de archivos
         const formData = new FormData();
-
-        // 3. Adjuntar los datos del formulario
+        
+        // Adjuntar solo los datos que han cambiado o son necesarios
         formData.append('price', parseFloat(propertyData.price));
         formData.append('negotiationType', propertyData.negotiationType);
         formData.append('agentCode', propertyData.agentCode);
         formData.append('lat', propertyData.location.lat);
         formData.append('lng', propertyData.location.lng);
         formData.append('detailedAddress', propertyData.detailedAddress);
+        formData.append('shortAddress', propertyData.shortAddress);
         
-        // Adjuntar cada opción personalizada
         propertyData.customOptions.forEach(option => {
             formData.append('customOptions', option);
         });
 
-        // 4. Adjuntar las fotos
-        propertyData.photos.forEach(photo => {
-            formData.append('photos', photo.file);
-        });
+        const url = isEditMode 
+            ? `http://localhost:8000/api/v1/properties/${propertyToEdit.id}`
+            : 'http://localhost:8000/api/v1/properties/';
+        
+        const method = isEditMode ? 'PUT' : 'POST';
+
+        // Adjuntar fotos nuevas y marcadas para eliminar
+        if (isEditMode) {
+            deletedPhotos.forEach(url => {
+                formData.append('deleted_photos', url);
+            });
+            propertyData.photos.forEach(photo => {
+                if (photo.file) { // Solo subir las nuevas fotos
+                    formData.append('new_photos', photo.file);
+                }
+            });
+        } else {
+            propertyData.photos.forEach(photo => {
+                formData.append('photos', photo.file);
+            });
+        }
 
         try {
-            const response = await fetch('http://localhost:8000/api/v1/properties/', {
-                method: 'POST',
-                // No se necesita 'Content-Type', el navegador lo establece automáticamente para FormData
+            const response = await fetch(url, {
+                method: method,
                 body: formData,
             });
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.detail || 'Error al publicar la propiedad');
+                throw new Error(errorData.detail || `Error al ${isEditMode ? 'actualizar' : 'publicar'} la propiedad`);
             }
 
             const result = await response.json();
-            alert(`Propiedad publicada con éxito! ID: ${result.property_id}`);
-            onPublish(result); // Llama al callback del padre
-            onClose(); // Cierra el popup
+            alert(`Propiedad ${isEditMode ? 'actualizada' : 'publicada'} con éxito!`);
+            onPublish(result);
+            onClose();
 
         } catch (error) {
-            console.error('Error al publicar la propiedad:', error);
+            console.error(`Error al ${isEditMode ? 'actualizar' : 'publicar'} la propiedad:`, error);
             alert(`Error: ${error.message}`);
         }
     };
@@ -172,7 +243,7 @@ const UploadPropertyPopup = ({ onClose, onPublish }) => {
     return (
         <div className="popup-overlay">
             <div className="popup-content">
-                <h2>Subir Nueva Propiedad</h2>
+                <h2>{isEditMode ? 'Editar Propiedad' : 'Subir Nueva Propiedad'}</h2>
 
                 {/* --- Sección de Fotos --- */}
                 <div className="form-section photo-upload-section">
@@ -256,13 +327,24 @@ const UploadPropertyPopup = ({ onClose, onPublish }) => {
                             </MapContainer>
                         </div>
                         <label>
+                            Dirección Corta (Ciudad, Estado):
+                            <input type="text" name="shortAddress" value={propertyData.shortAddress} onChange={handleChange} placeholder="Ej: La Guaira, Vargas" />
+                        </label>
+                        <label>
                             Dirección Detallada:
                             <input type="text" name="detailedAddress" value={propertyData.detailedAddress} onChange={handleChange} placeholder="Ej: Calle Falsa 123, Apto 4B, La Guaira" />
                         </label>
                     </div>
                 </div>
                 <div className="popup-actions">
-                    <button onClick={handlePublish} className="publish-btn">Publicar Propiedad</button>
+                    <button onClick={handleSubmit} className="publish-btn">
+                        {isEditMode ? 'Actualizar Propiedad' : 'Publicar Propiedad'}
+                    </button>
+                    {isEditMode && (
+                        <button onClick={handleDelete} className="delete-btn">
+                            Eliminar Propiedad
+                        </button>
+                    )}
                     <button onClick={onClose} className="close-btn">Cerrar</button>
                 </div>
             </div>

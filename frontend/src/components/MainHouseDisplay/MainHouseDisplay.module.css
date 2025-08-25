@@ -44,8 +44,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
-
+    padding: 5px 20px;
+    min-height: 10rem;
+    max-height: 10rem;
 }
 
 .code {

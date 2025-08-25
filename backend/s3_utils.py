@@ -61,3 +61,21 @@ def upload_file_to_s3(file, object_name: str, content_type: str) -> str | None:
     except Exception as e:
         logger.error(f"Un error inesperado ocurrió al subir el archivo: {e}")
         return None
+
+def delete_file_from_s3(object_name: str) -> bool:
+    """
+    Elimina un objeto de un bucket de S3.
+
+    :param object_name: El nombre completo del objeto a eliminar.
+    :return: True si se eliminó, False en caso contrario.
+    """
+    try:
+        s3_client.delete_object(Bucket=S3_BUCKET_NAME, Key=object_name)
+        logger.info(f"Archivo {object_name} eliminado exitosamente de S3.")
+        return True
+    except ClientError as e:
+        logger.error(f"Error del cliente de S3 al eliminar {object_name}: {e}")
+        return False
+    except Exception as e:
+        logger.error(f"Un error inesperado ocurrió al eliminar el archivo {object_name}: {e}")
+        return False

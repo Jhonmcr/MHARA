@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header';
 import GlassmorphismButton from '../../components/GlassmorphismButton';
 import ContactPanel from '../../components/ContactPanel';
-import UploadPropertyPopup from '../../components/popups/UploadPropertyPopup'; // 1. Importar
+import UploadPropertyPopup from '../../components/popups/UploadPropertyPopup';
+import EditPropertySelectionPopup from '../../components/popups/EditPropertySelectionPopup';
 import logo from '../../assets/icons/Logo.png';
 import './home.css';
 import { Link, useLocation, useOutletContext } from 'react-router-dom';
@@ -10,8 +11,10 @@ import { Link, useLocation, useOutletContext } from 'react-router-dom';
 const Home = () => {
     const [showContactInfo, setShowContactInfo] = useState(false);
     const [isUploadPopupOpen, setUploadPopupOpen] = useState(false);
+    const [isEditSelectionPopupOpen, setEditSelectionPopupOpen] = useState(false);
+    const [propertyToEdit, setPropertyToEdit] = useState(null);
     const location = useLocation();
-    const { refetchProperties } = useOutletContext(); // Get the refetch function
+    const { properties, refetchProperties } = useOutletContext();
 
     useEffect(() => {
         if (location.state?.scrollTo === 'contact') {
@@ -27,17 +30,29 @@ const Home = () => {
         setShowContactInfo(false);
     };
 
-    // 3. Handlers para el popup
     const handleUploadPropertyClick = () => {
+        setPropertyToEdit(null);
         setUploadPopupOpen(true);
     };
 
-    const handleClosePopup = () => {
+    const handleEditPropertyClick = () => {
+        setEditSelectionPopupOpen(true);
+    };
+
+    const handleClosePopups = () => {
         setUploadPopupOpen(false);
+        setEditSelectionPopupOpen(false);
+        setPropertyToEdit(null);
+    };
+
+    const handlePropertySelectForEdit = (property) => {
+        setPropertyToEdit(property);
+        setEditSelectionPopupOpen(false);
+        setUploadPopupOpen(true);
     };
     
     const handlePropertyPublished = (data) => {
-        console.log('Propiedad publicada:', data);
+        console.log('Propiedad publicada/actualizada:', data);
         if (refetchProperties) {
             refetchProperties();
         }
@@ -46,18 +61,26 @@ const Home = () => {
 
     return (
         <div className="home-container">
-            {/* 4. Pasar el handler al Header */}
             <Header 
                 onContactClick={handleContactClick} 
                 onHomeClick={handleHomeClick} 
-                onUploadPropertyClick={handleUploadPropertyClick} 
+                onUploadPropertyClick={handleUploadPropertyClick}
+                onEditPropertyClick={handleEditPropertyClick}
             />
 
-            {/* 5. Renderizar el popup condicionalmente */}
             {isUploadPopupOpen && (
                 <UploadPropertyPopup 
-                    onClose={handleClosePopup}
+                    onClose={handleClosePopups}
                     onPublish={handlePropertyPublished}
+                    propertyToEdit={propertyToEdit}
+                />
+            )}
+
+            {isEditSelectionPopupOpen && (
+                <EditPropertySelectionPopup
+                    properties={properties || []}
+                    onClose={handleClosePopups}
+                    onSelectProperty={handlePropertySelectForEdit}
                 />
             )}
 
