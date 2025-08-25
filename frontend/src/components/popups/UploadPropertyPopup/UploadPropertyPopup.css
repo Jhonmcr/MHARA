@@ -220,6 +220,7 @@
     background-color: #007bff;
 }
 
+
 .popup-actions .close-btn-new {
     padding: 5px 10px;
     border: none;
@@ -274,4 +275,17 @@
 
 .add-option-popup .popup-content {
     max-width: 400px;
+}
+
+.popup-content .close-button {
+    position: absolute;
+    left: 52rem;
+    top: 1rem;
+    background: none;
+    border: none;
+    font-size: 3rem;
+    cursor: pointer;
+    color: black;
+    padding: 0;
+
 }

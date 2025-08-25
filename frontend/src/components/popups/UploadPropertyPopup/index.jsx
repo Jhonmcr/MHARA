@@ -243,6 +243,7 @@ const UploadPropertyPopup = ({ onClose, onPublish, propertyToEdit }) => {
     return (
         <div className="popup-overlay">
             <div className="popup-content">
+                <button onClick={onClose} className="close-button">&times;</button>
                 <h2>{isEditMode ? 'Editar Propiedad' : 'Subir Nueva Propiedad'}</h2>
 
                 {/* --- Sección de Fotos --- */}

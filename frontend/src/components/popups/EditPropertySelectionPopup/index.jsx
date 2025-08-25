@@ -22,7 +22,7 @@ const EditPropertySelectionPopup = ({ properties, onClose, onSelectProperty }) =
     return (
         <div className="popup-overlay">
             <div className="popup-content edit-selection-popup">
-                <button onClick={onClose} className="close-button">&times;</button>
+                <button onClick={onClose} className="close-button-edit">&times;</button>
                 <h2>Seleccionar Propiedad para Editar</h2>
                 <input
                     type="text"
