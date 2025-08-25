@@ -1,17 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './MainHouseDisplay.module.css';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 const MainHouseDisplay = ({ property }) => {
+    const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
+
+    useEffect(() => {
+        // Reset photo index when property changes
+        setCurrentPhotoIndex(0);
+    }, [property]);
+
     if (!property) {
         return (
-        <div className={styles.container}>
-            <p>Selecciona una propiedad de la lista para ver los detalles.</p>
-        </div>
+            <div className={styles.container}>
+                <p>Selecciona una propiedad de la lista para ver los detalles.</p>
+            </div>
         );
     }
 
     const {
+        code,
         photos,
         negotiationType,
         detailedAddress,
@@ -19,47 +27,55 @@ const MainHouseDisplay = ({ property }) => {
         customOptions,
     } = property;
 
-    // Usar la primera foto para la imagen principal, con un fallback.
-    const mainImageUrl = photos && photos.length > 0 ? photos[0] : '';
+    const nextPhoto = () => {
+        setCurrentPhotoIndex((prevIndex) =>
+            prevIndex === photos.length - 1 ? 0 : prevIndex + 1
+        );
+    };
+
+    const prevPhoto = () => {
+        setCurrentPhotoIndex((prevIndex) =>
+            prevIndex === 0 ? photos.length - 1 : prevIndex - 1
+        );
+    };
+
+    const mainImageUrl = photos && photos.length > 0 ? photos[currentPhotoIndex] : '';
 
     return (
         <div className={styles.container}>
             <div className={styles.imageContainer} style={{ backgroundImage: `url(${mainImageUrl})` }}>
-                <button className={styles.navButtonLeft}>
-                <FaChevronLeft />
-                </button>
-                <button className={styles.navButtonRight}>
-                <FaChevronRight />
-                </button>
+                {photos && photos.length > 1 && (
+                    <>
+                        <button onClick={prevPhoto} className={styles.navButtonLeft}>
+                            <FaChevronLeft />
+                        </button>
+                        <button onClick={nextPhoto} className={styles.navButtonRight}>
+                            <FaChevronRight />
+                        </button>
+                    </>
+                )}
+                {code && <div className={styles.code}>Código: {code}</div>}
             </div>
             <div className={styles.detailsContainer}>
-                {/* <div className={styles.code}>Code: {code}</div> */}
-                    <div className={styles.info}>
-                        <div>
-                            <h2 className={styles.title}>{negotiationType} en {detailedAddress}</h2>
-                            {/* <div className={styles.specs}>
-                                <span>Habitaciones: {rooms}</span>
-                                <span>Baños: {bathrooms}</span>
-                                <span>Mts2: {area}</span>
-                            </div> */}
-                            <div className={styles.price}>
-                                Precio: ${price ? price.toLocaleString() : 'No disponible'}
-                            </div>
+                <div className={styles.info}>
+                    <div>
+                        <h2 className={styles.title}>{negotiationType} en {detailedAddress}</h2>
+                        <div className={styles.price}>
+                            Precio: ${price ? price.toLocaleString() : 'No disponible'}
                         </div>
-                        {customOptions && customOptions.length > 0 && (
-                            <div className={styles.customOptions}>
-                                <h5>Otras características:</h5>
-                                <ul>
-                                    {customOptions.map((option, index) => (
-                                        <li key={index}>{option}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )}
-                        </div>
-                        <div className={styles.contact}>
-                        <div className={styles.profileIcon}>
                     </div>
+                    {customOptions && customOptions.length > 0 && (
+                        <div className={styles.customOptions}>
+                            <h5>Otras características:</h5>
+                            <ul>
+                                {customOptions.map((option, index) => (
+                                    <li key={index}>{option}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                </div>
+                <div className={styles.contact}>
                     <button className={styles.contactButton}>
                         Contactar
                     </button>

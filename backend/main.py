@@ -1,5 +1,7 @@
 import os
 import uuid
+import random
+import string
 from fastapi import FastAPI, APIRouter, HTTPException, status, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
@@ -14,6 +16,9 @@ from database import (
     get_advisors,
     create_property,
     update_user_to_advisor,
+    add_favorite,
+    remove_favorite,
+    get_user_favorites,
 )
 from auth import hash_password, verify_password
 from s3_utils import upload_file_to_s3
@@ -109,6 +114,11 @@ def login_user(user_credentials: UserLogin):
     }
 
 # --- Endpoints de Propiedades ---
+def generate_property_code(length=4):
+    """Genera un código alfanumérico aleatorio para las propiedades."""
+    characters = string.ascii_uppercase + string.digits
+    return ''.join(random.choice(characters) for i in range(length))
+
 @properties_router.get("/")
 def list_properties():
     return get_properties()
@@ -122,6 +132,7 @@ async def add_property(
     lat: float = Form(...),
     lng: float = Form(...),
     detailedAddress: str = Form(...),
+    shortAddress: str = Form(...),
     customOptions: List[str] = Form([])
 ):
     photo_urls = []
@@ -144,12 +155,14 @@ async def add_property(
 
     # Crear el diccionario de la propiedad para guardarlo en la base de datos
     property_data = {
+        "code": generate_property_code(),
         "photos": photo_urls,
         "price": price,
         "negotiationType": negotiationType,
         "agentCode": agentCode,
         "location": {"lat": lat, "lng": lng},
         "detailedAddress": detailedAddress,
+        "shortAddress": shortAddress,
         "customOptions": customOptions
     }
 
@@ -184,6 +197,29 @@ def make_user_advisor(advisor_data: AdvisorUpdate):
         raise HTTPException(status_code=500, detail="No se pudo actualizar el rol del usuario.")
 
     return {"message": f"El usuario {advisor_data.username} ahora es un asesor."}
+
+@users_router.post("/{username}/favorites/{property_id}", status_code=status.HTTP_200_OK)
+def add_property_to_favorites(username: str, property_id: str):
+    # En un caso real, validar que el usuario que hace la petición es el mismo que {username}
+    success = add_favorite(username, property_id)
+    if not success:
+        # Podría ser que el usuario no exista o la propiedad ya esté en favoritos.
+        # Devolvemos 200 OK para simplificar, ya que el estado final es el deseado.
+        pass
+    return {"message": "Propiedad añadida a favoritos."}
+
+@users_router.delete("/{username}/favorites/{property_id}", status_code=status.HTTP_200_OK)
+def remove_property_from_favorites(username: str, property_id: str):
+    success = remove_favorite(username, property_id)
+    if not success:
+        # Idem, si no se modificó, puede que ya no estuviera.
+        pass
+    return {"message": "Propiedad eliminada de favoritos."}
+
+@users_router.get("/{username}/favorites", status_code=status.HTTP_200_OK)
+def get_favorites_list(username: str):
+    favorites = get_user_favorites(username)
+    return {"favorites": favorites}
 
 
 # Incluir routers en la aplicación principal

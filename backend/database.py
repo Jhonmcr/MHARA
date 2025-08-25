@@ -101,3 +101,35 @@ def create_property(property_data: dict):
     if db is not None:
         return db.properties.insert_one(property_data)
     return None
+
+def add_favorite(username: str, property_id: str):
+    """Agrega una propiedad a la lista de favoritos de un usuario."""
+    db = get_database()
+    if db is not None:
+        # Usamos $addToSet para evitar duplicados
+        result = db.users.update_one(
+            {"username": username},
+            {"$addToSet": {"favorites": property_id}}
+        )
+        return result.modified_count > 0
+    return False
+
+def remove_favorite(username: str, property_id: str):
+    """Elimina una propiedad de la lista de favoritos de un usuario."""
+    db = get_database()
+    if db is not None:
+        result = db.users.update_one(
+            {"username": username},
+            {"$pull": {"favorites": property_id}}
+        )
+        return result.modified_count > 0
+    return False
+
+def get_user_favorites(username: str):
+    """Obtiene la lista de IDs de propiedades favoritas de un usuario."""
+    db = get_database()
+    if db is not None:
+        user = db.users.find_one({"username": username})
+        if user and "favorites" in user:
+            return user["favorites"]
+    return []
