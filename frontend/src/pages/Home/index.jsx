@@ -2,14 +2,18 @@ import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header';
 import GlassmorphismButton from '../../components/GlassmorphismButton';
 import ContactPanel from '../../components/ContactPanel';
+import ChangeProfilePicture from '../../components/ChangeProfilePicture';
 import UploadPropertyPopup from '../../components/popups/UploadPropertyPopup';
 import EditPropertySelectionPopup from '../../components/popups/EditPropertySelectionPopup';
 import logo from '../../assets/icons/Logo.png';
 import './home.css';
 import { Link, useLocation, useOutletContext } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const Home = () => {
+    const { user, setUser } = useAuth();
     const [showContactInfo, setShowContactInfo] = useState(false);
+    const [showChangeProfilePicture, setShowChangeProfilePicture] = useState(false);
     const [isUploadPopupOpen, setUploadPopupOpen] = useState(false);
     const [isEditSelectionPopupOpen, setEditSelectionPopupOpen] = useState(false);
     const [propertyToEdit, setPropertyToEdit] = useState(null);
@@ -24,10 +28,17 @@ const Home = () => {
 
     const handleContactClick = () => {
         setShowContactInfo(true);
+        setShowChangeProfilePicture(false); // Hide other panels
     };
 
     const handleHomeClick = () => {
         setShowContactInfo(false);
+        setShowChangeProfilePicture(false); // Hide other panels
+    };
+
+    const handleShowChangeProfilePicture = () => {
+        setShowChangeProfilePicture(true);
+        setShowContactInfo(false); // Hide other panels
     };
 
     const handleUploadPropertyClick = () => {
@@ -66,6 +77,7 @@ const Home = () => {
                 onHomeClick={handleHomeClick} 
                 onUploadPropertyClick={handleUploadPropertyClick}
                 onEditPropertyClick={handleEditPropertyClick}
+                onShowChangeProfilePicture={handleShowChangeProfilePicture}
             />
 
             {isUploadPopupOpen && (
@@ -89,6 +101,8 @@ const Home = () => {
                 <div className="main-logo-panel glassmorphism-panel">
                     {showContactInfo ? (
                         <ContactPanel />
+                    ) : showChangeProfilePicture ? (
+                        <ChangeProfilePicture user={user} setUser={setUser} />
                     ) : (
                         <div className="logo-text-large">
                             <img src={logo} alt="Mhara Estate Home" className="logoHome" />

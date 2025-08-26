@@ -4,11 +4,13 @@ import HeaderElements from '../../components/HeaderElements';
 import AdvisorsCard from '../../components/AdvisorsCard';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import userIcon from '../../assets/icons/usuario.png'; // Importar el ícono
+import { useAuth } from '../../context/AuthContext';
 
 const Asesores = () => {
     const [advisors, setAdvisors] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [loading, setLoading] = useState(true); // Estado para la carga
+    const { refetchTrigger } = useAuth();
 
     useEffect(() => {
         const fetchAdvisors = async () => {
@@ -29,7 +31,7 @@ const Asesores = () => {
         };
 
         fetchAdvisors();
-    }, []);
+    }, [refetchTrigger]);
 
     const nextAdvisor = () => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % advisors.length);

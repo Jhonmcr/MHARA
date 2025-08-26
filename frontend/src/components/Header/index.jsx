@@ -7,21 +7,48 @@ import logoSmall from '../../assets/images/mhara_logo.png';
 import iconShoping from '../../assets/icons/shoping.png';
 import iconUser from '../../assets/icons/user.png';
 import DropdownMenu from '../DropdownMenu';
+import ProfileDropdownMenu from '../ProfileDropdownMenu';
 import FavoritesPopup from '../popups/FavoritesPopup';
+import ChangeUsername from '../ChangeUsername';
+import ChangePassword from '../ChangePassword';
+import AdvisorContactForm from '../AdvisorContactForm';
 
-const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, onHomeClick }) => {
+const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, onHomeClick, onShowChangeProfilePicture }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
     const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
+    const [isChangeUsernameOpen, setIsChangeUsernameOpen] = useState(false);
+    const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
+    const [isAdvisorContactFormOpen, setIsAdvisorContactFormOpen] = useState(false);
     const { user } = useAuth();
     const { favoriteProperties } = useFavorites();
     const navigate = useNavigate();
 
+    const closeAllPopups = () => {
+        setIsMenuOpen(false);
+        setIsProfileMenuOpen(false);
+        setIsFavoritesOpen(false);
+        setIsChangeUsernameOpen(false);
+        setIsChangePasswordOpen(false);
+        setIsAdvisorContactFormOpen(false);
+    };
+
     const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
+        const wasOpen = isMenuOpen;
+        closeAllPopups();
+        setIsMenuOpen(!wasOpen);
+    };
+
+    const toggleProfileMenu = () => {
+        const wasOpen = isProfileMenuOpen;
+        closeAllPopups();
+        setIsProfileMenuOpen(!wasOpen);
     };
 
     const toggleFavorites = () => {
-        setIsFavoritesOpen(!isFavoritesOpen);
+        const wasOpen = isFavoritesOpen;
+        closeAllPopups();
+        setIsFavoritesOpen(!wasOpen);
     };
 
     const handleSelectFavorite = (property) => {
@@ -45,6 +72,36 @@ const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, on
     
     const shouldShowMenu = user && (user.role === 'admin' || user.role === 'asesor');
 
+    // Placeholder functions for the new dropdown menu options
+    const handleChangeProfilePicture = () => {
+        if (onShowChangeProfilePicture) {
+            onShowChangeProfilePicture();
+        }
+        closeAllPopups();
+    };
+    const handleChangeUsername = () => {
+        closeAllPopups();
+        setIsChangeUsernameOpen(true);
+    };
+    const handleCloseChangeUsername = () => {
+        setIsChangeUsernameOpen(false);
+    };
+    const handleChangePassword = () => {
+        closeAllPopups();
+        setIsChangePasswordOpen(true);
+    };
+    const handleCloseChangePassword = () => {
+        setIsChangePasswordOpen(false);
+    };
+    const handleAddContactInfo = () => {
+        closeAllPopups();
+        setIsAdvisorContactFormOpen(true);
+    };
+    const handleCloseAdvisorContactForm = () => {
+        setIsAdvisorContactFormOpen(false);
+    };
+    const handleLogout = () => console.log('Logout');
+
     return (
         <header className="header-glassmorphism">
         <div className="header-logo">
@@ -62,7 +119,18 @@ const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, on
             <span onClick={toggleFavorites} style={{ cursor: 'pointer' }}>
                 <img src={iconShoping} alt="Icon Shoping" className='iconShoping'/>
             </span>
-            <span><img src={iconUser} alt="Icon User" className='iconUser'/></span>
+            <span onClick={toggleProfileMenu} style={{ cursor: 'pointer' }}>
+                <img src={iconUser} alt="Icon User" className='iconUser'/>
+            </span>
+            {isProfileMenuOpen && (
+                <ProfileDropdownMenu
+                    onChangeProfilePicture={handleChangeProfilePicture}
+                    onChangeUsername={handleChangeUsername}
+                    onChangePassword={handleChangePassword}
+                    onAddContactInfo={handleAddContactInfo}
+                    onLogout={handleLogout}
+                />
+            )}
             
             {shouldShowMenu && (
                 <>
@@ -80,6 +148,19 @@ const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, on
                 onClose={toggleFavorites}
                 favorites={favoriteProperties}
                 onSelectProperty={handleSelectFavorite}
+            />
+        )}
+        {isChangeUsernameOpen && (
+            <ChangeUsername onClose={handleCloseChangeUsername} />
+        )}
+        {isChangePasswordOpen && (
+            <ChangePassword onClose={handleCloseChangePassword} />
+        )}
+        {isAdvisorContactFormOpen && (
+            <AdvisorContactForm
+                advisor={user}
+                onClose={handleCloseAdvisorContactForm}
+                onSubmit={() => {}} // Placeholder for submit logic
             />
         )}
         </header>

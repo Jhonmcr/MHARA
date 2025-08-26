@@ -4,7 +4,7 @@ import FilterIcon from '../FilterIcon';
 import FilterModal from '../FilterModal';
 import './HeaderElements.css';
 
-const HeaderElements = () => {
+const HeaderElements = ({ searchTerm, onSearchChange, onApplyFilters }) => {
     const location = useLocation();
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -38,14 +38,24 @@ const HeaderElements = () => {
                 </ul>
                 {location.pathname === '/catalogo' && (
                     <div className="search-bar-container">
-                        <input type="text" placeholder="Buscar..." className="search-input" />
+                        <input
+                            type="text"
+                            placeholder="Buscar..."
+                            className="search-input"
+                            value={searchTerm}
+                            onChange={(e) => onSearchChange(e.target.value)}
+                        />
                         <button className="filter-button" onClick={() => setIsModalOpen(true)}>
                             <FilterIcon />
                         </button>
                     </div>
                 )}
             </nav>
-            <FilterModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+            <FilterModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onApplyFilters={onApplyFilters}
+            />
         </header>
     );
 };

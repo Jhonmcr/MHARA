@@ -15,9 +15,25 @@ const ProtectedRoutes = () => {
             if (!response.ok) {
                 throw new Error('La respuesta de la red no fue correcta');
             }
-            const data = await response.json();
-            setLocalProperties(data);
-            setProperties(data);
+            const propertiesData = await response.json();
+
+            const propertiesWithAdvisors = await Promise.all(propertiesData.map(async (property) => {
+                if (property.advisor_id) {
+                    try {
+                        const advisorResponse = await fetch(`http://localhost:8000/api/v1/users/advisors/${property.advisor_id}`);
+                        if (advisorResponse.ok) {
+                            const advisorData = await advisorResponse.json();
+                            return { ...property, advisor: advisorData };
+                        }
+                    } catch (error) {
+                        console.error(`Failed to fetch advisor for property ${property.id}`, error);
+                    }
+                }
+                return property;
+            }));
+
+            setLocalProperties(propertiesWithAdvisors);
+            setProperties(propertiesWithAdvisors);
         } catch (error) {
             console.error("Fallo al obtener las propiedades:", error);
         }

@@ -1,75 +1,99 @@
 import React, { useState, useEffect } from 'react';
 import './AddAdvisorForm.css';
 
-const AddAdvisorForm = ({ onAddAdvisor }) => {
-    const [username, setUsername] = useState('');
-    const [advisorCode, setAdvisorCode] = useState('');
-    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-    const [isAdvisorAdded, setIsAdvisorAdded] = useState(false);
+const AddAdvisorForm = () => {
+    const [searchTerm, setSearchTerm] = useState('');
+    const [foundUser, setFoundUser] = useState(null);
+    const [isAdvisor, setIsAdvisor] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        if (username.trim() !== '' && advisorCode.trim() !== '') {
-        setIsButtonDisabled(false);
-        } else {
-        setIsButtonDisabled(true);
+        if (searchTerm.trim() === '') {
+            setFoundUser(null);
+            return;
         }
-    }, [username, advisorCode]);
 
-    const handleToggle = () => {
-        if (isButtonDisabled) return;
+        const fetchUser = async () => {
+            setIsLoading(true);
+            try {
+                const response = await fetch(`http://localhost:8000/api/v1/users/username/${searchTerm}`);
+                if (response.ok) {
+                    const userData = await response.json();
+                    setFoundUser(userData);
+                    setIsAdvisor(userData.role === 'asesor');
+                } else {
+                    setFoundUser(null);
+                }
+            } catch (error) {
+                console.error("Error fetching user:", error);
+                setFoundUser(null);
+            } finally {
+                setIsLoading(false);
+            }
+        };
 
-        // This is a placeholder for the actual logic
-        // In a real scenario, you would call the API here
-        setIsAdvisorAdded(!isAdvisorAdded);
+        const debounceTimer = setTimeout(() => {
+            fetchUser();
+        }, 500);
 
-        if (!isAdvisorAdded) {
-        console.log('Simulating adding advisor:', { username, advisorCode });
-        if(onAddAdvisor) {
-            onAddAdvisor({ username, advisorCode });
-        }
-        } else {
-        console.log('Simulating removing advisor for:', username);
-        // Logic to remove advisor would go here
+        return () => clearTimeout(debounceTimer);
+    }, [searchTerm]);
+
+    const handleToggleAdvisorRole = async () => {
+        if (!foundUser) return;
+
+        const newRole = isAdvisor ? 'user' : 'asesor';
+
+        try {
+            const response = await fetch(`http://localhost:8000/api/v1/users/${foundUser._id}/role`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ role: newRole }),
+            });
+
+            if (response.ok) {
+                const updatedUser = await response.json();
+                setFoundUser(updatedUser);
+                setIsAdvisor(updatedUser.role === 'asesor');
+            } else {
+                console.error("Failed to update user role");
+            }
+        } catch (error) {
+            console.error("Error updating user role:", error);
         }
     };
 
     return (
         <form className="add-advisor-form" onSubmit={(e) => e.preventDefault()}>
-        <div className="input-group">
-            <label htmlFor="username">Nombre de Usuario</label>
-            <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="ej. juanperez"
-            required
-            />
-        </div>
-        <div className="input-group">
-            <label htmlFor="advisorCode">Código Único de Asesor</label>
-            <input
-            type="text"
-            id="advisorCode"
-            value={advisorCode}
-            onChange={(e) => setAdvisorCode(e.target.value)}
-            placeholder="ej. JP123"
-            required
-            />
-        </div>
-        <div className="toggle-button-container">
-            <button
-            type="button"
-            onClick={handleToggle}
-            disabled={isButtonDisabled}
-            className={`toggle-button ${isAdvisorAdded ? 'toggled' : ''}`}
-            >
-            <span className="toggle-button-text">
-                {isAdvisorAdded ? 'Quitar Asesor' : 'Agregar Asesor'}
-            </span>
-            <div className="toggle-switch"></div>
-            </button>
-        </div>
+            <div className="input-group">
+                <label htmlFor="username">Buscar Usuario por Nombre de Usuario</label>
+                <input
+                    type="text"
+                    id="username"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder="ej. juanperez"
+                />
+            </div>
+
+            {isLoading && <p>Buscando...</p>}
+
+            {foundUser && (
+                <div className="toggle-button-container">
+                    <button
+                        type="button"
+                        onClick={handleToggleAdvisorRole}
+                        className={`toggle-button ${isAdvisor ? 'toggled' : ''}`}
+                    >
+                        <span className="toggle-button-text">
+                            {isAdvisor ? 'Quitar Asesor' : 'Hacer Asesor'}
+                        </span>
+                        <div className="toggle-switch"></div>
+                    </button>
+                </div>
+            )}
         </form>
     );
 };

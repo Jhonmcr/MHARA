@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import styles from './MainHouseDisplay.module.css';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import iconShoping from '../../assets/icons/shoping.png';
+import AdvisorContactPopup from '../AdvisorContactPopup';
 
 const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite }) => {
     const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
+    const [isContactPopupOpen, setIsContactPopupOpen] = useState(false);
 
     useEffect(() => {
         // Reset photo index when property changes
@@ -26,6 +28,7 @@ const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite }) => {
         detailedAddress,
         price,
         customOptions,
+        advisor, // expecting advisor data here
     } = property;
 
     const nextPhoto = () => {
@@ -41,6 +44,15 @@ const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite }) => {
     };
 
     const mainImageUrl = photos && photos.length > 0 ? photos[currentPhotoIndex] : '';
+
+    const handleOpenContactPopup = () => {
+        setIsContactPopupOpen(true);
+    };
+
+    const handleCloseContactPopup = () => {
+        setIsContactPopupOpen(false);
+    };
+
 
     return (
         <div className={styles.container}>
@@ -77,17 +89,28 @@ const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite }) => {
                     )}
                 </div>
                 <div className={styles.contact}>
+                    {advisor && (
+                        <div className={styles.advisorInfo}>
+                            <img src={advisor.profileImageUrl || `https://i.pravatar.cc/150?u=${advisor._id}`} alt={advisor.fullName} className={styles.advisorImage} />
+                        </div>
+                    )}
                     <button
                         onClick={() => onFavoriteToggle(property.id)}
                         className={`${styles.favoriteButton} ${isFavorite ? styles.isFavorite : ''}`}
                     >
                         <img src={iconShoping} alt="Favorite" />
                     </button>
-                    <button className={styles.contactButton}>
+                    <button onClick={handleOpenContactPopup} className={styles.contactButton}>
                         Contactar
                     </button>
                 </div>
             </div>
+            {isContactPopupOpen && advisor && (
+                <AdvisorContactPopup
+                    advisor={advisor}
+                    onClose={handleCloseContactPopup}
+                />
+            )}
         </div>
     );
 };

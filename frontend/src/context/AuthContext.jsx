@@ -1,6 +1,10 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import GenericPopup from '../components/popups/GenericPopup';
 import AddAdvisorForm from '../components/popups/AddAdvisorForm';
+import ChangeUsername from '../components/ChangeUsername';
+import ChangePassword from '../components/ChangePassword';
+import LogoutConfirmationPopup from '../components/LogoutConfirmationPopup';
+import AdvisorContactForm from '../components/AdvisorContactForm';
 
 const AuthContext = createContext(null);
 
@@ -8,6 +12,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [activePopup, setActivePopup] = useState(null);
+    const [refetchTrigger, setRefetchTrigger] = useState(0);
 
     useEffect(() => {
         try {
@@ -24,6 +29,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const login = (userData) => {
+        console.log("Logging in user:", userData);
         localStorage.setItem('user', JSON.stringify(userData));
         setUser(userData);
     };
@@ -59,6 +65,7 @@ export const AuthProvider = ({ children }) => {
             }
 
             alert(result.message); // Show success message
+            setRefetchTrigger(prev => prev + 1); // Trigger refetch
             closePopup(); // Close popup on success
 
         } catch (error) {
@@ -70,12 +77,14 @@ export const AuthProvider = ({ children }) => {
 
     const value = {
         user,
+        setUser,
         loading,
         login,
         logout,
         isAuthenticated: !!user,
         openPopup,
         closePopup,
+        refetchTrigger,
     };
 
     return (
@@ -91,12 +100,10 @@ export const AuthProvider = ({ children }) => {
                 <AddAdvisorForm onAddAdvisor={handleAddAdvisor} />
             </GenericPopup>
 
-            {/* Other popups can be added here in the future */}
-            {/* 
-            <GenericPopup isOpen={activePopup === 'uploadProperty'} ...>
-                <UploadPropertyForm />
-            </GenericPopup>
-            */}
+            {activePopup === 'changeUsername' && <ChangeUsername onClose={closePopup} />}
+            {activePopup === 'changePassword' && <ChangePassword onClose={closePopup} />}
+            {activePopup === 'logout' && <LogoutConfirmationPopup onConfirm={logout} onCancel={closePopup} />}
+            {activePopup === 'addContactInfo' && <AdvisorContactForm advisor={user} onClose={closePopup} onSubmit={() => {}} />}
 
         </AuthContext.Provider>
     );
