@@ -158,6 +158,51 @@ def update_property(property_id: str, data: dict):
             return False
     return False
 
+def get_advisor_by_code(agent_code: str):
+    """Busca un asesor por su código de agente."""
+    db = get_database()
+    if db is not None:
+        advisor = db.users.find_one({"role": "asesor", "agentCode": agent_code})
+        if advisor:
+            advisor['_id'] = str(advisor['_id'])
+            if 'password' in advisor:
+                del advisor['password']
+        return advisor
+    return None
+
+def search_users_by_username(query: str):
+    """Busca usuarios por nombre de usuario parcial y sin distinción de mayúsculas/minúsculas."""
+    db = get_database()
+    if db is not None:
+        users = []
+        # Usamos una expresión regular para la búsqueda parcial e insensible a mayúsculas
+        regex = {"$regex": query, "$options": "i"}
+        for user in db.users.find({"username": regex}):
+            user['_id'] = str(user['_id'])
+            # Es importante no devolver el hash de la contraseña
+            if 'password' in user:
+                del user['password']
+            users.append(user)
+        return users
+    return []
+
+def update_user_role(user_id: str, role: str):
+    """Actualiza el rol de un usuario."""
+    db = get_database()
+    if db is not None:
+        if role not in ["user", "admin", "asesor"]:
+            return False  # Rol no válido
+        try:
+            obj_id = ObjectId(user_id)
+            result = db.users.update_one(
+                {"_id": obj_id},
+                {"$set": {"role": role}}
+            )
+            return result.modified_count > 0
+        except Exception:
+            return False
+    return False
+
 def get_user_by_id(user_id: str):
     """Busca un usuario por su ID."""
     db = get_database()

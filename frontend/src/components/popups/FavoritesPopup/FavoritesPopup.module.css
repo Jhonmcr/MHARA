@@ -1,10 +1,47 @@
-.favoritesList {
+.popupContainer {
+    position: absolute;
+    top: 60px; /* Adjust based on header height */
+    right: 20px; /* Adjust based on icon position */
+    width: 380px;
+    max-height: 450px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+    z-index: 1001; /* Must be higher than other content */
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding: 10px;
-
-    max-height: 400px;
-    overflow-y: auto;
-
+    overflow: hidden;
 }
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.header h3 {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #888;
+}
+
+.favoritesList {
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.emptyMessage {
+    text-align: center;
+    padding: 40px 20px;
+    color: #888;
+}
+

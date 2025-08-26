@@ -43,23 +43,33 @@
     flex-grow: 1;
 }
 
-.contactIcons {
+.contactContainer {
     display: flex;
-    justify-content: center;
-    gap: 15px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
     margin-top: 20px;
+    width: 100%;
+    padding-left: 10px; /* Indent the contact info slightly */
 }
 
-.contactIcons a {
-    display: inline-block;
+.contactLink {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #333;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
 }
 
-.contactIcons img {
-    width: 28px;
-    height: 28px;
-    transition: transform 0.2s ease;
+.contactLink:hover {
+    color: #007bff;
 }
 
-.contactIcons img:hover {
-    transform: scale(1.1);
+.contactLink svg {
+    font-size: 1.2rem;
+    color: #555;
+    width: 20px; /* Ensure icons are aligned */
+    text-align: center;
 }

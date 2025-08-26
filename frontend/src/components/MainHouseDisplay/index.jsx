@@ -1,16 +1,30 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './MainHouseDisplay.module.css';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import iconShoping from '../../assets/icons/shoping.png';
-import AdvisorContactPopup from '../AdvisorContactPopup';
+import { useHomePanel } from '../../context/HomePanelContext';
 
 const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite }) => {
     const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
-    const [isContactPopupOpen, setIsContactPopupOpen] = useState(false);
+    const [advisor, setAdvisor] = useState(null);
+    const { setPanelContent } = useHomePanel();
+    const navigate = useNavigate();
 
     useEffect(() => {
-        // Reset photo index when property changes
+        // Reset state when property changes
         setCurrentPhotoIndex(0);
+        setAdvisor(null);
+
+        if (property && property.agentCode) {
+            fetch(`http://localhost:8000/api/v1/users/advisor/${property.agentCode}`)
+                .then(res => {
+                    if (!res.ok) throw new Error('Advisor not found');
+                    return res.json();
+                })
+                .then(data => setAdvisor(data))
+                .catch(err => console.error("Error fetching advisor for MainHouseDisplay:", err));
+        }
     }, [property]);
 
     if (!property) {
@@ -28,31 +42,31 @@ const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite }) => {
         detailedAddress,
         price,
         customOptions,
-        advisor, // expecting advisor data here
     } = property;
 
     const nextPhoto = () => {
         setCurrentPhotoIndex((prevIndex) =>
-            prevIndex === photos.length - 1 ? 0 : prevIndex + 1
+            prevIndex === (photos?.length - 1) ? 0 : prevIndex + 1
         );
     };
 
     const prevPhoto = () => {
         setCurrentPhotoIndex((prevIndex) =>
-            prevIndex === 0 ? photos.length - 1 : prevIndex - 1
+            prevIndex === 0 ? (photos?.length - 1) : prevIndex - 1
         );
     };
 
     const mainImageUrl = photos && photos.length > 0 ? photos[currentPhotoIndex] : '';
 
-    const handleOpenContactPopup = () => {
-        setIsContactPopupOpen(true);
+    const handleContactClick = () => {
+        if (advisor) {
+            setPanelContent(advisor);
+            navigate('/home');
+        } else {
+            // Optional: handle case where advisor data is not yet loaded or not found
+            console.log("Información del asesor no disponible.");
+        }
     };
-
-    const handleCloseContactPopup = () => {
-        setIsContactPopupOpen(false);
-    };
-
 
     return (
         <div className={styles.container}>
@@ -100,17 +114,11 @@ const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite }) => {
                     >
                         <img src={iconShoping} alt="Favorite" />
                     </button>
-                    <button onClick={handleOpenContactPopup} className={styles.contactButton}>
+                    <button onClick={handleContactClick} className={styles.contactButton}>
                         Contactar
                     </button>
                 </div>
             </div>
-            {isContactPopupOpen && advisor && (
-                <AdvisorContactPopup
-                    advisor={advisor}
-                    onClose={handleCloseContactPopup}
-                />
-            )}
         </div>
     );
 };

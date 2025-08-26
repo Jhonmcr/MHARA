@@ -5,15 +5,28 @@ const FavoritesContext = createContext(null);
 
 export const FavoritesProvider = ({ children }) => {
     const [favorites, setFavorites] = useState([]);
-    const [properties, setProperties] = useState([]);
+    const [allProperties, setAllProperties] = useState([]);
     const { user } = useAuth();
 
+    // Fetch all properties once on component mount
+    useEffect(() => {
+        fetch('http://localhost:8000/api/v1/properties/')
+            .then(res => res.json())
+            .then(data => {
+                if (data) setAllProperties(data);
+            })
+            .catch(err => console.error("Error fetching all properties:", err));
+    }, []);
+
+    // Fetch user's favorite IDs when user changes
     useEffect(() => {
         if (user && user.username) {
             fetch(`http://localhost:8000/api/v1/users/${user.username}/favorites`)
                 .then(res => res.json())
                 .then(data => setFavorites(data.favorites || []))
                 .catch(err => console.error("Error fetching favorites:", err));
+        } else {
+            setFavorites([]); // Clear favorites on logout
         }
     }, [user]);
 
@@ -38,13 +51,14 @@ export const FavoritesProvider = ({ children }) => {
         }
     };
 
-    const favoriteProperties = properties.filter(property => favorites.includes(property.id));
+    // Derive the full favorite property objects
+    const favoriteProperties = allProperties.filter(property => favorites.includes(property.id));
 
     const value = {
         favorites,
         handleFavoriteToggle,
-        setProperties,
         favoriteProperties,
+        allProperties, // Pass all properties down as well, might be useful
     };
 
     return (

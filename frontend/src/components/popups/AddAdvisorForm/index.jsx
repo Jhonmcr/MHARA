@@ -8,7 +8,7 @@ const AddAdvisorForm = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        if (searchTerm.trim() === '') {
+        if (searchTerm.trim().length < 2) { // No buscar si el término es muy corto
             setFoundUser(null);
             return;
         }
@@ -16,11 +16,18 @@ const AddAdvisorForm = () => {
         const fetchUser = async () => {
             setIsLoading(true);
             try {
-                const response = await fetch(`http://localhost:8000/api/v1/users/username/${searchTerm}`);
+                // Usar el nuevo endpoint de búsqueda
+                const response = await fetch(`http://localhost:8000/api/v1/users/search/${searchTerm}`);
                 if (response.ok) {
-                    const userData = await response.json();
-                    setFoundUser(userData);
-                    setIsAdvisor(userData.role === 'asesor');
+                    const usersData = await response.json();
+                    if (usersData.length > 0) {
+                        // Tomamos el primer resultado para mantener la UI simple
+                        const user = usersData[0];
+                        setFoundUser(user);
+                        setIsAdvisor(user.role === 'asesor');
+                    } else {
+                        setFoundUser(null);
+                    }
                 } else {
                     setFoundUser(null);
                 }

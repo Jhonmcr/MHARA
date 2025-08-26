@@ -1,44 +1,54 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header';
 import GlassmorphismButton from '../../components/GlassmorphismButton';
-import ContactPanel from '../../components/ContactPanel';
 import ChangeProfilePicture from '../../components/ChangeProfilePicture';
+import ContactPanel from '../../components/ContactPanel'; // Import ContactPanel
 import UploadPropertyPopup from '../../components/popups/UploadPropertyPopup';
 import EditPropertySelectionPopup from '../../components/popups/EditPropertySelectionPopup';
 import logo from '../../assets/icons/Logo.png';
 import './home.css';
 import { Link, useLocation, useOutletContext } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useHomePanel } from '../../context/HomePanelContext'; // Import the new hook
 
 const Home = () => {
     const { user, setUser } = useAuth();
-    const [showContactInfo, setShowContactInfo] = useState(false);
-    const [showChangeProfilePicture, setShowChangeProfilePicture] = useState(false);
+    const { panelContent, setPanelContent } = useHomePanel(); // Use the new context
     const [isUploadPopupOpen, setUploadPopupOpen] = useState(false);
     const [isEditSelectionPopupOpen, setEditSelectionPopupOpen] = useState(false);
     const [propertyToEdit, setPropertyToEdit] = useState(null);
     const location = useLocation();
     const { properties, refetchProperties } = useOutletContext();
 
+    // Static contact info for the company
+    const companyContact = {
+        _id: 'company_contact',
+        fullName: "Mhara Estate",
+        profileImageUrl: logo,
+        contactInfo: {
+            instagram: "MharaEstate",
+            phone: "+1234567890",
+            email: "info@mharaestate.com",
+            tiktok: "mharaestate" 
+        }
+    };
+
     useEffect(() => {
         if (location.state?.scrollTo === 'contact') {
-            setShowContactInfo(true);
+            setPanelContent(companyContact);
         }
-    }, [location]);
+    }, [location, setPanelContent]);
 
     const handleContactClick = () => {
-        setShowContactInfo(true);
-        setShowChangeProfilePicture(false); // Hide other panels
+        setPanelContent(companyContact);
     };
 
     const handleHomeClick = () => {
-        setShowContactInfo(false);
-        setShowChangeProfilePicture(false); // Hide other panels
+        setPanelContent('default');
     };
 
     const handleShowChangeProfilePicture = () => {
-        setShowChangeProfilePicture(true);
-        setShowContactInfo(false); // Hide other panels
+        setPanelContent('profile');
     };
 
     const handleUploadPropertyClick = () => {
@@ -69,6 +79,22 @@ const Home = () => {
         }
     };
 
+    const renderPanelContent = () => {
+        if (typeof panelContent === 'object' && panelContent !== null) {
+            return <ContactPanel contactData={panelContent} />;
+        }
+        switch (panelContent) {
+            case 'profile':
+                return <ChangeProfilePicture user={user} setUser={setUser} />;
+            case 'default':
+            default:
+                return (
+                    <div className="logo-text-large">
+                        <img src={logo} alt="Mhara Estate Home" className="logoHome" />
+                    </div>
+                );
+        }
+    };
 
     return (
         <div className="home-container">
@@ -99,15 +125,7 @@ const Home = () => {
             <main className="main-content">
                 {/* Panel de la izquierda con el logo */}
                 <div className="main-logo-panel glassmorphism-panel">
-                    {showContactInfo ? (
-                        <ContactPanel />
-                    ) : showChangeProfilePicture ? (
-                        <ChangeProfilePicture user={user} setUser={setUser} />
-                    ) : (
-                        <div className="logo-text-large">
-                            <img src={logo} alt="Mhara Estate Home" className="logoHome" />
-                        </div>
-                    )}
+                    {renderPanelContent()}
                 </div>
 
                 {/* Panel de la derecha con botones */}

@@ -27,6 +27,9 @@ from database import (
     update_password,
     update_user_contact_info,
     update_user_profile_image,
+    search_users_by_username,
+    update_user_role,
+    get_advisor_by_code,
 )
 from auth import hash_password, verify_password
 from s3_utils import upload_file_to_s3, delete_file_from_s3, S3_BUCKET_NAME, AWS_REGION
@@ -95,6 +98,9 @@ class ContactInfoUpdate(BaseModel):
     email: Optional[EmailStr] = None
     instagram: Optional[str] = None
     tiktok: Optional[str] = None
+
+class RoleUpdate(BaseModel):
+    role: str
 
 # --- Endpoints de Autenticación ---
 @auth_router.post("/register", status_code=status.HTTP_201_CREATED)
@@ -337,6 +343,36 @@ def update_contact_info(user_id: str, payload: ContactInfoUpdate):
         return {"message": "Información de contacto actualizada.", "user": updated_user}
     
     raise HTTPException(status_code=404, detail="Usuario no encontrado después de la actualización.")
+
+@users_router.get("/search/{query}")
+def search_for_users(query: str):
+    # Se podría añadir una validación para la longitud de la consulta
+    if len(query) < 2:
+        return [] # Opcional: devolver lista vacía para búsquedas muy cortas
+    users = search_users_by_username(query)
+    return users
+
+@users_router.put("/{user_id}/role", status_code=status.HTTP_200_OK)
+def set_user_role(user_id: str, payload: RoleUpdate):
+    success = update_user_role(user_id, payload.role)
+    if not success:
+        raise HTTPException(status_code=500, detail="No se pudo actualizar el rol del usuario.")
+    
+    updated_user = get_user_by_id(user_id)
+    if updated_user:
+        updated_user['_id'] = str(updated_user['_id'])
+        if 'password' in updated_user:
+            del updated_user['password']
+        return {"message": "Rol de usuario actualizado.", "user": updated_user}
+    
+    raise HTTPException(status_code=404, detail="Usuario no encontrado después de la actualización.")
+
+@users_router.get("/advisor/{agent_code}")
+def get_advisor_details(agent_code: str):
+    advisor = get_advisor_by_code(agent_code)
+    if not advisor:
+        raise HTTPException(status_code=404, detail="Asesor no encontrado.")
+    return advisor
 
 @users_router.post("/make-advisor", status_code=status.HTTP_200_OK)
 def make_user_advisor(advisor_data: AdvisorUpdate):

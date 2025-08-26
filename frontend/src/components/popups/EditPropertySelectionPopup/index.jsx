@@ -34,6 +34,7 @@ const EditPropertySelectionPopup = ({ properties, onClose, onSelectProperty }) =
                     <Sidebar
                         properties={filteredProperties}
                         onSelectProperty={onSelectProperty}
+                        viewMode="simplified"
                     />
                 </div>
             </div>

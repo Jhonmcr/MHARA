@@ -1,25 +1,34 @@
 import React from 'react';
 import styles from './FavoritesPopup.module.css';
-import PropertyCard from '../../PropertyCard';
-import GenericPopup from '../GenericPopup';
+import FavoritePropertyCard from '../FavoritePropertyCard'; // Import the new card
 
-const FavoritesPopup = ({ isOpen, onClose, favorites, onSelectProperty }) => {
+const FavoritesPopup = ({ isOpen, onClose, favorites }) => {
+    if (!isOpen) {
+        return null;
+    }
+
+    // This popup will now be positioned by its parent,
+    // so we just render the container.
     return (
-        <GenericPopup isOpen={isOpen} onClose={onClose} title="Mis Favoritos">
+        <div className={styles.popupContainer}>
+            <div className={styles.header}>
+                <h3>Mis Favoritos</h3>
+                <button onClick={onClose} className={styles.closeButton}>&times;</button>
+            </div>
             <div className={styles.favoritesList}>
                 {favorites && favorites.length > 0 ? (
                     favorites.map(property => (
-                        <PropertyCard
+                        <FavoritePropertyCard
                             key={property.id}
                             property={property}
-                            onSelect={onSelectProperty}
+                            onClosePopup={onClose}
                         />
                     ))
                 ) : (
-                    <p>No tienes propiedades favoritas.</p>
+                    <p className={styles.emptyMessage}>No tienes propiedades favoritas.</p>
                 )}
             </div>
-        </GenericPopup>
+        </div>
     );
 };
 
