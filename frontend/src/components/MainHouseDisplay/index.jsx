@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styles from './MainHouseDisplay.module.css';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import iconShoping from '../../assets/icons/shoping.png';
 
-const MainHouseDisplay = ({ property }) => {
+const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite }) => {
     const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
 
     useEffect(() => {
@@ -58,7 +59,7 @@ const MainHouseDisplay = ({ property }) => {
             </div>
             <div className={styles.detailsContainer}>
                 <div className={styles.info}>
-                    <div>
+                    <div className={styles.info_name_price}>
                         <h2 className={styles.title}>{negotiationType} en {detailedAddress}</h2>
                         <div className={styles.price}>
                             Precio: ${price ? price.toLocaleString() : 'No disponible'}
@@ -66,7 +67,7 @@ const MainHouseDisplay = ({ property }) => {
                     </div>
                     {customOptions && customOptions.length > 0 && (
                         <div className={styles.customOptions}>
-                            <h5>Otras características:</h5>
+                            <h4>Otras características:</h4>
                             <ul>
                                 {customOptions.map((option, index) => (
                                     <li key={index}>{option}</li>
@@ -76,6 +77,12 @@ const MainHouseDisplay = ({ property }) => {
                     )}
                 </div>
                 <div className={styles.contact}>
+                    <button
+                        onClick={() => onFavoriteToggle(property.id)}
+                        className={`${styles.favoriteButton} ${isFavorite ? styles.isFavorite : ''}`}
+                    >
+                        <img src={iconShoping} alt="Favorite" />
+                    </button>
                     <button className={styles.contactButton}>
                         Contactar
                     </button>

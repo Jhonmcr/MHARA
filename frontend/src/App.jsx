@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { FavoritesProvider } from './context/FavoritesContext';
 import LoginPage from './pages/Login';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
@@ -13,22 +14,24 @@ import './App.css';
 function App() {
     return (
         <AuthProvider>
-            <Routes>
-                {/* Public Routes */}
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/" element={<LoginPage />} /> {/* Default route */}
+            <FavoritesProvider>
+                <Routes>
+                    {/* Public Routes */}
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/" element={<LoginPage />} /> {/* Default route */}
 
-                {/* Protected Routes */}
-                <Route path="/asesores" element={<Asesores />} />
-                <Route element={<ProtectedRoutes />}>
-                    <Route path="/home" element={<Home />} />
-                    <Route path="/catalogo" element={<Catalogo />} />
-                    <Route path="/nosotros" element={<AboutUs />} />
-                </Route>
+                    {/* Protected Routes */}
+                    <Route path="/asesores" element={<Asesores />} />
+                    <Route element={<ProtectedRoutes />}>
+                        <Route path="/home" element={<Home />} />
+                        <Route path="/catalogo" element={<Catalogo />} />
+                        <Route path="/nosotros" element={<AboutUs />} />
+                    </Route>
 
-                {/* Catch-all route for 404 */}
-                <Route path="*" element={<NotFound />} />
-            </Routes>
+                    {/* Catch-all route for 404 */}
+                    <Route path="*" element={<NotFound />} />
+                </Routes>
+            </FavoritesProvider>
         </AuthProvider>
     );
 }

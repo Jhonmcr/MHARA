@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useFavorites } from '../../context/FavoritesContext';
 
 const ProtectedRoutes = () => {
     const { isAuthenticated, loading } = useAuth();
-    const [properties, setProperties] = useState(null);
+    const { setProperties } = useFavorites();
+    const [properties, setLocalProperties] = useState(null);
 
     // Encapsulate the fetch logic in a useCallback to pass it down safely
     const fetchProperties = React.useCallback(async () => {
@@ -14,11 +16,12 @@ const ProtectedRoutes = () => {
                 throw new Error('La respuesta de la red no fue correcta');
             }
             const data = await response.json();
+            setLocalProperties(data);
             setProperties(data);
         } catch (error) {
             console.error("Fallo al obtener las propiedades:", error);
         }
-    }, []); // No dependencies, the endpoint is static
+    }, [setProperties]); // No dependencies, the endpoint is static
 
     useEffect(() => {
         if (isAuthenticated) {

@@ -61,7 +61,17 @@
 .info {
     display: flex;
     flex-direction: row;
-    gap: 2rem;
+    gap: 2.5rem;
+}
+
+.info_name_price {
+    min-width: 15rem;
+    max-width: 15rem;
+    box-sizing: border-box;
+}
+
+.info_name_price h2 {
+    word-break: break-all;
 }
 
 .specs {
@@ -93,8 +103,26 @@
     font-weight: bold;
 }
 
+.favoriteButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-right: 10px;
+}
+
+.favoriteButton img {
+    width: 24px;
+    height: 24px;
+}
+
+.favoriteButton.isFavorite img {
+    filter: invert(88%) sepia(61%) saturate(2000%) hue-rotate(35deg) brightness(104%) contrast(101%);
+}
+
 .customOptions {
     overflow-x: auto;
+    min-width: 30rem;
     max-width: 40rem;
     max-height: 10rem;
 }
@@ -105,12 +133,10 @@
     margin: 0;       /* Elimina el margen por defecto */
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* Crea 3 columnas de igual tamaño */
-    gap: 10px; /* Espacio entre las celdas de la cuadrícula */
 }
 
 .customOptions ul li {
     /* Estilos opcionales para los elementos de la lista */
-    padding: 8px;
     border-radius: 5px;
     text-align: start;
 }

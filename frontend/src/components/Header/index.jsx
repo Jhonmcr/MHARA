@@ -1,18 +1,32 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext'; // 1. Importar useAuth
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import { useFavorites } from '../../context/FavoritesContext';
 import './Header.css';
 import logoSmall from '../../assets/images/mhara_logo.png';
 import iconShoping from '../../assets/icons/shoping.png';
 import iconUser from '../../assets/icons/user.png';
 import DropdownMenu from '../DropdownMenu';
+import FavoritesPopup from '../popups/FavoritesPopup';
 
 const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, onHomeClick }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
     const { user } = useAuth();
+    const { favoriteProperties } = useFavorites();
+    const navigate = useNavigate();
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
+    };
+
+    const toggleFavorites = () => {
+        setIsFavoritesOpen(!isFavoritesOpen);
+    };
+
+    const handleSelectFavorite = (property) => {
+        toggleFavorites();
+        navigate('/catalogo', { state: { selectedPropertyId: property.id } });
     };
 
     const handleContactClick = (e) => {
@@ -45,7 +59,9 @@ const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, on
             </ul>
         </nav>
         <div className="header-icons">
-            <span><img src={iconShoping} alt="Icon Shoping" className='iconShoping'/></span>
+            <span onClick={toggleFavorites} style={{ cursor: 'pointer' }}>
+                <img src={iconShoping} alt="Icon Shoping" className='iconShoping'/>
+            </span>
             <span><img src={iconUser} alt="Icon User" className='iconUser'/></span>
             
             {shouldShowMenu && (
@@ -58,6 +74,14 @@ const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, on
                 </>
             )}
         </div>
+        {isFavoritesOpen && (
+            <FavoritesPopup
+                isOpen={isFavoritesOpen}
+                onClose={toggleFavorites}
+                favorites={favoriteProperties}
+                onSelectProperty={handleSelectFavorite}
+            />
+        )}
         </header>
     );
 };

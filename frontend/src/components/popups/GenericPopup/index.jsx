@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import './GenericPopup.css';
 
 const GenericPopup = ({ isOpen, onClose, children, title }) => {
@@ -6,19 +7,21 @@ const GenericPopup = ({ isOpen, onClose, children, title }) => {
         return null;
     }
 
-    return (
+    return ReactDOM.createPortal(
         <div className="popup-overlay" onClick={onClose}>
-        <div className="popup-content" onClick={(e) => e.stopPropagation()}>
-            <div className="popup-header">
-            <h2>{title}</h2>
-            <button onClick={onClose} className="close-button">&times;</button>
+            <div className="popup-content" onClick={(e) => e.stopPropagation()}>
+                <div className="popup-header">
+                    <h2>{title}</h2>
+                    <button onClick={onClose} className="close-button">&times;</button>
+                </div>
+                <div className="popup-body">
+                    {children}
+                </div>
             </div>
-            <div className="popup-body">
-            {children}
-            </div>
-        </div>
-        </div>
+        </div>,
+        document.body
     );
 };
 
 export default GenericPopup;
+

@@ -3,7 +3,7 @@ import PropertyCard from '../PropertyCard';
 import PropertyCardSkeleton from '../PropertyCardSkeleton';
 import styles from './Sidebar.module.css';
 
-const Sidebar = ({ properties, onSelectProperty, favorites = [], onFavoriteToggle }) => {
+const Sidebar = ({ properties, onSelectProperty }) => {
     const isLoading = properties === null;
     const noProperties = properties && properties.length === 0;
 
@@ -17,8 +17,6 @@ const Sidebar = ({ properties, onSelectProperty, favorites = [], onFavoriteToggl
                         key={property.id}
                         property={property}
                         onSelect={onSelectProperty}
-                        isFavorite={favorites.includes(property.id)}
-                        onFavoriteToggle={onFavoriteToggle}
                     />
                 ))
             )}
