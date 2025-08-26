@@ -4,7 +4,7 @@ import FilterIcon from '../FilterIcon';
 import FilterModal from '../FilterModal';
 import './HeaderElements.css';
 
-const HeaderElements = ({ searchTerm, onSearchChange, onApplyFilters }) => {
+const HeaderElements = ({ searchTerm, onSearchChange, onApplyFilters, onClearFilters }) => {
     const location = useLocation();
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -22,6 +22,13 @@ const HeaderElements = ({ searchTerm, onSearchChange, onApplyFilters }) => {
         }
         return link.path !== location.pathname;
     });
+
+    const handleClearAndClose = () => {
+        onClearFilters();
+        // No cerramos el modal para que el usuario vea que se limpió.
+        // Opcional: podrías cerrarlo si prefieres:
+        // setIsModalOpen(false);
+    };
 
     return (
         <header className="about-us-header">
@@ -55,6 +62,7 @@ const HeaderElements = ({ searchTerm, onSearchChange, onApplyFilters }) => {
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 onApplyFilters={onApplyFilters}
+                onClearFilters={handleClearAndClose}
             />
         </header>
     );

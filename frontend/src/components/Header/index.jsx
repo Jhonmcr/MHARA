@@ -12,6 +12,7 @@ import FavoritesPopup from '../popups/FavoritesPopup';
 import ChangeUsername from '../ChangeUsername';
 import ChangePassword from '../ChangePassword';
 import AdvisorContactForm from '../AdvisorContactForm';
+import LogoutConfirmationPopup from '../LogoutConfirmationPopup';
 
 const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, onHomeClick, onShowChangeProfilePicture }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -20,7 +21,8 @@ const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, on
     const [isChangeUsernameOpen, setIsChangeUsernameOpen] = useState(false);
     const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
     const [isAdvisorContactFormOpen, setIsAdvisorContactFormOpen] = useState(false);
-    const { user } = useAuth();
+    const [isLogoutPopupOpen, setLogoutPopupOpen] = useState(false);
+    const { user, logout } = useAuth();
     const { favoriteProperties } = useFavorites();
     const navigate = useNavigate();
 
@@ -31,6 +33,7 @@ const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, on
         setIsChangeUsernameOpen(false);
         setIsChangePasswordOpen(false);
         setIsAdvisorContactFormOpen(false);
+        setLogoutPopupOpen(false);
     };
 
     const toggleMenu = () => {
@@ -72,7 +75,6 @@ const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, on
     
     const shouldShowMenu = user && (user.role === 'admin' || user.role === 'asesor');
 
-    // Placeholder functions for the new dropdown menu options
     const handleChangeProfilePicture = () => {
         if (onShowChangeProfilePicture) {
             onShowChangeProfilePicture();
@@ -100,7 +102,21 @@ const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, on
     const handleCloseAdvisorContactForm = () => {
         setIsAdvisorContactFormOpen(false);
     };
-    const handleLogout = () => console.log('Logout');
+    
+    const handleLogout = () => {
+        closeAllPopups();
+        setLogoutPopupOpen(true);
+    };
+
+    const handleConfirmLogout = () => {
+        logout();
+        closeAllPopups();
+        navigate('/login');
+    };
+
+    const handleCancelLogout = () => {
+        setLogoutPopupOpen(false);
+    };
 
     return (
         <header className="header-glassmorphism">
@@ -158,9 +174,13 @@ const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, on
         )}
         {isAdvisorContactFormOpen && (
             <AdvisorContactForm
-                advisor={user}
                 onClose={handleCloseAdvisorContactForm}
-                onSubmit={() => {}} // Placeholder for submit logic
+            />
+        )}
+        {isLogoutPopupOpen && (
+            <LogoutConfirmationPopup
+                onConfirm={handleConfirmLogout}
+                onCancel={handleCancelLogout}
             />
         )}
         </header>

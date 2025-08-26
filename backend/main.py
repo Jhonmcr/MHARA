@@ -22,6 +22,11 @@ from database import (
     get_property_by_id,
     update_property,
     delete_property_by_id,
+    get_user_by_id,
+    update_username,
+    update_password,
+    update_user_contact_info,
+    update_user_profile_image,
 )
 from auth import hash_password, verify_password
 from s3_utils import upload_file_to_s3, delete_file_from_s3, S3_BUCKET_NAME, AWS_REGION
@@ -77,6 +82,20 @@ class AdvisorUpdate(BaseModel):
     username: str
     advisor_code: str
 
+class UsernameUpdate(BaseModel):
+    newUsername: str
+    password: str
+
+class PasswordUpdate(BaseModel):
+    currentPassword: str
+    newPassword: str
+
+class ContactInfoUpdate(BaseModel):
+    phone: Optional[str] = None
+    email: Optional[EmailStr] = None
+    instagram: Optional[str] = None
+    tiktok: Optional[str] = None
+
 # --- Endpoints de Autenticación ---
 @auth_router.post("/register", status_code=status.HTTP_201_CREATED)
 def register_user(user: UserRegistration):
@@ -107,12 +126,15 @@ def login_user(user_credentials: UserLogin):
     if not db_user or not verify_password(user_credentials.password, db_user["password"]):
         raise HTTPException(status_code=401, detail="Usuario o contraseña incorrectos.")
     
+    db_user['_id'] = str(db_user['_id'])
     return {
         "message": "Inicio de sesión exitoso.",
         "user": {
+            "_id": db_user.get("_id"),
             "fullName": db_user.get("fullName"),
             "username": db_user.get("username"),
-            "role": db_user.get("role", "user")
+            "role": db_user.get("role", "user"),
+            "profileImageUrl": db_user.get("profileImageUrl")
         }
     }
 
@@ -163,7 +185,7 @@ async def add_property(
         "location": {"lat": lat, "lng": lng},
         "detailedAddress": detailedAddress,
         "shortAddress": shortAddress,
-        "customOptions": [opt for opt in customOptions if opt] # Filtrar opciones vacías
+        "customOptions": [opt for opt in customOptions if opt]
     }
 
     new_property = create_property(property_data)
@@ -185,31 +207,19 @@ async def update_property_endpoint(
     new_photos: List[UploadFile] = File([]),
     deleted_photos: Optional[List[str]] = Form(None)
 ):
-    # 1. Obtener la propiedad existente
     existing_property = get_property_by_id(property_id)
     if not existing_property:
         raise HTTPException(status_code=404, detail="Propiedad no encontrada.")
 
     update_data = {}
-    
-    # 2. Actualizar campos de texto si se proporcionan
-    if price is not None:
-        update_data["price"] = price
-    if negotiationType is not None:
-        update_data["negotiationType"] = negotiationType
-    if agentCode is not None:
-        update_data["agentCode"] = agentCode
-    if detailedAddress is not None:
-        update_data["detailedAddress"] = detailedAddress
-    if customOptions is not None:
-        update_data["customOptions"] = [opt for opt in customOptions if opt]
-    if lat is not None and lng is not None:
-        update_data["location"] = {"lat": lat, "lng": lng}
+    if price is not None: update_data["price"] = price
+    if negotiationType is not None: update_data["negotiationType"] = negotiationType
+    if agentCode is not None: update_data["agentCode"] = agentCode
+    if detailedAddress is not None: update_data["detailedAddress"] = detailedAddress
+    if customOptions is not None: update_data["customOptions"] = [opt for opt in customOptions if opt]
+    if lat is not None and lng is not None: update_data["location"] = {"lat": lat, "lng": lng}
 
-    # 3. Manejar fotos
     current_photos = existing_property.get("photos", [])
-    
-    # Eliminar fotos marcadas
     if deleted_photos:
         for photo_url in deleted_photos:
             if S3_BUCKET_NAME in photo_url:
@@ -217,7 +227,6 @@ async def update_property_endpoint(
                 delete_file_from_s3(object_name)
         current_photos = [p for p in current_photos if p not in deleted_photos]
 
-    # Subir nuevas fotos
     new_photo_urls = []
     for photo in new_photos:
         file_extension = os.path.splitext(photo.filename)[1]
@@ -229,7 +238,6 @@ async def update_property_endpoint(
 
     update_data["photos"] = current_photos + new_photo_urls
 
-    # 4. Aplicar la actualización en la base de datos
     if update_data:
         success = update_property(property_id, update_data)
         if not success:
@@ -237,22 +245,18 @@ async def update_property_endpoint(
 
     return {"message": "Propiedad actualizada exitosamente."}
 
-
 @properties_router.delete("/{property_id}", status_code=status.HTTP_200_OK)
 def delete_property_endpoint(property_id: str):
-    # 1. Obtener la propiedad para conseguir las URLs de las fotos
     prop_to_delete = get_property_by_id(property_id)
     if not prop_to_delete:
         raise HTTPException(status_code=404, detail="Propiedad no encontrada.")
 
-    # 2. Eliminar fotos de S3
     photos_to_delete = prop_to_delete.get("photos", [])
     for photo_url in photos_to_delete:
         if S3_BUCKET_NAME in photo_url:
             object_name = photo_url.split(f"{S3_BUCKET_NAME}.s3.{AWS_REGION}.amazonaws.com/")[1]
             delete_file_from_s3(object_name)
 
-    # 3. Eliminar la propiedad de la base de datos
     success = delete_property_by_id(property_id)
     if not success:
         raise HTTPException(status_code=500, detail="No se pudo eliminar la propiedad de la base de datos.")
@@ -260,9 +264,79 @@ def delete_property_endpoint(property_id: str):
     return {"message": "Propiedad eliminada exitosamente."}
 
 # --- Endpoints de Usuarios ---
+@users_router.post("/{user_id}/profile-picture", status_code=status.HTTP_200_OK)
+async def upload_profile_picture(user_id: str, profileImage: UploadFile = File(...)):
+    file_extension = os.path.splitext(profileImage.filename)[1]
+    unique_filename = f"profiles/{uuid.uuid4()}{file_extension}"
+    file_url = upload_file_to_s3(
+        file=profileImage.file,
+        object_name=unique_filename,
+        content_type=profileImage.content_type
+    )
+    if not file_url:
+        raise HTTPException(status_code=500, detail="Error al subir la imagen de perfil a S3.")
+    
+    success = update_user_profile_image(user_id, file_url)
+    if not success:
+        raise HTTPException(status_code=404, detail="No se pudo encontrar o actualizar el usuario.")
+    
+    updated_user = get_user_by_id(user_id)
+    if updated_user:
+        updated_user['_id'] = str(updated_user['_id'])
+        return {"message": "Foto de perfil actualizada.", "user": updated_user}
+    raise HTTPException(status_code=404, detail="Usuario no encontrado después de la actualización.")
+
 @users_router.get("/advisors")
 def list_advisors():
     return get_advisors()
+
+@users_router.put("/{user_id}/username", status_code=status.HTTP_200_OK)
+def change_username(user_id: str, payload: UsernameUpdate):
+    user = get_user_by_id(user_id)
+    if not user or not verify_password(payload.password, user["password"]):
+        raise HTTPException(status_code=401, detail="Contraseña incorrecta.")
+    
+    if get_user(payload.newUsername):
+        raise HTTPException(status_code=400, detail="El nuevo nombre de usuario ya está en uso.")
+
+    success = update_username(user_id, payload.newUsername)
+    if not success:
+        raise HTTPException(status_code=500, detail="No se pudo actualizar el nombre de usuario.")
+    
+    updated_user = get_user_by_id(user_id)
+    updated_user['_id'] = str(updated_user['_id'])
+    return {"message": "Nombre de usuario actualizado con éxito!", "user": updated_user}
+
+@users_router.put("/{user_id}/password", status_code=status.HTTP_200_OK)
+def change_password(user_id: str, payload: PasswordUpdate):
+    user = get_user_by_id(user_id)
+    if not user or not verify_password(payload.currentPassword, user["password"]):
+        raise HTTPException(status_code=401, detail="La contraseña actual es incorrecta.")
+
+    new_hashed_password = hash_password(payload.newPassword)
+    success = update_password(user_id, new_hashed_password)
+
+    if not success:
+        raise HTTPException(status_code=500, detail="No se pudo actualizar la contraseña.")
+
+    return {"message": "Contraseña actualizada exitosamente."}
+
+@users_router.put("/{user_id}/contact-info", status_code=status.HTTP_200_OK)
+def update_contact_info(user_id: str, payload: ContactInfoUpdate):
+    contact_data = payload.dict(exclude_unset=True)
+    if not contact_data:
+        raise HTTPException(status_code=400, detail="No se proporcionó información para actualizar.")
+
+    success = update_user_contact_info(user_id, contact_data)
+    if not success:
+        raise HTTPException(status_code=500, detail="No se pudo actualizar la información de contacto.")
+
+    updated_user = get_user_by_id(user_id)
+    if updated_user:
+        updated_user['_id'] = str(updated_user['_id'])
+        return {"message": "Información de contacto actualizada.", "user": updated_user}
+    
+    raise HTTPException(status_code=404, detail="Usuario no encontrado después de la actualización.")
 
 @users_router.post("/make-advisor", status_code=status.HTTP_200_OK)
 def make_user_advisor(advisor_data: AdvisorUpdate):

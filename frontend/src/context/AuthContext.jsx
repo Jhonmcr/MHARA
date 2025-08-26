@@ -28,10 +28,15 @@ export const AuthProvider = ({ children }) => {
         }
     }, []);
 
-    const login = (userData) => {
-        console.log("Logging in user:", userData);
-        localStorage.setItem('user', JSON.stringify(userData));
-        setUser(userData);
+    const login = (loginResponse) => {
+        const user = loginResponse.user;
+        if (user) {
+            console.log("Logging in user:", user);
+            localStorage.setItem('user', JSON.stringify(user));
+            setUser(user);
+        } else {
+            console.error("Login response did not contain a user object:", loginResponse);
+        }
     };
 
     const logout = () => {

@@ -9,11 +9,10 @@ const EditPropertySelectionPopup = ({ properties, onClose, onSelectProperty }) =
     useEffect(() => {
         const lowercasedFilter = searchTerm.toLowerCase();
         const filtered = properties.filter(property => {
-            // Se puede buscar por dirección, código, o tipo de negociación
+            // Se puede buscar por dirección o código
             return (
-                property.detailedAddress.toLowerCase().includes(lowercasedFilter) ||
-                property.code.toLowerCase().includes(lowercasedFilter) ||
-                property.negotiationType.toLowerCase().includes(lowercasedFilter)
+                (property.detailedAddress || '').toLowerCase().includes(lowercasedFilter) ||
+                (property.code || '').toLowerCase().includes(lowercasedFilter)
             );
         });
         setFilteredProperties(filtered);

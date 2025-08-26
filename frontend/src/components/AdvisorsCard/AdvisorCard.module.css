@@ -40,4 +40,26 @@
     line-height: 1.5;
     margin-top: 20px;
     text-align: left;
+    flex-grow: 1;
+}
+
+.contactIcons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.contactIcons a {
+    display: inline-block;
+}
+
+.contactIcons img {
+    width: 28px;
+    height: 28px;
+    transition: transform 0.2s ease;
+}
+
+.contactIcons img:hover {
+    transform: scale(1.1);
 }

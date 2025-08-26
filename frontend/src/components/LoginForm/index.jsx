@@ -48,7 +48,7 @@ const LoginForm = ({ onShowRegistration }) => {
 
             if (response.ok) {
                 const data = await response.json(); // Obtener los datos de la respuesta
-                login(data.user); // Pasar el objeto de usuario a la función de login del contexto
+                login(data); // Pasar la respuesta completa de la API al contexto
                 navigate('/home'); // Redirige al home
             } else {
                 const errorData = await response.json();

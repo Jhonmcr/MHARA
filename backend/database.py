@@ -158,6 +158,72 @@ def update_property(property_id: str, data: dict):
             return False
     return False
 
+def get_user_by_id(user_id: str):
+    """Busca un usuario por su ID."""
+    db = get_database()
+    if db is not None:
+        try:
+            return db.users.find_one({"_id": ObjectId(user_id)})
+        except Exception:
+            return None
+    return None
+
+def update_username(user_id: str, new_username: str):
+    """Actualiza el nombre de usuario de un usuario."""
+    db = get_database()
+    if db is not None:
+        if db.users.find_one({"username": new_username}):
+            return None
+        
+        result = db.users.update_one(
+            {"_id": ObjectId(user_id)},
+            {"$set": {"username": new_username}}
+        )
+        return result.modified_count > 0
+    return False
+
+def update_password(user_id: str, new_password_hash: str):
+    """Actualiza la contraseña de un usuario."""
+    db = get_database()
+    if db is not None:
+        result = db.users.update_one(
+            {"_id": ObjectId(user_id)},
+            {"$set": {"password": new_password_hash}}
+        )
+        return result.modified_count > 0
+    return False
+
+def update_user_contact_info(user_id: str, contact_info: dict):
+    """Actualiza la información de contacto de un usuario."""
+    db = get_database()
+    if db is not None:
+        try:
+            update_data = {f"contactInfo.{key}": value for key, value in contact_info.items() if value}
+            if not update_data:
+                return True
+            result = db.users.update_one(
+                {"_id": ObjectId(user_id)},
+                {"$set": update_data}
+            )
+            return result.modified_count > 0
+        except Exception:
+            return False
+    return False
+
+def update_user_profile_image(user_id: str, image_url: str):
+    """Actualiza la URL de la imagen de perfil de un usuario."""
+    db = get_database()
+    if db is not None:
+        try:
+            result = db.users.update_one(
+                {"_id": ObjectId(user_id)},
+                {"$set": {"profileImageUrl": image_url}}
+            )
+            return result.modified_count > 0
+        except Exception:
+            return None
+    return None
+
 def delete_property_by_id(property_id: str):
     """Elimina una propiedad por su ID."""
     db = get_database()

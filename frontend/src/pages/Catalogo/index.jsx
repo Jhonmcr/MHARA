@@ -39,36 +39,49 @@ const Catalogo = () => {
 
     useEffect(() => {
         let result = properties || [];
+        const lowercasedSearchTerm = searchTerm.toLowerCase();
 
-        // Lógica de búsqueda
+        // Lógica de búsqueda integral ("con todo")
         if (searchTerm) {
-            result = result.filter(p =>
-                (p.title && typeof p.title === 'string' && p.title.toLowerCase().includes(searchTerm.toLowerCase())) ||
-                (p.location && typeof p.location === 'string' && p.location.toLowerCase().includes(searchTerm.toLowerCase()))
-            );
+            result = result.filter(p => {
+                const searchString = [
+                    p.code,
+                    p.shortAddress,
+                    p.detailedAddress,
+                    p.negotiationType,
+                    ...(p.customOptions || [])
+                ].join(' ').toLowerCase();
+                return searchString.includes(lowercasedSearchTerm);
+            });
         }
 
-        // Lógica de filtros
+        // Lógica de filtros corregida
         if (filters.location) {
-            result = result.filter(p => p.location && typeof p.location === 'string' && p.location.toLowerCase().includes(filters.location.toLowerCase()));
+            result = result.filter(p => (p.detailedAddress || '').toLowerCase().includes(filters.location.toLowerCase()));
         }
         if (filters.budget) {
-            result = result.filter(p => p.price <= parseInt(filters.budget, 10));
+            result = result.filter(p => p.price && p.price <= parseInt(filters.budget, 10));
         }
         if (filters.negotiationType) {
-            result = result.filter(p => p.negotiation_type === filters.negotiationType);
+            result = result.filter(p => p.negotiationType === filters.negotiationType);
         }
+        
         if (filters.propertyType) {
-            result = result.filter(p => p.property_type === filters.propertyType);
+            result = result.filter(p => p.customOptions && p.customOptions.includes(filters.propertyType));
         }
         if (filters.rooms) {
-            result = result.filter(p => p.bedrooms >= parseInt(filters.rooms, 10));
+            const roomNumber = parseInt(filters.rooms, 10);
+            result = result.filter(p => 
+                p.customOptions && p.customOptions.some(opt => {
+                    const match = opt.match(/(\d+)\s+habitaciones?/i);
+                    return match && parseInt(match[1], 10) >= roomNumber;
+                })
+            );
         }
 
         setFilteredProperties(result);
 
         if (result && result.length > 0) {
-            // Si la propiedad seleccionada ya no está en la lista filtrada, selecciona la primera.
             const isSelectedPropertyInFilteredList = result.some(p => p.id === selectedProperty?.id);
             if (!isSelectedPropertyInFilteredList) {
                 setSelectedProperty(result[0]);
@@ -76,7 +89,7 @@ const Catalogo = () => {
         } else {
             setSelectedProperty(null);
         }
-    }, [properties, searchTerm, filters]);
+    }, [properties, searchTerm, filters, selectedProperty?.id]);
 
 
     const handleSelectProperty = (property) => {
@@ -91,12 +104,23 @@ const Catalogo = () => {
         setFilters(newFilters);
     };
 
+    const handleClearFilters = () => {
+        setFilters({
+            location: '',
+            budget: '',
+            negotiationType: '',
+            propertyType: '',
+            rooms: '',
+        });
+    };
+
     return (
         <div className="catalogo-container">
             <HeaderElements
                 searchTerm={searchTerm}
                 onSearchChange={handleSearchChange}
                 onApplyFilters={handleApplyFilters}
+                onClearFilters={handleClearFilters}
             />
             <div className="catalogo-body">
                 <MainHouseDisplay

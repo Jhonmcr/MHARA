@@ -11,6 +11,18 @@
     z-index: 10000;
 }
 
+.form-group-social {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.social-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+
 .advisor-contact-form-content {
     background: white;
     padding: 20px;

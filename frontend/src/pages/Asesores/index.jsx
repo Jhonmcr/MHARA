@@ -51,9 +51,13 @@ const Asesores = () => {
             return Array.from({ length: 3 }).map((_, index) => (
                 <AdvisorsCard
                     key={`placeholder-${index}`}
-                    name="Asesor no disponible"
-                    image={userIcon}
-                    testimonial="Próximamente, más asesores estarán disponibles para ayudarte."
+                    advisor={{
+                        _id: `placeholder-${index}`,
+                        fullName: "Asesor no disponible",
+                        profileImageUrl: userIcon,
+                        testimonial: "Próximamente, más asesores estarán disponibles para ayudarte.",
+                        contactInfo: {}
+                    }}
                 />
             ));
         }
@@ -72,9 +76,7 @@ const Asesores = () => {
         return advisorsToShow.map((advisor) => (
             <AdvisorsCard
                 key={advisor._id}
-                name={advisor.fullName}
-                image={advisor.profileImageUrl || `https://i.pravatar.cc/150?u=${advisor._id}`}
-                testimonial={advisor.testimonial || 'Asesor experto en bienes raíces.'}
+                advisor={advisor}
             />
         ));
     };
