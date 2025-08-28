@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import styles from './MainHouseDisplay.module.css';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import iconShoping from '../../assets/icons/shoping.png';
-import { useHomePanel } from '../../context/HomePanelContext';
+import AdvisorContactPopup from '../AdvisorContactPopup'; // Import the popup
 
 const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite }) => {
     const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
     const [advisor, setAdvisor] = useState(null);
-    const { setPanelContent } = useHomePanel();
-    const navigate = useNavigate();
+    const [isContactPopupOpen, setContactPopupOpen] = useState(false); // State for popup
 
     useEffect(() => {
-        // Reset state when property changes
         setCurrentPhotoIndex(0);
         setAdvisor(null);
+        setContactPopupOpen(false); // Close popup when property changes
 
         if (property && property.agentCode) {
             fetch(`http://localhost:8000/api/v1/users/advisor/${property.agentCode}`)
@@ -60,11 +58,10 @@ const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite }) => {
 
     const handleContactClick = () => {
         if (advisor) {
-            setPanelContent(advisor);
-            navigate('/home');
+            setContactPopupOpen(true); // Open the popup
         } else {
-            // Optional: handle case where advisor data is not yet loaded or not found
-            console.log("Información del asesor no disponible.");
+            alert("Información del asesor no disponible en este momento.");
+            console.log("Advisor data is not available yet.");
         }
     };
 
@@ -103,22 +100,30 @@ const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite }) => {
                     )}
                 </div>
                 <div className={styles.contact}>
-                    {advisor && (
-                        <div className={styles.advisorInfo}>
-                            <img src={advisor.profileImageUrl || `https://i.pravatar.cc/150?u=${advisor._id}`} alt={advisor.fullName} className={styles.advisorImage} />
-                        </div>
-                    )}
                     <button
                         onClick={() => onFavoriteToggle(property.id)}
                         className={`${styles.favoriteButton} ${isFavorite ? styles.isFavorite : ''}`}
                     >
                         <img src={iconShoping} alt="Favorite" />
                     </button>
-                    <button onClick={handleContactClick} className={styles.contactButton}>
-                        Contactar
-                    </button>
+                    <div className={styles.contactAction}>
+                        {advisor && (
+                            <div className={styles.advisorInfo}>
+                                <img src={advisor.profileImageUrl || `https://i.pravatar.cc/150?u=${advisor._id}`} alt={advisor.fullName} className={styles.advisorImage} />
+                            </div>
+                        )}
+                        <button onClick={handleContactClick} className={styles.contactButton}>
+                            Contactar
+                        </button>
+                    </div>
                 </div>
             </div>
+            {isContactPopupOpen && advisor && (
+                <AdvisorContactPopup
+                    advisor={advisor}
+                    onClose={() => setContactPopupOpen(false)}
+                />
+            )}
         </div>
     );
 };

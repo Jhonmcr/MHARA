@@ -13,7 +13,7 @@ const parseCustomOptions = (options) => {
     if (options) {
         options.forEach(opt => {
             const [key, value] = opt.split(':');
-            if (key && value && details.hasOwnProperty(key.trim())) {
+            if (key && value && Object.prototype.hasOwnProperty.call(details, key.trim())) {
                 details[key.trim()] = value.trim();
             }
         });
@@ -29,6 +29,7 @@ const FavoritePropertyCard = ({ property, onClosePopup }) => {
         e.stopPropagation(); // Prevent card click from triggering
 
         if (!property.agentCode) {
+            alert("No se encontró información de contacto para esta propiedad.");
             console.error("This property has no agent code.");
             return;
         }
@@ -41,9 +42,11 @@ const FavoritePropertyCard = ({ property, onClosePopup }) => {
                 onClosePopup(); // Close the favorites popup
                 navigate('/home'); // Navigate to home to see the panel
             } else {
+                alert("No se pudo cargar la información del asesor. Por favor, intente más tarde.");
                 console.error("Failed to fetch advisor details. Status:", response.status);
             }
         } catch (error) {
+            alert("Ocurrió un error al contactar al servidor. Por favor, verifique su conexión.");
             console.error("Error fetching advisor:", error);
         }
     };
