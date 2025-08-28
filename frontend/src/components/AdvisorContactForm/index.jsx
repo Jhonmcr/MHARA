@@ -29,7 +29,7 @@ const AdvisorContactForm = ({ onClose }) => {
         }
 
         try {
-            const response = await fetch(`http://localhost:8000/api/v1/users/${user._id}/contact-info`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/users/${user._id}/contact-info`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),

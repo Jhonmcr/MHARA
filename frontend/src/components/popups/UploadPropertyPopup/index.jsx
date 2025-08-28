@@ -149,7 +149,7 @@ const UploadPropertyPopup = ({ onClose, onPublish, propertyToEdit }) => {
         }
 
         try {
-            const response = await fetch(`http://localhost:8000/api/v1/properties/${propertyToEdit.id}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/properties/${propertyToEdit.id}`, {
                 method: 'DELETE',
             });
 
@@ -191,9 +191,10 @@ const UploadPropertyPopup = ({ onClose, onPublish, propertyToEdit }) => {
             formData.append('customOptions', option);
         });
 
-        const url = isEditMode 
-            ? `http://localhost:8000/api/v1/properties/${propertyToEdit.id}`
-            : 'http://localhost:8000/api/v1/properties/';
+        const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+        const url = isEditMode
+            ? `${baseUrl}/api/v1/properties/${propertyToEdit.id}`
+            : `${baseUrl}/api/v1/properties/`;
         
         const method = isEditMode ? 'PUT' : 'POST';
 

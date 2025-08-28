@@ -9,7 +9,7 @@ export const FavoritesProvider = ({ children }) => {
     const { user } = useAuth();
 
     const fetchAllProperties = React.useCallback(() => {
-        fetch('http://localhost:8000/api/v1/properties/')
+        fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/properties/`)
             .then(res => res.json())
             .then(data => {
                 if (data) setAllProperties(data);
@@ -25,7 +25,7 @@ export const FavoritesProvider = ({ children }) => {
     // Fetch user's favorite IDs when user changes
     useEffect(() => {
         if (user && user.username) {
-            fetch(`http://localhost:8000/api/v1/users/${user.username}/favorites`)
+            fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/users/${user.username}/favorites`)
                 .then(res => res.json())
                 .then(data => setFavorites(data.favorites || []))
                 .catch(err => console.error("Error fetching favorites:", err));
@@ -39,7 +39,7 @@ export const FavoritesProvider = ({ children }) => {
 
         const isFavorite = favorites.includes(propertyId);
         const method = isFavorite ? 'DELETE' : 'POST';
-        const url = `http://localhost:8000/api/v1/users/${user.username}/favorites/${propertyId}`;
+        const url = `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/users/${user.username}/favorites/${propertyId}`;
 
         try {
             const response = await fetch(url, { method });

@@ -48,7 +48,16 @@ if not ADMIN_TOKEN:
 app = FastAPI()
 
 # --- Configuración de CORS ---
-origins = ["http://localhost:5173"]
+# Cargar la URL del frontend desde las variables de entorno
+frontend_url = os.getenv("FRONTEND_URL")
+
+# Lista de orígenes permitidos
+origins = [
+    "http://localhost:5173",  # Origen para desarrollo local
+]
+if frontend_url:
+    origins.append(frontend_url)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,

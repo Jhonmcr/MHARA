@@ -8,7 +8,7 @@ const ProtectedRoutes = () => {
 
     const fetchProperties = useCallback(async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/v1/properties/');
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/properties/`);
             if (!response.ok) {
                 throw new Error('La respuesta de la red no fue correcta');
             }

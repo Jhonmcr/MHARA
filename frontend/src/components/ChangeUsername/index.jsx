@@ -23,7 +23,7 @@ const ChangeUsername = ({ onClose }) => {
         setSuccess('');
 
         try {
-            const response = await fetch(`http://localhost:8000/api/v1/users/${user._id}/username`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/users/${user._id}/username`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

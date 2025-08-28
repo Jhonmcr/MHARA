@@ -19,7 +19,7 @@ const AddAdvisorForm = () => {
             setFoundUser(null); // Reset previous user
             try {
                 // Use the new endpoint to search by agent code
-                const response = await fetch(`http://localhost:8000/api/v1/users/by-code/${searchTerm.trim()}`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/users/by-code/${searchTerm.trim()}`);
                 if (response.ok) {
                     const user = await response.json();
                     setFoundUser(user);
@@ -50,7 +50,7 @@ const AddAdvisorForm = () => {
         const newRole = isAdvisor ? 'user' : 'asesor';
 
         try {
-            const response = await fetch(`http://localhost:8000/api/v1/users/${foundUser._id}/role`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/users/${foundUser._id}/role`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

@@ -2,6 +2,7 @@ import React, { createContext, useState, useContext } from 'react';
 
 const HomePanelContext = createContext();
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useHomePanel = () => {
     return useContext(HomePanelContext);
 };
