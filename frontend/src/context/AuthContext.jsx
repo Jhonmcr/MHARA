@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
     const handleAddAdvisor = async (advisorData) => {
         console.log('Attempting to add advisor:', advisorData);
         try {
-            const response = await fetch('http://localhost:8000/api/v1/users/make-advisor', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/users/make-advisor`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

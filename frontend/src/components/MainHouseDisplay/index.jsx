@@ -15,7 +15,7 @@ const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite }) => {
         setContactPopupOpen(false); // Close popup when property changes
 
         if (property && property.agentCode) {
-            fetch(`http://localhost:8000/api/v1/users/advisor/${property.agentCode}`)
+            fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/users/advisor/${property.agentCode}`)
                 .then(res => {
                     if (!res.ok) throw new Error('Advisor not found');
                     return res.json();

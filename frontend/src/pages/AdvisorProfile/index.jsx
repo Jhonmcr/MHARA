@@ -12,7 +12,7 @@ const AdvisorProfile = () => {
     useEffect(() => {
         const fetchAdvisor = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/api/v1/users/advisors/${id}`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/users/advisors/${id}`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
@@ -36,7 +36,7 @@ const AdvisorProfile = () => {
 
     const handleContactFormSubmit = async (formData) => {
         try {
-            const response = await fetch(`http://localhost:8000/api/v1/advisors/${id}/contact`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/advisors/${id}/contact`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

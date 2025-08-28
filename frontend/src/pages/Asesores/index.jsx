@@ -16,7 +16,7 @@ const Asesores = () => {
         const fetchAdvisors = async () => {
             setLoading(true);
             try {
-                const response = await fetch('http://localhost:8000/api/v1/users/advisors');
+                const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/users/advisors`);
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }

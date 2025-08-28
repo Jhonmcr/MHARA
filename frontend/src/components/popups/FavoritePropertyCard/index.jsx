@@ -45,7 +45,7 @@ const FavoritePropertyCard = ({ property, onClosePopup, onSelectProperty }) => {
         }
 
         try {
-            const response = await fetch(`http://localhost:8000/api/v1/users/advisor/${property.agentCode}`);
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/users/advisor/${property.agentCode}`);
             if (response.ok) {
                 const advisorData = await response.json();
                 setPanelContent(advisorData);
