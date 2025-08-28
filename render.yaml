@@ -19,7 +19,7 @@ services:
       # La siguiente variable se inyecta automáticamente con la URL del frontend
       - key: FRONTEND_URL
         fromService:
-          type: static
+          type: static_site
           name: inmo-frontend # Debe coincidir con el nombre del servicio de frontend
           property: url
       # --- ¡IMPORTANTE! Añade los siguientes valores en el Dashboard de Render ---
@@ -35,7 +35,7 @@ services:
         sync: false
 
   # ---------------- Frontend Service (React/Vite Static Site) ----------------
-  - type: static
+  - type: static_site
     name: inmo-frontend
     env: node
     rootDir: frontend
