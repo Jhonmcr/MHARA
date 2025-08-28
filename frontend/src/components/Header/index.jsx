@@ -132,6 +132,11 @@ const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, on
             </ul>
         </nav>
         <div className="header-icons">
+                        {user && user.agentCode && (
+                <div className="agent-code-display">
+                    <span className="agent-code-text">{user.agentCode}</span>
+                </div>
+            )}
             <span onClick={toggleFavorites} style={{ cursor: 'pointer' }}>
                 <img src={iconShoping} alt="Icon Shoping" className='iconShoping'/>
             </span>

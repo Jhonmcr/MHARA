@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
+import { useAuth } from '../../../context/AuthContext';
+import { useFavorites } from '../../../context/FavoritesContext';
 import 'leaflet/dist/leaflet.css';
 import './UploadPropertyPopup.css';
 
@@ -46,12 +48,14 @@ const AddOptionPopup = ({ onAdd, onClose, existingOptions }) => {
 
 
 const UploadPropertyPopup = ({ onClose, onPublish, propertyToEdit }) => {
+    const { user } = useAuth(); // Get user from context
+    const { refetchAllProperties } = useFavorites();
     const isEditMode = Boolean(propertyToEdit);
     const [propertyData, setPropertyData] = useState({
         photos: [], // Almacenará objetos { file, preview } o { url, preview }
         price: '',
         negotiationType: 'Venta',
-        agentCode: '',
+        // agentCode is now derived from the authenticated user
         location: { lat: 10.6, lng: -66.933 },
         detailedAddress: '',
         shortAddress: '',
@@ -70,7 +74,7 @@ const UploadPropertyPopup = ({ onClose, onPublish, propertyToEdit }) => {
                 photos: propertyToEdit.photos.map(url => ({ url, preview: url })),
                 price: propertyToEdit.price || '',
                 negotiationType: propertyToEdit.negotiationType || 'Venta',
-                agentCode: propertyToEdit.agentCode || '',
+                // agentCode is not set from propertyToEdit anymore
                 location: propertyToEdit.location || { lat: 10.6, lng: -66.933 },
                 detailedAddress: propertyToEdit.detailedAddress || '',
                 shortAddress: propertyToEdit.shortAddress || '',
@@ -156,6 +160,7 @@ const UploadPropertyPopup = ({ onClose, onPublish, propertyToEdit }) => {
 
             alert('Propiedad eliminada con éxito.');
             onPublish({ action: 'delete' }); // Re-use onPublish to trigger refetch
+            if (refetchAllProperties) refetchAllProperties();
             onClose();
 
         } catch (error) {
@@ -166,8 +171,8 @@ const UploadPropertyPopup = ({ onClose, onPublish, propertyToEdit }) => {
 
     const handleSubmit = async () => {
         // Validación
-        if (!propertyData.price || !propertyData.agentCode || !propertyData.detailedAddress || propertyData.photos.length === 0) {
-            alert('Por favor, complete todos los campos obligatorios y suba al menos una foto.');
+        if (!propertyData.price || !user?.agentCode || !propertyData.detailedAddress || propertyData.photos.length === 0) {
+            alert('Por favor, complete todos los campos obligatorios y suba al menos una foto. Asegúrese de que su código de agente esté disponible.');
             return;
         }
 
@@ -176,7 +181,7 @@ const UploadPropertyPopup = ({ onClose, onPublish, propertyToEdit }) => {
         // Adjuntar solo los datos que han cambiado o son necesarios
         formData.append('price', parseFloat(propertyData.price));
         formData.append('negotiationType', propertyData.negotiationType);
-        formData.append('agentCode', propertyData.agentCode);
+        formData.append('agentCode', user.agentCode); // Use agentCode from context
         formData.append('lat', propertyData.location.lat);
         formData.append('lng', propertyData.location.lng);
         formData.append('detailedAddress', propertyData.detailedAddress);
@@ -222,6 +227,7 @@ const UploadPropertyPopup = ({ onClose, onPublish, propertyToEdit }) => {
             const result = await response.json();
             alert(`Propiedad ${isEditMode ? 'actualizada' : 'publicada'} con éxito!`);
             onPublish(result);
+            if (refetchAllProperties) refetchAllProperties();
             onClose();
 
         } catch (error) {
@@ -274,14 +280,9 @@ const UploadPropertyPopup = ({ onClose, onPublish, propertyToEdit }) => {
                     {/* --- Sección de Detalles --- */}
                     <div className="form-grid">
                         <label>
-                            Precio (€):
+                            Precio ($):
                             <input type="number" name="price" value={propertyData.price} onChange={handleChange} required />
                         </label>
-                        <label>
-                            Código del Asesor:
-                            <input type="text" name="agentCode" value={propertyData.agentCode} onChange={handleChange} required />
-                        </label>
-
                         <label>
                             Tipo de Negociación:
                             <select name="negotiationType" value={propertyData.negotiationType} onChange={handleChange}>

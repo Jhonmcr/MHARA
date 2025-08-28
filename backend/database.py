@@ -46,6 +46,20 @@ def get_user(username: str):
         return db.users.find_one({"username": username})
     return None
 
+def get_user_by_email(email: str):
+    """Busca un usuario por su email en la base de datos."""
+    db = get_database()
+    if db is not None:
+        return db.users.find_one({"email": email})
+    return None
+
+def get_user_by_agent_code(agent_code: str):
+    """Busca un usuario por su código de agente en la base de datos."""
+    db = get_database()
+    if db is not None:
+        return db.users.find_one({"agentCode": agent_code})
+    return None
+
 def create_user(user_data: dict):
     """Crea un nuevo usuario en la base de datos."""
     db = get_database()
@@ -80,18 +94,17 @@ def get_advisors():
         return advisors
     return None
 
-def update_user_to_advisor(username: str, advisor_code: str):
-    """Updates a user's role to 'asesor' and adds an advisor code."""
+def update_user_to_advisor(username: str):
+    """Updates a user's role to 'asesor'."""
     db = get_database()
     if db is not None:
-        # Check if the user exists first
         user = get_user(username)
         if not user:
-            return None # Or raise an exception
+            return None
 
         result = db.users.update_one(
             {"username": username},
-            {"$set": {"role": "asesor", "advisor_code": advisor_code}}
+            {"$set": {"role": "asesor"}}
         )
         return result.modified_count > 0
     return False
@@ -159,10 +172,18 @@ def update_property(property_id: str, data: dict):
     return False
 
 def get_advisor_by_code(agent_code: str):
-    """Busca un asesor por su código de agente."""
+    """Busca un asesor por su código de agente, manejando inconsistencias de nombres de campo."""
     db = get_database()
     if db is not None:
-        advisor = db.users.find_one({"role": "asesor", "agentCode": agent_code})
+        # Busca usando 'agentCode' (preferido) o 'advisor_code' (fallback) para robustez.
+        query = {
+            "role": "asesor",
+            "$or": [
+                {"agentCode": agent_code},
+                {"advisor_code": agent_code}
+            ]
+        }
+        advisor = db.users.find_one(query)
         if advisor:
             advisor['_id'] = str(advisor['_id'])
             if 'password' in advisor:

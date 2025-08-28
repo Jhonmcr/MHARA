@@ -11,6 +11,7 @@ from database import (
     connect_to_mongo,
     close_mongo_connection,
     get_user,
+    get_user_by_email,
     create_user,
     get_properties,
     get_advisors,
@@ -28,6 +29,7 @@ from database import (
     update_user_contact_info,
     update_user_profile_image,
     search_users_by_username,
+    get_user_by_agent_code,
     update_user_role,
     get_advisor_by_code,
 )
@@ -83,7 +85,6 @@ class UserLogin(BaseModel):
 
 class AdvisorUpdate(BaseModel):
     username: str
-    advisor_code: str
 
 class UsernameUpdate(BaseModel):
     newUsername: str
@@ -103,10 +104,18 @@ class RoleUpdate(BaseModel):
     role: str
 
 # --- Endpoints de Autenticación ---
+
+def generate_agent_code(length=5):
+    """Genera un código alfanumérico aleatorio para los agentes."""
+    characters = string.ascii_uppercase + string.digits
+    return ''.join(random.choice(characters) for i in range(length))
+
 @auth_router.post("/register", status_code=status.HTTP_201_CREATED)
 def register_user(user: UserRegistration):
     if get_user(user.username):
         raise HTTPException(status_code=400, detail="El nombre de usuario ya está registrado.")
+    if get_user_by_email(user.email):
+        raise HTTPException(status_code=400, detail="El correo electrónico ya está en uso.")
     
     role = "user"
     if user.token:
@@ -119,6 +128,7 @@ def register_user(user: UserRegistration):
     user_data = user.dict(exclude={"token"})
     user_data["password"] = hashed_pass
     user_data["role"] = role
+    user_data["agentCode"] = generate_agent_code()
     
     new_user = create_user(user_data)
     if new_user is None:
@@ -140,7 +150,8 @@ def login_user(user_credentials: UserLogin):
             "fullName": db_user.get("fullName"),
             "username": db_user.get("username"),
             "role": db_user.get("role", "user"),
-            "profileImageUrl": db_user.get("profileImageUrl")
+            "profileImageUrl": db_user.get("profileImageUrl"),
+            "agentCode": db_user.get("agentCode")
         }
     }
 
@@ -352,6 +363,17 @@ def search_for_users(query: str):
     users = search_users_by_username(query)
     return users
 
+@users_router.get("/by-code/{agent_code}")
+def get_user_by_code(agent_code: str):
+    user = get_user_by_agent_code(agent_code)
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado con ese código.")
+    
+    user['_id'] = str(user['_id'])
+    if 'password' in user:
+        del user['password']
+    return user
+
 @users_router.put("/{user_id}/role", status_code=status.HTTP_200_OK)
 def set_user_role(user_id: str, payload: RoleUpdate):
     success = update_user_role(user_id, payload.role)
@@ -388,7 +410,7 @@ def make_user_advisor(advisor_data: AdvisorUpdate):
         # You can decide to return a specific message or just confirm the state
         return {"message": "El usuario ya es un asesor."}
 
-    success = update_user_to_advisor(advisor_data.username, advisor_data.advisor_code)
+    success = update_user_to_advisor(advisor_data.username)
 
     if not success:
         raise HTTPException(status_code=500, detail="No se pudo actualizar el rol del usuario.")

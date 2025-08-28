@@ -41,6 +41,11 @@ const Catalogo = () => {
         let result = properties || [];
         const lowercasedSearchTerm = searchTerm.toLowerCase();
 
+        // Handle the "showFavorites" state from navigation
+        if (location.state?.showFavorites) {
+            result = result.filter(p => favorites.includes(p.id));
+        }
+
         // Lógica de búsqueda integral ("con todo")
         if (searchTerm) {
             result = result.filter(p => {

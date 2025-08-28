@@ -8,8 +8,7 @@ export const FavoritesProvider = ({ children }) => {
     const [allProperties, setAllProperties] = useState([]);
     const { user } = useAuth();
 
-    // Fetch all properties once on component mount
-    useEffect(() => {
+    const fetchAllProperties = React.useCallback(() => {
         fetch('http://localhost:8000/api/v1/properties/')
             .then(res => res.json())
             .then(data => {
@@ -17,6 +16,11 @@ export const FavoritesProvider = ({ children }) => {
             })
             .catch(err => console.error("Error fetching all properties:", err));
     }, []);
+
+    // Fetch all properties once on component mount
+    useEffect(() => {
+        fetchAllProperties();
+    }, [fetchAllProperties]);
 
     // Fetch user's favorite IDs when user changes
     useEffect(() => {
@@ -58,7 +62,8 @@ export const FavoritesProvider = ({ children }) => {
         favorites,
         handleFavoriteToggle,
         favoriteProperties,
-        allProperties, // Pass all properties down as well, might be useful
+        allProperties,
+        refetchAllProperties: fetchAllProperties, // Expose the refetch function
     };
 
     return (
