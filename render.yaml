@@ -18,9 +18,8 @@ services:
         value: 3.11
       # La siguiente variable se inyecta automáticamente con la URL del frontend
       - key: FRONTEND_URL
-        fromService:
-          # Se ha eliminado el "type: static" que causaba el error
-          name: inmo-frontend # Debe coincidir con el nombre del servicio de frontend
+        fromStaticSite:
+          name: inmo-frontend # Apunta al sitio estático definido abajo
           property: url
       # --- ¡IMPORTANTE! Añade los siguientes valores en el Dashboard de Render ---
       - key: MONGO_URI
@@ -34,9 +33,9 @@ services:
       - key: ADMIN_TOKEN
         sync: false
 
-  # ---------------- Frontend Service (React/Vite Static Site) ----------------
-  - type: static
-    name: inmo-frontend
+# ---------------- Frontend Service (React/Vite Static Site) ----------------
+static_sites:
+  - name: inmo-frontend
     env: node
     rootDir: frontend
     plan: free
