@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import apiClient from '../../api/axios';
 import './Asesores.css';
 import HeaderElements from '../../components/HeaderElements';
 import AdvisorsCard from '../../components/AdvisorsCard';
@@ -16,12 +17,8 @@ const Asesores = () => {
         const fetchAdvisors = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/users/advisors`);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                setAdvisors(data);
+                const response = await apiClient.get('/users/advisors');
+                setAdvisors(response.data);
             } catch (error) {
                 console.error("Error fetching advisors:", error);
                 setAdvisors([]); // Asegurarse de que advisors esté vacío en caso de error

@@ -11,7 +11,7 @@ body {
     align-items: center;
     gap: 4rem;
     flex-direction: column;
-    background-image: url('../../assets/images/HOME.png'); /* Ruta a tu imagen de fondo */
+    background-image: url('../../assets/images/home.png'); /* Ruta a tu imagen de fondo */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

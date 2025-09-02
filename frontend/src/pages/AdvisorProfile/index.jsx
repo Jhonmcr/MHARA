@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import apiClient from '../../api/axios';
 import './AdvisorProfile.css';
 import HeaderElements from '../../components/HeaderElements';
 import AdvisorContactForm from '../../components/AdvisorContactForm';
@@ -12,12 +13,8 @@ const AdvisorProfile = () => {
     useEffect(() => {
         const fetchAdvisor = async () => {
             try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/users/advisors/${id}`);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                setAdvisor(data);
+                const response = await apiClient.get(`/users/advisors/${id}`);
+                setAdvisor(response.data);
             } catch (error) {
                 console.error("Error fetching advisor:", error);
             }
@@ -36,20 +33,8 @@ const AdvisorProfile = () => {
 
     const handleContactFormSubmit = async (formData) => {
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/advisors/${id}/contact`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            const updatedAdvisor = await response.json();
-            setAdvisor(updatedAdvisor);
+            const response = await apiClient.post(`/advisors/${id}/contact`, formData);
+            setAdvisor(response.data);
             setIsContactFormOpen(false);
         } catch (error) {
             console.error('Error updating contact info:', error);
