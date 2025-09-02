@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import apiClient from '../../api/axios';
 import styles from './MainHouseDisplay.module.css';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import iconShoping from '../../assets/icons/shoping.png';
@@ -15,12 +16,8 @@ const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite }) => {
         setContactPopupOpen(false); // Close popup when property changes
 
         if (property && property.agentCode) {
-            fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/users/advisor/${property.agentCode}`)
-                .then(res => {
-                    if (!res.ok) throw new Error('Advisor not found');
-                    return res.json();
-                })
-                .then(data => setAdvisor(data))
+            apiClient.get(`/users/advisor/${property.agentCode}`)
+                .then(res => setAdvisor(res.data))
                 .catch(err => console.error("Error fetching advisor for MainHouseDisplay:", err));
         }
     }, [property]);

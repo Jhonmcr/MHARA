@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
+import apiClient from '../../api/axios';
 import { useAuth } from '../../context/AuthContext';
 
 const ProtectedRoutes = () => {
@@ -8,16 +9,12 @@ const ProtectedRoutes = () => {
 
     const fetchProperties = useCallback(async () => {
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/properties/`);
-            if (!response.ok) {
-                throw new Error('La respuesta de la red no fue correcta');
-            }
-            const propertiesData = await response.json();
-            setProperties(propertiesData);
+            const response = await apiClient.get('/properties/');
+            setProperties(response.data);
         } catch (error) {
             console.error("Fallo al obtener las propiedades:", error);
         }
-    }, []); // No dependencies needed as fetch URL is static and setProperties is stable
+    }, []);
 
     useEffect(() => {
         if (isAuthenticated) {
