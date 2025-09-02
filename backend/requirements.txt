@@ -5,3 +5,4 @@ pymongo[srv]
 boto3
 passLib[bcrypt]
 gunicorn
+email-validator
