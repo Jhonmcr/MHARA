@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
+import apiClient from '../../../api/axios'; // Importar
 import { useAuth } from '../../../context/AuthContext';
 import { useFavorites } from '../../../context/FavoritesContext';
 import 'leaflet/dist/leaflet.css';
@@ -149,14 +150,7 @@ const UploadPropertyPopup = ({ onClose, onPublish, propertyToEdit }) => {
         }
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/properties/${propertyToEdit.id}`, {
-                method: 'DELETE',
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.detail || 'Error al eliminar la propiedad');
-            }
+            await apiClient.delete(`/properties/${propertyToEdit.id}`);
 
             alert('Propiedad eliminada con éxito.');
             onPublish({ action: 'delete' }); // Re-use onPublish to trigger refetch
@@ -164,24 +158,22 @@ const UploadPropertyPopup = ({ onClose, onPublish, propertyToEdit }) => {
             onClose();
 
         } catch (error) {
+            const errorMessage = error.response?.data?.detail || 'Error al eliminar la propiedad';
             console.error('Error al eliminar la propiedad:', error);
-            alert(`Error: ${error.message}`);
+            alert(`Error: ${errorMessage}`);
         }
     };
 
     const handleSubmit = async () => {
-        // Validación
         if (!propertyData.price || !user?.agentCode || !propertyData.detailedAddress || propertyData.photos.length === 0) {
             alert('Por favor, complete todos los campos obligatorios y suba al menos una foto. Asegúrese de que su código de agente esté disponible.');
             return;
         }
 
         const formData = new FormData();
-        
-        // Adjuntar solo los datos que han cambiado o son necesarios
         formData.append('price', parseFloat(propertyData.price));
         formData.append('negotiationType', propertyData.negotiationType);
-        formData.append('agentCode', user.agentCode); // Use agentCode from context
+        formData.append('agentCode', user.agentCode);
         formData.append('lat', propertyData.location.lat);
         formData.append('lng', propertyData.location.lng);
         formData.append('detailedAddress', propertyData.detailedAddress);
@@ -191,49 +183,38 @@ const UploadPropertyPopup = ({ onClose, onPublish, propertyToEdit }) => {
             formData.append('customOptions', option);
         });
 
-        const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-        const url = isEditMode
-            ? `${baseUrl}/api/v1/properties/${propertyToEdit.id}`
-            : `${baseUrl}/api/v1/properties/`;
-        
-        const method = isEditMode ? 'PUT' : 'POST';
-
-        // Adjuntar fotos nuevas y marcadas para eliminar
         if (isEditMode) {
-            deletedPhotos.forEach(url => {
-                formData.append('deleted_photos', url);
-            });
+            deletedPhotos.forEach(url => formData.append('deleted_photos', url));
             propertyData.photos.forEach(photo => {
-                if (photo.file) { // Solo subir las nuevas fotos
-                    formData.append('new_photos', photo.file);
-                }
+                if (photo.file) formData.append('new_photos', photo.file);
             });
         } else {
-            propertyData.photos.forEach(photo => {
-                formData.append('photos', photo.file);
-            });
+            propertyData.photos.forEach(photo => formData.append('photos', photo.file));
         }
 
+        const url = isEditMode ? `/properties/${propertyToEdit.id}` : '/properties/';
+        const method = isEditMode ? 'put' : 'post';
+
         try {
-            const response = await fetch(url, {
+            const response = await apiClient({
                 method: method,
-                body: formData,
+                url: url,
+                data: formData,
+                headers: {
+                    // Dejar que el navegador establezca el Content-Type para FormData
+                    'Content-Type': 'multipart/form-data',
+                },
             });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.detail || `Error al ${isEditMode ? 'actualizar' : 'publicar'} la propiedad`);
-            }
-
-            const result = await response.json();
             alert(`Propiedad ${isEditMode ? 'actualizada' : 'publicada'} con éxito!`);
-            onPublish(result);
+            onPublish(response.data);
             if (refetchAllProperties) refetchAllProperties();
             onClose();
 
         } catch (error) {
+            const errorMessage = error.response?.data?.detail || `Error al ${isEditMode ? 'actualizar' : 'publicar'} la propiedad`;
             console.error(`Error al ${isEditMode ? 'actualizar' : 'publicar'} la propiedad:`, error);
-            alert(`Error: ${error.message}`);
+            alert(`Error: ${errorMessage}`);
         }
     };
 

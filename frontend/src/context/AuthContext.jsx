@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import apiClient from '../api/axios'; // Importar el cliente API centralizado
 import GenericPopup from '../components/popups/GenericPopup';
 import AddAdvisorForm from '../components/popups/AddAdvisorForm';
 import ChangeUsername from '../components/ChangeUsername';
@@ -50,33 +51,19 @@ export const AuthProvider = ({ children }) => {
     const handleAddAdvisor = async (advisorData) => {
         console.log('Attempting to add advisor:', advisorData);
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/users/make-advisor`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    // In a real app, an auth token would be sent.
-                    // 'Authorization': `Bearer ${user.token}` 
-                },
-                body: JSON.stringify({
-                    username: advisorData.username,
-                    advisor_code: advisorData.advisorCode,
-                }),
+            const response = await apiClient.post('/users/make-advisor', {
+                username: advisorData.username,
+                advisor_code: advisorData.advisorCode,
             });
 
-            const result = await response.json();
-
-            if (!response.ok) {
-                throw new Error(result.detail || 'Ocurrió un error al agregar al asesor.');
-            }
-
-            alert(result.message); // Show success message
+            alert(response.data.message); // Show success message
             setRefetchTrigger(prev => prev + 1); // Trigger refetch
             closePopup(); // Close popup on success
 
         } catch (error) {
-            console.error('Error adding advisor:', error.message);
-            alert(`Error: ${error.message}`); // Show error message
-            // We might not want to close the popup on error, so the user can retry
+            console.error('Error adding advisor:', error);
+            const errorMessage = error.response?.data?.detail || 'Ocurrió un error al agregar al asesor.';
+            alert(`Error: ${errorMessage}`); // Show error message
         }
     };
 

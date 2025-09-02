@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import apiClient from '../../api/axios';
 import './ChangePassword.css';
 import { useAuth } from '../../context/AuthContext';
 
@@ -28,29 +29,19 @@ const ChangePassword = ({ onClose }) => {
         }
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/users/${user._id}/password`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    currentPassword: formData.currentPassword,
-                    newPassword: formData.newPassword,
-                }),
+            await apiClient.put(`/users/${user._id}/password`, {
+                currentPassword: formData.currentPassword,
+                newPassword: formData.newPassword,
             });
 
-            const data = await response.json();
+            setSuccess('Contraseña actualizada con éxito!');
+            setTimeout(() => {
+                onClose();
+            }, 2000);
 
-            if (response.ok) {
-                setSuccess('Contraseña actualizada con éxito!');
-                setTimeout(() => {
-                    onClose();
-                }, 2000);
-            } else {
-                throw new Error(data.message || 'Error al actualizar la contraseña');
-            }
         } catch (err) {
-            setError(err.message);
+            const errorMessage = err.response?.data?.message || 'Error al actualizar la contraseña';
+            setError(errorMessage);
         }
     };
 

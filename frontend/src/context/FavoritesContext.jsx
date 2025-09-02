@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import apiClient from '../api/axios'; // Importar
 import { useAuth } from './AuthContext';
 
 const FavoritesContext = createContext(null);
@@ -9,10 +10,9 @@ export const FavoritesProvider = ({ children }) => {
     const { user } = useAuth();
 
     const fetchAllProperties = React.useCallback(() => {
-        fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/properties/`)
-            .then(res => res.json())
-            .then(data => {
-                if (data) setAllProperties(data);
+        apiClient.get('/properties/')
+            .then(res => {
+                if (res.data) setAllProperties(res.data);
             })
             .catch(err => console.error("Error fetching all properties:", err));
     }, []);
@@ -25,9 +25,8 @@ export const FavoritesProvider = ({ children }) => {
     // Fetch user's favorite IDs when user changes
     useEffect(() => {
         if (user && user.username) {
-            fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/users/${user.username}/favorites`)
-                .then(res => res.json())
-                .then(data => setFavorites(data.favorites || []))
+            apiClient.get(`/users/${user.username}/favorites`)
+                .then(res => setFavorites(res.data.favorites || []))
                 .catch(err => console.error("Error fetching favorites:", err));
         } else {
             setFavorites([]); // Clear favorites on logout
@@ -38,18 +37,16 @@ export const FavoritesProvider = ({ children }) => {
         if (!user) return;
 
         const isFavorite = favorites.includes(propertyId);
-        const method = isFavorite ? 'DELETE' : 'POST';
-        const url = `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/users/${user.username}/favorites/${propertyId}`;
+        const method = isFavorite ? 'delete' : 'post';
+        const url = `/users/${user.username}/favorites/${propertyId}`;
 
         try {
-            const response = await fetch(url, { method });
-            if (response.ok) {
-                setFavorites(prevFavorites =>
-                    isFavorite
-                        ? prevFavorites.filter(id => id !== propertyId)
-                        : [...prevFavorites, propertyId]
-                );
-            }
+            await apiClient[method](url);
+            setFavorites(prevFavorites =>
+                isFavorite
+                    ? prevFavorites.filter(id => id !== propertyId)
+                    : [...prevFavorites, propertyId]
+            );
         } catch (error) {
             console.error('Error updating favorites:', error);
         }

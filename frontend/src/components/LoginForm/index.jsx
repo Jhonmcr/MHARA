@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import apiClient from '../../api/axios'; // Importar el cliente API centralizado
 import InputWithIcon from '../InputWithIcon';
 import logo from '../../assets/images/mhara_logo.png';
 import userIcon from '../../assets/icons/user_icon.png';
@@ -38,25 +39,30 @@ const LoginForm = ({ onShowRegistration }) => {
         }
 
         try {
-            const response = await fetch('/api/v1/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, password }),
+            // Usar el cliente API centralizado. La URL base ya está configurada.
+            const response = await apiClient.post('/auth/login', {
+                username,
+                password,
             });
 
-            if (response.ok) {
-                const data = await response.json(); // Obtener los datos de la respuesta
-                login(data); // Pasar la respuesta completa de la API al contexto
-                navigate('/home'); // Redirige al home
+            // Con axios, una respuesta exitosa (2xx) va directamente aquí.
+            // Los datos de la respuesta están en `response.data`.
+            login(response.data); // Pasar los datos de la API al contexto
+            navigate('/home'); // Redirige al home
+
+        } catch (err) {
+            // axios lanza un error para respuestas no exitosas (4xx, 5xx).
+            if (err.response) {
+                // El servidor respondió con un estado de error
+                setError(err.response.data.detail || 'Usuario o contraseña incorrectos.');
+            } else if (err.request) {
+                // La petición se hizo pero no se recibió respuesta
+                setError('No se pudo conectar con el servidor. Inténtalo de nuevo más tarde.');
             } else {
-                const errorData = await response.json();
-                setError(errorData.detail || 'Usuario o contraseña incorrectos.');
+                // Algo más causó el error
+                setError('Ocurrió un error inesperado.');
             }
-        } catch (error) {
-            setError('No se pudo conectar con el servidor. Inténtalo de nuevo más tarde.');
-            console.error('Error de inicio de sesión:', error);
+            console.error('Error de inicio de sesión:', err);
         }
     };
 
