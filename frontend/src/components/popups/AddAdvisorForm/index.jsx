@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import apiClient from '../../../api/axios';
 import './AddAdvisorForm.css';
 
 const AddAdvisorForm = () => {
@@ -16,18 +17,12 @@ const AddAdvisorForm = () => {
 
         const fetchUser = async () => {
             setIsLoading(true);
-            setFoundUser(null); // Reset previous user
+            setFoundUser(null);
             try {
-                // Use the new endpoint to search by agent code
-                const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/users/by-code/${searchTerm.trim()}`);
-                if (response.ok) {
-                    const user = await response.json();
-                    setFoundUser(user);
-                    setIsAdvisor(user.role === 'asesor');
-                } else {
-                    // If not found or other error, ensure no user is displayed
-                    setFoundUser(null);
-                }
+                const response = await apiClient.get(`/users/by-code/${searchTerm.trim()}`);
+                const user = response.data;
+                setFoundUser(user);
+                setIsAdvisor(user.role === 'asesor');
             } catch (error) {
                 console.error("Error fetching user by code:", error);
                 setFoundUser(null);
@@ -36,7 +31,6 @@ const AddAdvisorForm = () => {
             }
         };
 
-        // No debounce needed if we search on exact length, but can be kept
         const debounceTimer = setTimeout(() => {
             fetchUser();
         }, 300);
@@ -50,22 +44,10 @@ const AddAdvisorForm = () => {
         const newRole = isAdvisor ? 'user' : 'asesor';
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/users/${foundUser._id}/role`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ role: newRole }),
-            });
-
-            if (response.ok) {
-                const responseData = await response.json();
-                const updatedUser = responseData.user;
-                setFoundUser(updatedUser);
-                setIsAdvisor(updatedUser.role === 'asesor');
-            } else {
-                console.error("Failed to update user role");
-            }
+            const response = await apiClient.put(`/users/${foundUser._id}/role`, { role: newRole });
+            const updatedUser = response.data.user;
+            setFoundUser(updatedUser);
+            setIsAdvisor(updatedUser.role === 'asesor');
         } catch (error) {
             console.error("Error updating user role:", error);
         }

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import apiClient from '../../api/axios';
 import './AdvisorContactForm.css';
 import { useAuth } from '../../context/AuthContext';
 
@@ -29,25 +30,17 @@ const AdvisorContactForm = ({ onClose }) => {
         }
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/users/${user._id}/contact-info`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData),
-            });
+            const response = await apiClient.put(`/users/${user._id}/contact-info`, formData);
 
-            const data = await response.json();
+            setSuccess('Información de contacto actualizada con éxito!');
+            setUser(response.data.user); // Update user in context
+            setTimeout(() => {
+                onClose();
+            }, 2000);
 
-            if (response.ok) {
-                setSuccess('Información de contacto actualizada con éxito!');
-                setUser(data.user); // Update user in context
-                setTimeout(() => {
-                    onClose();
-                }, 2000);
-            } else {
-                throw new Error(data.detail || 'Error al actualizar la información.');
-            }
         } catch (err) {
-            setError(err.message);
+            const errorMessage = err.response?.data?.detail || 'Error al actualizar la información.';
+            setError(errorMessage);
         }
     };
 

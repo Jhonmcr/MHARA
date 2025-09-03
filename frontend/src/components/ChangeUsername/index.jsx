@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import apiClient from '../../api/axios';
 import './ChangeUsername.css';
 import { useAuth } from '../../context/AuthContext';
 
@@ -23,27 +24,17 @@ const ChangeUsername = ({ onClose }) => {
         setSuccess('');
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/users/${user._id}/username`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
+            const response = await apiClient.put(`/users/${user._id}/username`, formData);
 
-            const data = await response.json();
+            setSuccess('Nombre de usuario actualizado con éxito!');
+            setUser(response.data.user); // Update user in context
+            setTimeout(() => {
+                onClose();
+            }, 2000);
 
-            if (response.ok) {
-                setSuccess('Nombre de usuario actualizado con éxito!');
-                setUser(data.user); // Update user in context
-                setTimeout(() => {
-                    onClose();
-                }, 2000);
-            } else {
-                throw new Error(data.message || 'Error al actualizar el nombre de usuario');
-            }
         } catch (err) {
-            setError(err.message);
+            const errorMessage = err.response?.data?.message || 'Error al actualizar el nombre de usuario';
+            setError(errorMessage);
         }
     };
 
