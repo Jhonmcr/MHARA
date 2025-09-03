@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import apiClient from '../../api/axios';
 import './ChangeProfilePicture.css';
 import userIcon from '../../assets/icons/usuario.png';
 
@@ -30,22 +31,19 @@ const ChangeProfilePicture = ({ user, setUser }) => {
         formData.append('profileImage', file);
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/users/${user._id}/profile-picture`, {
-                method: 'POST',
-                body: formData,
-                // Note: Don't set 'Content-Type' header, browser does it for you with boundary
+            const response = await apiClient.post(`/users/${user._id}/profile-picture`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
             });
 
-            if (response.ok) {
-                const updatedUser = await response.json();
-                setUser(updatedUser); // Update user in context
-                alert('Foto de perfil actualizada con éxito!');
-            } else {
-                throw new Error('Error al subir la imagen');
-            }
+            setUser(prevUser => ({ ...prevUser, ...response.data }));
+            alert('Foto de perfil actualizada con éxito!');
+
         } catch (error) {
             console.error('Error uploading profile picture:', error);
-            alert(error.message);
+            const errorMessage = error.response?.data?.detail || 'Error al subir la imagen';
+            alert(errorMessage);
         }
     };
 
