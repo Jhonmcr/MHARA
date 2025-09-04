@@ -41,7 +41,7 @@ services:
     rootDir: frontend
     plan: free
     buildCommand: "npm install && npm run build"
-    staticPublishPath: dist # El directorio de salida de Vite
+    staticPublishPath: frontend/dist # El directorio de salida de Vite
     routes:
       - type: rewrite
         source: "/*"
