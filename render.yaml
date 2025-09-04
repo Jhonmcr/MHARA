@@ -8,7 +8,7 @@ services:
   # ---------------- Backend Service (Python/FastAPI) ----------------
   - type: web
     name: inmo-backend
-    env: python
+    runtime: python
     rootDir: backend
     plan: free # Puedes cambiar a 'starter' si necesitas más potencia
     buildCommand: "pip install -r requirements.txt"
@@ -18,8 +18,9 @@ services:
         value: 3.11
       # La siguiente variable se inyecta automáticamente con la URL del frontend
       - key: FRONTEND_URL
-        fromStaticSite:
-          name: inmo-frontend # Apunta al sitio estático definido abajo
+        fromService:
+          type: web
+          name: inmo-frontend
           property: url
       # --- ¡IMPORTANTE! Añade los siguientes valores en el Dashboard de Render ---
       - key: MONGO_URI
@@ -33,16 +34,17 @@ services:
       - key: ADMIN_TOKEN
         sync: false
 
-# ---------------- Frontend Service (React/Vite Static Site) ----------------
-static_sites:
-  - name: inmo-frontend
-    env: node
+  # ---------------- Frontend Service (React/Vite Static Site) ----------------
+  - type: web
+    name: inmo-frontend
+    runtime: static
     rootDir: frontend
     plan: free
     buildCommand: "npm install && npm run build"
-    publishDir: dist # El directorio de salida de Vite
-    rewrites:
-      - source: "/*"
+    staticPublishPath: dist # El directorio de salida de Vite
+    routes:
+      - type: rewrite
+        source: "/*"
         destination: "/index.html"
     envVars:
       # La siguiente variable se inyecta automáticamente con la URL del backend
