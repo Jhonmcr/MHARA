@@ -10,6 +10,7 @@ from typing import List, Dict, Any, Optional
 from database import (
     connect_to_mongo,
     close_mongo_connection,
+    get_database,
     get_user,
     get_user_by_email,
     create_user,
@@ -143,7 +144,22 @@ def register_user(user: UserRegistration):
     if new_user is None:
         raise HTTPException(status_code=409, detail="El usuario no pudo ser creado.")
     
-    return {"message": "Usuario creado exitosamente.", "user_id": str(new_user.inserted_id)}
+    db = get_database()
+    debug_info = {}
+    if db and db.client:
+        # Obtener el primer nodo del clúster como una representación del host
+        host, port = db.client.nodes[0] if db.client.nodes else ("desconocido", "desconocido")
+        debug_info = {
+            "database_name": db.name,
+            "client_host": host,
+            "client_port": port
+        }
+
+    return {
+        "message": "Usuario creado exitosamente.", 
+        "user_id": str(new_user.inserted_id),
+        "debug_info": debug_info
+    }
 
 @auth_router.post("/login")
 def login_user(user_credentials: UserLogin):

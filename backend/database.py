@@ -1,6 +1,6 @@
 import os
 from pymongo import MongoClient
-from pymongo.errors import ConnectionFailure, ConfigurationError
+from pymongo.errors import ConnectionFailure
 from dotenv import load_dotenv
 from bson import ObjectId
 
@@ -34,19 +34,10 @@ def close_mongo_connection():
         print("Conexión a MongoDB cerrada.")
 
 def get_database():
-    """
-    Retorna la instancia de la base de datos especificada en MONGO_URI.
-    Espera que la URI contenga el nombre de la base de datos (ej. .../mi_base_de_datos).
-    """
+    """Retorna la instancia de la base de datos 'inmo-backend'."""
     if client:
-        try:
-            # Usa la base de datos por defecto de la URI, que es la práctica estándar.
-            return client.get_default_database()
-        except ConfigurationError:
-            # Esto ocurre si la URI no especifica una base de datos.
-            print("Error: La MONGO_URI no especifica un nombre de base de datos. "
-                  "Asegúrate de que la URI tenga el formato 'mongodb://.../nombre_db'.")
-            return None
+        # Apuntamos directamente a la base de datos que probablemente es la correcta.
+        return client.get_database("inmo-backend")
     return None
 
 def get_user(username: str):
