@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './FavoritePropertyCard.module.css';
 import { useHomePanel } from '../../../context/HomePanelContext';
 import { useNavigate } from 'react-router-dom';
+import apiClient from '../../../api/axios'; // Importar el cliente de API centralizado
 
 // Helper to parse "Key: Value" strings from customOptions
 const parseCustomOptions = (options) => {
@@ -45,18 +46,13 @@ const FavoritePropertyCard = ({ property, onClosePopup, onSelectProperty }) => {
         }
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/users/advisor/${property.agentCode}`);
-            if (response.ok) {
-                const advisorData = await response.json();
-                setPanelContent(advisorData);
-                onClosePopup(); // Close the favorites popup
-                navigate('/home'); // Navigate to home to see the panel
-            } else {
-                alert("No se pudo cargar la información del asesor. Por favor, intente más tarde.");
-                console.error("Failed to fetch advisor details. Status:", response.status);
-            }
+            // Se utiliza apiClient para una llamada de API consistente
+            const response = await apiClient.get(`/users/advisor/${property.agentCode}`);
+            setPanelContent(response.data); // Axios devuelve los datos en la propiedad 'data'
+            onClosePopup(); // Close the favorites popup
+            navigate('/home'); // Navigate to home to see the panel
         } catch (error) {
-            alert("Ocurrió un error al contactar al servidor. Por favor, verifique su conexión.");
+            alert("No se pudo cargar la información del asesor. Por favor, intente más tarde.");
             console.error("Error fetching advisor:", error);
         }
     };
