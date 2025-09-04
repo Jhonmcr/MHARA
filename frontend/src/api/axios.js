@@ -1,14 +1,14 @@
 import axios from 'axios';
 
-// Se crea una instancia de Axios con una configuración base.
-// La URL base para todas las peticiones se toma de las variables de entorno de Vite.
-// Esto es crucial para que la aplicación pueda apuntar a diferentes URLs
-// en desarrollo (localhost) y en producción (Render).
+// Determinar la URL base dependiendo del entorno.
+// import.meta.env.PROD es una variable especial de Vite que es `true` en el build de producción.
+// VITE_API_URL será nuestra variable de entorno para la URL del backend en producción.
+const baseURL = import.meta.env.PROD
+    ? import.meta.env.VITE_API_URL
+    : '/api'; // Para el proxy de desarrollo de Vite, solo necesitamos el prefijo.
+
 const apiClient = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || '/api/v1', // Fallback for local dev
-    headers: {
-        'Content-Type': 'application/json',
-    },
+    baseURL: baseURL,
 });
 
 export default apiClient;

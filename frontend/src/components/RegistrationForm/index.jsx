@@ -3,6 +3,7 @@ import InputWithIcon from '../InputWithIcon';
 import userIcon from '../../assets/icons/user_icon.png';
 import lockIcon from '../../assets/icons/lock_icon.png';
 import emailIcon from '../../assets/icons/email_icon.png';
+import apiClient from '../../api/axios'; // Importar el cliente de API centralizado
 import './RegistrationForm.css';
 
 const RegistrationForm = ({ onClose }) => {
@@ -11,14 +12,13 @@ const RegistrationForm = ({ onClose }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [token, setToken] = useState(''); // Estado para el token
+    const [token, setToken] = useState('');
     const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false); // Estado para la carga
 
     useEffect(() => {
         if (error) {
-            const timer = setTimeout(() => {
-                setError('');
-            }, 5000); // 5 segundos
+            const timer = setTimeout(() => setError(''), 5000);
             return () => clearTimeout(timer);
         }
     }, [error]);
@@ -27,7 +27,6 @@ const RegistrationForm = ({ onClose }) => {
         e.preventDefault();
         setError('');
 
-        // --- Lógica de Validación ---
         if (!fullName || !email || !username || !password || !confirmPassword) {
             setError('Por favor, completa todos los campos obligatorios.');
             return;
@@ -37,6 +36,8 @@ const RegistrationForm = ({ onClose }) => {
             setError('Las contraseñas no coinciden.');
             return;
         }
+
+        setIsLoading(true);
 
         try {
             const requestBody = {
@@ -49,27 +50,31 @@ const RegistrationForm = ({ onClose }) => {
                 requestBody.token = token;
             }
 
-            const response = await fetch('/api/v1/auth/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(requestBody),
-            });
+            // Usar el cliente de API centralizado
+            const response = await apiClient.post('/v1/auth/register', requestBody);
 
-            if (response.ok) {
-                // El registro fue exitoso
-                alert('¡Registro exitoso! Ahora puedes iniciar sesión.');
-                onClose(); // Cierra el formulario para mostrar el de login
+            // El registro fue exitoso
+            alert('¡Registro exitoso! Ahora puedes iniciar sesión.');
+            console.log('Respuesta de registro:', response.data); // Log para depuración
+            onClose(); // Cierra el formulario para mostrar el de login
+
+        } catch (err) {
+            // Manejo de errores de Axios
+            if (err.response) {
+                // El servidor respondió con un código de estado fuera del rango 2xx
+                setError(err.response.data.detail || 'Ocurrió un error durante el registro.');
+                console.error('Error de datos de registro:', err.response.data);
+            } else if (err.request) {
+                // La solicitud se hizo pero no se recibió respuesta
+                setError('No se pudo conectar con el servidor. Inténtalo de nuevo más tarde.');
+                console.error('Error de red o solicitud:', err.request);
             } else {
-                // El servidor devolvió un error
-                const errorData = await response.json();
-                setError(errorData.detail || 'Ocurrió un error durante el registro.');
+                // Algo más causó el error
+                setError('Ocurrió un error inesperado.');
+                console.error('Error inesperado:', err.message);
             }
-        } catch (error) {
-            // Error de red o algo impidió la comunicación con la API
-            setError('No se pudo conectar con el servidor. Inténtalo de nuevo más tarde.');
-            console.error('Error de registro:', error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -123,7 +128,9 @@ const RegistrationForm = ({ onClose }) => {
                 
                 {error && <p className="error-message" style={{ color: '#d9534f', fontSize: '0.9em', marginTop: '10px' }}>{error}</p>}
 
-                <button type="submit" className="register-button">Crear Cuenta</button> 
+                <button type="submit" className="register-button" disabled={isLoading}>
+                    {isLoading ? 'Creando cuenta...' : 'Crear Cuenta'}
+                </button> 
             </form>
 
             <a href="#" className="create-account-link" onClick={onClose}>
