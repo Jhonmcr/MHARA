@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import './AdvisorProfile.css';
 import HeaderElements from '../../components/HeaderElements';
 import AdvisorContactForm from '../../components/AdvisorContactForm';
+import apiClient from '../../api/axios'; // Importar el cliente de API centralizado
 
 const AdvisorProfile = () => {
     const { id } = useParams();
@@ -12,12 +13,9 @@ const AdvisorProfile = () => {
     useEffect(() => {
         const fetchAdvisor = async () => {
             try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/users/advisors/${id}`);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                setAdvisor(data);
+                // Se utiliza apiClient y el endpoint correcto
+                const response = await apiClient.get(`/users/advisor/${id}`);
+                setAdvisor(response.data);
             } catch (error) {
                 console.error("Error fetching advisor:", error);
             }

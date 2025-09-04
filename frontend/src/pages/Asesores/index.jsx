@@ -5,6 +5,7 @@ import AdvisorsCard from '../../components/AdvisorsCard';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import userIcon from '../../assets/icons/usuario.png'; // Importar el ícono
 import { useAuth } from '../../context/AuthContext';
+import apiClient from '../../api/axios'; // Importar el cliente de API centralizado
 
 const Asesores = () => {
     const [advisors, setAdvisors] = useState([]);
@@ -16,12 +17,9 @@ const Asesores = () => {
         const fetchAdvisors = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/v1/users/advisors`);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                setAdvisors(data);
+                // Se utiliza el apiClient para una llamada de API consistente
+                const response = await apiClient.get('/users/advisors');
+                setAdvisors(response.data); // Axios devuelve los datos en la propiedad 'data'
             } catch (error) {
                 console.error("Error fetching advisors:", error);
                 setAdvisors([]); // Asegurarse de que advisors esté vacío en caso de error

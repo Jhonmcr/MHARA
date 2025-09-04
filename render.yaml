@@ -42,6 +42,10 @@ services:
     plan: free
     buildCommand: "npm install && npm run build"
     staticPublishPath: frontend/dist # El directorio de salida de Vite
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: "no-store, no-cache, must-revalidate, proxy-revalidate"
     routes:
       - type: rewrite
         source: "/*"
