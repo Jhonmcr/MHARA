@@ -34,10 +34,13 @@ def close_mongo_connection():
         print("Conexión a MongoDB cerrada.")
 
 def get_database():
-    """Retorna la instancia de la base de datos 'inmo-backend'."""
+    """
+    Retorna la instancia de la base de datos predeterminada del cliente.
+    El nombre de la base de datos debe estar especificado en el MONGO_URI.
+    """
     if client:
-        # Apuntamos directamente a la base de datos que probablemente es la correcta.
-        return client.get_database("inmo-backend")
+        # Devuelve la base de datos por defecto del URI de conexión.
+        return client.get_database()
     return None
 
 def get_user(username: str):
