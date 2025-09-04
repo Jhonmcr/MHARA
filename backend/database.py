@@ -8,6 +8,7 @@ from bson import ObjectId
 load_dotenv()
 
 MONGO_URI = os.getenv("MONGO_URI")
+DB_NAME = os.getenv("DB_NAME")
 client: MongoClient | None = None
 
 def connect_to_mongo():
@@ -35,12 +36,14 @@ def close_mongo_connection():
 
 def get_database():
     """
-    Retorna la instancia de la base de datos predeterminada del cliente.
-    El nombre de la base de datos debe estar especificado en el MONGO_URI.
+    Retorna la instancia de la base de datos especificada en la variable de entorno DB_NAME.
     """
+    if not DB_NAME:
+        raise ValueError("La variable de entorno DB_NAME no está configurada. Este es un error fatal.")
+    
     if client:
-        # Devuelve la base de datos por defecto del URI de conexión.
-        return client.get_database()
+        return client.get_database(DB_NAME)
+    
     return None
 
 def get_user(username: str):
