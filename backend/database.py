@@ -1,6 +1,6 @@
 import os
 from pymongo import MongoClient
-from pymongo.errors import ConnectionFailure
+from pymongo.errors import ConnectionFailure, ConfigurationError
 from dotenv import load_dotenv
 from bson import ObjectId
 
@@ -34,9 +34,19 @@ def close_mongo_connection():
         print("Conexión a MongoDB cerrada.")
 
 def get_database():
-    """Retorna la instancia de la base de datos."""
+    """
+    Retorna la instancia de la base de datos especificada en MONGO_URI.
+    Espera que la URI contenga el nombre de la base de datos (ej. .../mi_base_de_datos).
+    """
     if client:
-        return client.get_database("Cluster0")
+        try:
+            # Usa la base de datos por defecto de la URI, que es la práctica estándar.
+            return client.get_default_database()
+        except ConfigurationError:
+            # Esto ocurre si la URI no especifica una base de datos.
+            print("Error: La MONGO_URI no especifica un nombre de base de datos. "
+                  "Asegúrate de que la URI tenga el formato 'mongodb://.../nombre_db'.")
+            return None
     return None
 
 def get_user(username: str):
@@ -61,14 +71,30 @@ def get_user_by_agent_code(agent_code: str):
     return None
 
 def create_user(user_data: dict):
-    """Crea un nuevo usuario en la base de datos."""
+    """
+    Crea un nuevo usuario en la base de datos.
+    Devuelve el resultado de la inserción si es exitoso, de lo contrario None.
+    """
     db = get_database()
-    if db is not None:
-        existing_user = get_user(user_data["username"])
-        if existing_user:
+    if db is None:
+        return None
+    
+    try:
+        # La validación de existencia de usuario ya se hace en el endpoint,
+        # por lo que se puede eliminar de esta función para evitar redundancia.
+        result = db.users.insert_one(user_data)
+        
+        # Un resultado exitoso de PyMongo tendrá un `inserted_id`.
+        # Si la operación no fue reconocida (`acknowledged`), consideramos que falló.
+        if result.acknowledged:
+            return result
+        else:
+            print("Fallo en la inserción del usuario: la operación no fue reconocida por la base de datos.")
             return None
-        return db.users.insert_one(user_data)
-    return None
+    except Exception as e:
+        # Capturar cualquier excepción durante la inserción (ej. problemas de conexión).
+        print(f"Error al crear usuario en la base de datos: {e}")
+        return None
 
 def get_properties():
     """Recupera todas las propiedades de la colección 'properties'."""
