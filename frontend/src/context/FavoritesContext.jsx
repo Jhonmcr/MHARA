@@ -12,9 +12,21 @@ export const FavoritesProvider = ({ children }) => {
     const fetchAllProperties = React.useCallback(() => {
         apiClient.get('/properties/')
             .then(res => {
-                if (res.data) setAllProperties(res.data);
+                // Ensure we are setting an array. The API might return { properties: [...] } or just [...]
+                if (res.data && Array.isArray(res.data.properties)) {
+                    setAllProperties(res.data.properties);
+                } else if (Array.isArray(res.data)) {
+                    setAllProperties(res.data);
+                } else {
+                    // If the response is not in a known format, log an error and default to an empty array
+                    console.error("Unexpected format for all properties:", res.data);
+                    setAllProperties([]);
+                }
             })
-            .catch(err => console.error("Error fetching all properties:", err));
+            .catch(err => {
+                console.error("Error fetching all properties:", err);
+                setAllProperties([]); // Also default to empty array on fetch error
+            });
     }, []);
 
     // Fetch all properties once on component mount
@@ -53,7 +65,9 @@ export const FavoritesProvider = ({ children }) => {
     };
 
     // Derive the full favorite property objects
-    const favoriteProperties = allProperties.filter(property => favorites.includes(property.id));
+    const favoriteProperties = Array.isArray(allProperties)
+        ? allProperties.filter(property => favorites.includes(property.id))
+        : [];
 
     const value = {
         favorites,

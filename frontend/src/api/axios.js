@@ -5,7 +5,7 @@ import axios from 'axios';
 // Esto es crucial para que la aplicación pueda apuntar a diferentes URLs
 // en desarrollo (localhost) y en producción (Render).
 const apiClient = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
+    baseURL: import.meta.env.VITE_API_URL || '/api/v1', // Fallback for local dev
     headers: {
         'Content-Type': 'application/json',
     },
