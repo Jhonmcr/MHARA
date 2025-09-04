@@ -135,7 +135,7 @@ def register_user(user: UserRegistration):
             raise HTTPException(status_code=400, detail="Token incorrecto.")
 
     hashed_pass = hash_password(user.password)
-    user_data = user.dict(exclude={"token"})
+    user_data = user.model_dump(exclude={"token"})
     user_data["password"] = hashed_pass
     user_data["role"] = role
     user_data["agentCode"] = generate_agent_code()
@@ -143,22 +143,10 @@ def register_user(user: UserRegistration):
     new_user = create_user(user_data)
     if new_user is None:
         raise HTTPException(status_code=409, detail="El usuario no pudo ser creado.")
-    
-    db = get_database()
-    debug_info = {}
-    if db and db.client:
-        # Obtener el primer nodo del clúster como una representación del host
-        host, port = db.client.nodes[0] if db.client.nodes else ("desconocido", "desconocido")
-        debug_info = {
-            "database_name": db.name,
-            "client_host": host,
-            "client_port": port
-        }
 
     return {
         "message": "Usuario creado exitosamente.", 
-        "user_id": str(new_user.inserted_id),
-        "debug_info": debug_info
+        "user_id": str(new_user.inserted_id)
     }
 
 @auth_router.post("/login")
@@ -365,7 +353,7 @@ def change_password(user_id: str, payload: PasswordUpdate):
 
 @users_router.put("/{user_id}/contact-info", status_code=status.HTTP_200_OK)
 def update_contact_info(user_id: str, payload: ContactInfoUpdate):
-    contact_data = payload.dict(exclude_unset=True)
+    contact_data = payload.model_dump(exclude_unset=True)
     if not contact_data:
         raise HTTPException(status_code=400, detail="No se proporcionó información para actualizar.")
 
