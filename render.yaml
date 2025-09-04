@@ -41,6 +41,9 @@ static_sites:
     plan: free
     buildCommand: "npm install && npm run build"
     publishDir: dist # El directorio de salida de Vite
+    rewrites:
+      - source: "/*"
+        destination: "/index.html"
     envVars:
       # La siguiente variable se inyecta automáticamente con la URL del backend
       - key: VITE_API_URL
