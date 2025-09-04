@@ -50,8 +50,8 @@ const RegistrationForm = ({ onClose }) => {
                 requestBody.token = token;
             }
 
-            // Usar el cliente de API centralizado
-            const response = await apiClient.post('/v1/auth/register', requestBody);
+            // Usar el cliente de API centralizado. La URL es ahora relativa a la base /api/v1
+            const response = await apiClient.post('/auth/register', requestBody);
 
             // El registro fue exitoso
             alert('¡Registro exitoso! Ahora puedes iniciar sesión.');
