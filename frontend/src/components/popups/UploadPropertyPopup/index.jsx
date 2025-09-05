@@ -3,8 +3,23 @@ import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import apiClient from '../../../api/axios'; // Importar
 import { useAuth } from '../../../context/AuthContext';
 import { useFavorites } from '../../../context/FavoritesContext';
+import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './UploadPropertyPopup.css';
+
+// --- Solución para el problema del icono del marcador por defecto con React-Leaflet y Vite ---
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl: markerIcon2x,
+    iconUrl: markerIcon,
+    shadowUrl: markerShadow,
+});
+// --- Fin de la solución ---
 
 // Componente para el popup de añadir opción
 const AddOptionPopup = ({ onAdd, onClose, existingOptions }) => {
