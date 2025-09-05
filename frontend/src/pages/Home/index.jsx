@@ -7,13 +7,14 @@ import UploadPropertyPopup from '../../components/popups/UploadPropertyPopup';
 import EditPropertySelectionPopup from '../../components/popups/EditPropertySelectionPopup';
 import logo from '../../assets/icons/Logo.png';
 import './home.css';
-import { Link, useLocation, useOutletContext } from 'react-router-dom';
+import { Link, useLocation, useOutletContext, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useHomePanel } from '../../context/HomePanelContext'; // Import the new hook
 
 const Home = () => {
     const { user, setUser } = useAuth();
     const { panelContent, setPanelContent } = useHomePanel(); // Use the new context
+    const navigate = useNavigate();
     const [isUploadPopupOpen, setUploadPopupOpen] = useState(false);
     const [isEditSelectionPopupOpen, setEditSelectionPopupOpen] = useState(false);
     const [propertyToEdit, setPropertyToEdit] = useState(null);
@@ -79,6 +80,10 @@ const Home = () => {
         }
     };
 
+    const handleFavoritesClick = () => {
+        navigate('/catalogo', { state: { showFavorites: true } });
+    };
+
     const renderPanelContent = () => {
         if (typeof panelContent === 'object' && panelContent !== null) {
             return <ContactPanel contactData={panelContent} />;
@@ -133,6 +138,9 @@ const Home = () => {
                     <Link to="/catalogo">
                         <GlassmorphismButton text="Catalogo" />
                     </Link>
+                    <div onClick={handleFavoritesClick} style={{ cursor: 'pointer' }}>
+                        <GlassmorphismButton text="Favoritos" />
+                    </div>
                     <Link to="/nosotros">
                         <GlassmorphismButton text="Nosotros" />
                     </Link>

@@ -204,7 +204,7 @@ async def add_property(
     lng: float = Form(...),
     detailedAddress: str = Form(...),
     shortAddress: str = Form(...),
-    customOptions: List[str] = Form(...)
+    customOptions: Optional[List[str]] = Form([])
 ):
     photo_urls = []
     for photo in photos:
