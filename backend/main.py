@@ -41,10 +41,18 @@ from pymongo.errors import ConnectionFailure
 # Cargar variables de entorno
 load_dotenv()
 
-ADMIN_TOKEN = os.getenv("ADMIN_TOKEN")
-if not ADMIN_TOKEN:
-    # This will stop the app from starting if the token is not configured.
-    raise EnvironmentError("La variable de entorno ADMIN_TOKEN no está configurada.")
+# --- Verificación de Variables de Entorno Críticas ---
+# Comprobamos que todas las variables necesarias estén presentes al inicio.
+# Esto previene que la aplicación se inicie en un estado inválido.
+required_env_vars = ["MONGO_URI", "DB_NAME", "ADMIN_TOKEN", "AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY", "S3_BUCKET_NAME"]
+missing_vars = [var for var in required_env_vars if not os.getenv(var)]
+
+if missing_vars:
+    error_message = f"Error Crítico: Faltan las siguientes variables de entorno requeridas: {', '.join(missing_vars)}. La aplicación no puede iniciar. Por favor, configúrelas en su panel de Render."
+    # En un entorno de producción, es mejor lanzar una excepción para detener el inicio.
+    # El log de Render debería capturar este mensaje.
+    raise EnvironmentError(error_message)
+
 
 app = FastAPI()
 
