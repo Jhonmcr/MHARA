@@ -55,8 +55,9 @@ frontend_url = os.getenv("FRONTEND_URL")
 # Lista de orígenes permitidos
 origins = [
     "http://localhost:5173",  # Origen para desarrollo local
+    "https://inmo-frontend.onrender.com", # Origen para el frontend desplegado
 ]
-if frontend_url:
+if frontend_url and frontend_url not in origins:
     origins.append(frontend_url)
 
 app.add_middleware(
