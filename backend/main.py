@@ -57,8 +57,13 @@ origins = [
     "http://localhost:5173",  # Origen para desarrollo local
     "https://inmo-frontend.onrender.com", # Origen para el frontend desplegado
 ]
-if frontend_url and frontend_url not in origins:
-    origins.append(frontend_url)
+
+# Si la variable de entorno FRONTEND_URL está configurada, la procesamos
+if frontend_url:
+    # Nos aseguramos de que no haya una barra al final para evitar problemas de matching
+    cleaned_url = frontend_url.rstrip('/')
+    if cleaned_url not in origins:
+        origins.append(cleaned_url)
 
 app.add_middleware(
     CORSMiddleware,
