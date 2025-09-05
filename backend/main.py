@@ -1,42 +1,33 @@
-import os
-import uuid
-import random
-import string
-from fastapi import FastAPI, APIRouter, HTTPException, status, File, UploadFile, Form
+import logging
+from fastapi import FastAPI, Request, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, EmailStr
-from dotenv import load_dotenv
-from typing import List, Dict, Any, Optional
-from database import (
-    connect_to_mongo,
-    close_mongo_connection,
-    get_database,
-    get_user,
-    get_user_by_email,
-    create_user,
-    get_properties,
-    get_advisors,
-    create_property,
-    update_user_to_advisor,
-    add_favorite,
-    remove_favorite,
-    get_user_favorites,
-    get_property_by_id,
-    update_property,
-    delete_property_by_id,
-    get_user_by_id,
-    update_username,
-    update_password,
-    update_user_contact_info,
-    update_user_profile_image,
-    search_users_by_username,
-    get_user_by_agent_code,
-    update_user_role,
-    get_advisor_by_code,
-)
-from auth import hash_password, verify_password
-from s3_utils import upload_file_to_s3, delete_file_from_s3, S3_BUCKET_NAME, AWS_REGION
-from pymongo.errors import ConnectionFailure
+
+# Configurar logging básico para capturar errores de arranque
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+try:
+    # --- INTENTO DE ARRANQUE DE LA APLICACIÓN REAL ---
+    import os
+    import uuid
+    import random
+    import string
+    from fastapi import APIRouter, HTTPException, status, File, UploadFile, Form
+    from pydantic import BaseModel, EmailStr
+    from dotenv import load_dotenv
+    from typing import List, Dict, Any, Optional
+    from pymongo.errors import ConnectionFailure
+
+    from database import (
+        connect_to_mongo, close_mongo_connection, get_database, get_user, get_user_by_email,
+        create_user, get_properties, get_advisors, create_property, update_user_to_advisor,
+        add_favorite, remove_favorite, get_user_favorites, get_property_by_id, update_property,
+        delete_property_by_id, get_user_by_id, update_username, update_password,
+        update_user_contact_info, update_user_profile_image, search_users_by_username,
+        get_user_by_agent_code, update_user_role, get_advisor_by_code
+    )
+    from auth import hash_password, verify_password
+    from s3_utils import upload_file_to_s3, delete_file_from_s3, S3_BUCKET_NAME, AWS_REGION
 
 # Cargar variables de entorno
 load_dotenv()
@@ -455,7 +446,37 @@ def get_favorites_list(username: str):
     return {"favorites": favorites}
 
 
-# Incluir routers en la aplicación principal
-app.include_router(auth_router, prefix="/api/v1/auth", tags=["auth"])
-app.include_router(properties_router, prefix="/api/v1/properties", tags=["properties"])
-app.include_router(users_router, prefix="/api/v1/users", tags=["users"])
+    # Incluir routers en la aplicación principal
+    app.include_router(auth_router, prefix="/api/v1/auth", tags=["auth"])
+    app.include_router(properties_router, prefix="/api/v1/properties", tags=["properties"])
+    app.include_router(users_router, prefix="/api/v1/users", tags=["users"])
+
+except Exception as e:
+    # --- SI EL ARRANQUE FALLA, SE CREA UNA APP DE EMERGENCIA ---
+    error_message = f"FATAL: La aplicación no pudo iniciarse. Error: {e}"
+    logger.critical(error_message, exc_info=True)
+    
+    app = FastAPI()
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+    @app.api_route("/{path:path}", methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"])
+    async def catch_all_startup_error(request: Request, path: str):
+        return JSONResponse(
+            status_code=503,
+            content={
+                "status": "error",
+                "message": "Error Crítico de Configuración del Servidor",
+                "detail": (
+                    f"La aplicación no pudo iniciarse debido a un error fatal: {str(e)}. "
+                    "Esto suele deberse a variables de entorno faltantes o incorrectas (p.ej., MONGO_URI, claves de AWS). "
+                    "Por favor, revise los logs del servidor para ver el traceback completo del error."
+                )
+            }
+        )
