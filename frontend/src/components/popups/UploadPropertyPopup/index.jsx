@@ -180,24 +180,10 @@ const UploadPropertyPopup = ({ onClose, onPublish, propertyToEdit }) => {
     };
 
     const handleSubmit = async () => {
-        // --- Validación Detallada ---
-        if (!user?.agentCode) {
-            alert('Error: No se pudo encontrar su código de agente. Por favor, asegúrese de haber iniciado sesión correctamente.');
+        if (!propertyData.price || !user?.agentCode || !propertyData.detailedAddress || propertyData.photos.length === 0) {
+            alert('Por favor, complete todos los campos obligatorios y suba al menos una foto. Asegúrese de que su código de agente esté disponible.');
             return;
         }
-        if (propertyData.photos.length === 0) {
-            alert('Por favor, suba al menos una foto de la propiedad.');
-            return;
-        }
-        if (!propertyData.price || propertyData.price <= 0) {
-            alert('Por favor, introduzca un precio válido.');
-            return;
-        }
-        if (!propertyData.detailedAddress.trim()) {
-            alert('Por favor, introduzca una dirección detallada.');
-            return;
-        }
-        // --- Fin de la Validación ---
 
         const formData = new FormData();
         formData.append('price', parseFloat(propertyData.price));
