@@ -53,6 +53,8 @@ if missing_vars:
     # El log de Render debería capturar este mensaje.
     raise EnvironmentError(error_message)
 
+# Definir constantes globales desde variables de entorno después de la verificación
+ADMIN_TOKEN = os.getenv("ADMIN_TOKEN")
 
 app = FastAPI()
 
