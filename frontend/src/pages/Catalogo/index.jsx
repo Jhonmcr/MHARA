@@ -94,7 +94,7 @@ const Catalogo = () => {
         } else {
             setSelectedProperty(null);
         }
-    }, [properties, searchTerm, filters, selectedProperty?.id, location.state, favorites]);
+    }, [properties, searchTerm, filters, selectedProperty?.id]);
 
 
     const handleSelectProperty = (property) => {
