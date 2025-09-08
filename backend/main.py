@@ -41,10 +41,20 @@ from pymongo.errors import ConnectionFailure
 # Cargar variables de entorno
 load_dotenv()
 
+# --- Verificación de Variables de Entorno Críticas ---
+# Comprobamos que todas las variables necesarias estén presentes al inicio.
+# Esto previene que la aplicación se inicie en un estado inválido.
+required_env_vars = ["MONGO_URI", "DB_NAME", "ADMIN_TOKEN", "AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY", "S3_BUCKET_NAME"]
+missing_vars = [var for var in required_env_vars if not os.getenv(var)]
+
+if missing_vars:
+    error_message = f"Error Crítico: Faltan las siguientes variables de entorno requeridas: {', '.join(missing_vars)}. La aplicación no puede iniciar. Por favor, configúrelas en su panel de Render."
+    # En un entorno de producción, es mejor lanzar una excepción para detener el inicio.
+    # El log de Render debería capturar este mensaje.
+    raise EnvironmentError(error_message)
+
+# Definir constantes globales desde variables de entorno después de la verificación
 ADMIN_TOKEN = os.getenv("ADMIN_TOKEN")
-if not ADMIN_TOKEN:
-    # This will stop the app from starting if the token is not configured.
-    raise EnvironmentError("La variable de entorno ADMIN_TOKEN no está configurada.")
 
 app = FastAPI()
 
@@ -57,8 +67,13 @@ origins = [
     "http://localhost:5173",  # Origen para desarrollo local
     "https://inmo-frontend.onrender.com", # Origen para el frontend desplegado
 ]
-if frontend_url and frontend_url not in origins:
-    origins.append(frontend_url)
+
+# Si la variable de entorno FRONTEND_URL está configurada, la procesamos
+if frontend_url:
+    # Nos aseguramos de que no haya una barra al final para evitar problemas de matching
+    cleaned_url = frontend_url.rstrip('/')
+    if cleaned_url not in origins:
+        origins.append(cleaned_url)
 
 app.add_middleware(
     CORSMiddleware,
@@ -189,7 +204,7 @@ async def add_property(
     lng: float = Form(...),
     detailedAddress: str = Form(...),
     shortAddress: str = Form(...),
-    customOptions: List[str] = Form(...)
+    customOptions: Optional[List[str]] = Form([])
 ):
     photo_urls = []
     for photo in photos:

@@ -25,6 +25,8 @@ services:
       # --- ¡IMPORTANTE! Añade los siguientes valores en el Dashboard de Render ---
       - key: MONGO_URI
         sync: false
+      - key: DB_NAME # Añadido para asegurar que la app no se caiga
+        sync: false
       - key: AWS_ACCESS_KEY_ID
         sync: false
       - key: AWS_SECRET_ACCESS_KEY

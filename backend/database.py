@@ -8,7 +8,7 @@ from bson import ObjectId
 load_dotenv()
 
 MONGO_URI = os.getenv("MONGO_URI")
-DB_NAME = os.getenv("DB_NAME")
+DB_NAME = os.getenv("DB_NAME", "MHARA") # Default to "MHARA"
 client: MongoClient | None = None
 
 def connect_to_mongo():
