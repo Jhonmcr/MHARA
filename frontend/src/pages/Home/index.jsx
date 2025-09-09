@@ -37,7 +37,12 @@ const Home = () => {
         if (location.state?.scrollTo === 'contact') {
             setPanelContent(companyContact);
         }
-    }, [location, setPanelContent]);
+
+        // Cleanup function to reset panel when leaving Home page
+        return () => {
+            setPanelContent('default');
+        };
+    }, [location.state, setPanelContent]);
 
     const handleContactClick = () => {
         setPanelContent(companyContact);
