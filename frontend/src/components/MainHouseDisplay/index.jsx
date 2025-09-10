@@ -16,7 +16,7 @@ const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite }) => {
         setContactPopupOpen(false); // Close popup when property changes
 
         if (property && property.agentCode) {
-            apiClient.get(`/users/by-code/${property.agentCode}`)
+            apiClient.get(`/users/advisor/${property.agentCode}`)
                 .then(res => setAdvisor(res.data))
                 .catch(err => console.error("Error fetching advisor for MainHouseDisplay:", err));
         }
@@ -100,7 +100,6 @@ const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite }) => {
                     <button
                         onClick={() => onFavoriteToggle(property.id)}
                         className={`${styles.favoriteButton} ${isFavorite ? styles.isFavorite : ''}`}
-                        title="Agregar a la lista de favoritos"
                     >
                         <img src={iconShoping} alt="Favorite" />
                     </button>
