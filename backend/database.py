@@ -12,19 +12,26 @@ DB_NAME = os.getenv("DB_NAME", "MHARA") # Default to "MHARA"
 client: MongoClient | None = None
 
 def connect_to_mongo():
-    """Establece la conexión con MongoDB."""
+    """
+    Establece la conexión con MongoDB durante el arranque.
+    No lanza excepciones para permitir que la aplicación se inicie incluso si la base de datos no está disponible.
+    """
     global client
     if not MONGO_URI:
-        raise EnvironmentError("La variable de entorno MONGO_URI no está configurada.")
+        print("CRITICAL STARTUP ERROR: The MONGO_URI environment variable is not set.")
+        client = None
+        return
     
     try:
+        print("Attempting to connect to MongoDB at startup...")
         client = MongoClient(MONGO_URI, serverSelectionTimeoutMS=5000)
+        # `ismaster` es un comando ligero para verificar la conexión.
         client.admin.command('ismaster')
-        print("Conexión a MongoDB exitosa.")
-    except ConnectionFailure as e:
-        print(f"Error en la conexión a MongoDB: {e}")
+        print("Successfully connected to MongoDB.")
+    except Exception as e:
+        print(f"CRITICAL STARTUP ERROR: Initial database connection failed: {e}")
+        print("The application will start in a degraded state. Database-dependent routes will fail.")
         client = None
-        raise e
 
 def close_mongo_connection():
     """Cierra la conexión a MongoDB."""
