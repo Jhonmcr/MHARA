@@ -1,49 +1,79 @@
-import React from 'react';
-import './AdvisorContactPopup.css';
-import { FaWhatsapp, FaEnvelope, FaInstagram } from 'react-icons/fa';
+import React, { useState } from 'react';
+import apiClient from '../../api/axios';
+import './AdvisorContactForm.css';
+import { useAuth } from '../../context/AuthContext';
 
-const AdvisorContactPopup = ({ advisor, onClose }) => {
-    const hasContactInfo = advisor.contactInfo?.phone || advisor.contactInfo?.email || advisor.contactInfo?.instagram;
+const AdvisorContactForm = ({ onClose }) => {
+    const { user, setUser } = useAuth();
+    const [formData, setFormData] = useState({
+        phone: user?.contactInfo?.phone || '',
+        email: user?.contactInfo?.email || '',
+        instagram: user?.contactInfo?.instagram || '',
+    });
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
+        setSuccess('');
+
+        if (!user?._id) {
+            setError("No se pudo identificar al usuario.");
+            return;
+        }
+
+        try {
+            const response = await apiClient.put(`/users/${user._id}/contact-info`, formData);
+
+            setSuccess('Información de contacto actualizada con éxito!');
+            setUser(response.data.user); // Update user in context
+            setTimeout(() => {
+                onClose();
+            }, 2000);
+
+        } catch (err) {
+            const errorMessage = err.response?.data?.detail || 'Error al actualizar la información.';
+            setError(errorMessage);
+        }
+    };
 
     return (
-        <div className="advisor-contact-popup-overlay" onClick={onClose}>
-            <div className="advisor-contact-popup-content" onClick={(e) => e.stopPropagation()}>
-                <div className="advisor-contact-popup-header">
-                    <h2>Contacto del Asesor</h2>
+        <div className="advisor-contact-form-overlay">
+            <div className="advisor-contact-form-content">
+                <div className="advisor-contact-form-header">
+                    <h2>Información de Contacto</h2>
                     <button onClick={onClose} className="close-button">&times;</button>
                 </div>
-                <div className="advisor-contact-popup-body">
-                    <div className="advisor-info">
-                        <img src={advisor.profileImageUrl || `https://i.pravatar.cc/150?u=${advisor._id}`} alt={advisor.fullName} className="advisor-image" />
-                        <h3>{advisor.fullName}</h3>
+                <form onSubmit={handleSubmit} className="advisor-contact-form">
+                    {error && <p className="error-message">{error}</p>}
+                    {success && <p className="success-message">{success}</p>}
+                    
+                    <div className="form-group-social">
+                        <img src="https://www.gstatic.com/images/icons/material/system/2x/phone_black_24dp.png" alt="Phone" className="social-icon" />
+                        <input type="text" id="phone" name="phone" placeholder="Número de Teléfono" value={formData.phone} onChange={handleChange} />
                     </div>
-                    <div className="contact-details">
-                        {advisor.contactInfo?.phone && (
-                            <a href={`https://wa.me/${advisor.contactInfo.phone}`} target="_blank" rel="noopener noreferrer">
-                                <FaWhatsapp className="contact-icon" />
-                                <span>{advisor.contactInfo.phone}</span>
-                            </a>
-                        )}
-                        {advisor.contactInfo?.email && (
-                            <a href={`mailto:${advisor.contactInfo.email}`}>
-                                <FaEnvelope className="contact-icon" />
-                                <span>{advisor.contactInfo.email}</span>
-                            </a>
-                        )}
-                        {advisor.contactInfo?.instagram && (
-                            <a href={`https://www.instagram.com/${advisor.contactInfo.instagram}`} target="_blank" rel="noopener noreferrer">
-                                <FaInstagram className="contact-icon" />
-                                <span>{advisor.contactInfo.instagram}</span>
-                            </a>
-                        )}
-                        {!hasContactInfo && (
-                            <p>No hay información de contacto disponible.</p>
-                        )}
+                    <div className="form-group-social">
+                        <img src="https://www.gstatic.com/images/icons/material/system/2x/email_black_24dp.png" alt="Email" className="social-icon" />
+                        <input type="email" id="email" name="email" placeholder="Correo Electrónico" value={formData.email} onChange={handleChange} />
                     </div>
-                </div>
+                    <div className="form-group-social">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" className="social-icon" />
+                        <input type="text" id="instagram" name="instagram" placeholder="Usuario de Instagram (sin @)" value={formData.instagram} onChange={handleChange} />
+                    </div>
+
+                    <div className="form-actions">
+                        <button type="submit" className="submit-button">Guardar</button>
+                    </div>
+                </form>
             </div>
         </div>
     );
 };
 
-export default AdvisorContactPopup;
+export default AdvisorContactForm;

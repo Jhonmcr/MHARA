@@ -124,7 +124,6 @@ class ContactInfoUpdate(BaseModel):
     phone: Optional[str] = None
     email: Optional[EmailStr] = None
     instagram: Optional[str] = None
-    tiktok: Optional[str] = None
 
 class RoleUpdate(BaseModel):
     role: str
