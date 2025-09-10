@@ -197,7 +197,15 @@ def generate_property_code(length=4):
 
 @properties_router.get("/")
 def list_properties():
-    return get_properties()
+    try:
+        properties = get_properties()
+        return properties
+    except Exception as e:
+        print(f"Error crítico en el endpoint list_properties: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=f"No se pudieron obtener las propiedades. El servicio puede no estar disponible o hay un problema con la base de datos. Error: {e}"
+        )
 
 @properties_router.post("/", status_code=status.HTTP_201_CREATED)
 async def add_property(
