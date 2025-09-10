@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './AdvisorCard.module.css';
-import { FaPhone, FaEnvelope, FaInstagram, FaTiktok } from 'react-icons/fa';
+import { FaPhone, FaEnvelope, FaInstagram } from 'react-icons/fa';
 
 const AdvisorCard = ({ advisor }) => {
     const { fullName, profileImageUrl, testimonial, contactInfo } = advisor;
@@ -26,11 +26,6 @@ const AdvisorCard = ({ advisor }) => {
                 {contactInfo?.instagram && (
                     <a href={`https://instagram.com/${contactInfo.instagram}`} target="_blank" rel="noopener noreferrer" className={styles.contactLink}>
                         <FaInstagram /> <span>@{contactInfo.instagram}</span>
-                    </a>
-                )}
-                {contactInfo?.tiktok && (
-                    <a href={`https://tiktok.com/@${contactInfo.tiktok}`} target="_blank" rel="noopener noreferrer" className={styles.contactLink}>
-                        <FaTiktok /> <span>@{contactInfo.tiktok}</span>
                     </a>
                 )}
             </div>

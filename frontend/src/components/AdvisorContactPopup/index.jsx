@@ -1,9 +1,9 @@
 import React from 'react';
 import './AdvisorContactPopup.css';
-import { FaWhatsapp, FaEnvelope, FaInstagram, FaTiktok } from 'react-icons/fa';
+import { FaWhatsapp, FaEnvelope, FaInstagram } from 'react-icons/fa';
 
 const AdvisorContactPopup = ({ advisor, onClose }) => {
-    const hasContactInfo = advisor.contactInfo?.phone || advisor.contactInfo?.email || advisor.contactInfo?.instagram || advisor.contactInfo?.tiktok;
+    const hasContactInfo = advisor.contactInfo?.phone || advisor.contactInfo?.email || advisor.contactInfo?.instagram;
 
     return (
         <div className="advisor-contact-popup-overlay" onClick={onClose}>
@@ -34,12 +34,6 @@ const AdvisorContactPopup = ({ advisor, onClose }) => {
                             <a href={`https://www.instagram.com/${advisor.contactInfo.instagram}`} target="_blank" rel="noopener noreferrer">
                                 <FaInstagram className="contact-icon" />
                                 <span>{advisor.contactInfo.instagram}</span>
-                            </a>
-                        )}
-                        {advisor.contactInfo?.tiktok && (
-                            <a href={`https://www.tiktok.com/@${advisor.contactInfo.tiktok}`} target="_blank" rel="noopener noreferrer">
-                                <FaTiktok className="contact-icon" />
-                                <span>@{advisor.contactInfo.tiktok}</span>
                             </a>
                         )}
                         {!hasContactInfo && (

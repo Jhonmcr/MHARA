@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './ContactPanel.module.css';
-import { FaPhone, FaEnvelope, FaInstagram, FaTiktok } from 'react-icons/fa';
+import { FaPhone, FaEnvelope, FaInstagram } from 'react-icons/fa';
 
 // This is now a simple presentational component
 const ContactPanel = ({ contactData }) => {
@@ -30,11 +30,6 @@ const ContactPanel = ({ contactData }) => {
                 {contactInfo?.instagram && (
                     <a href={`https://instagram.com/${contactInfo.instagram}`} target="_blank" rel="noopener noreferrer" className={styles.contactItem}>
                         <FaInstagram /> <span>@{contactInfo.instagram}</span>
-                    </a>
-                )}
-                {contactInfo?.tiktok && (
-                    <a href={`https://tiktok.com/@${contactInfo.tiktok}`} target="_blank" rel="noopener noreferrer" className={styles.contactItem}>
-                        <FaTiktok /> <span>@{contactInfo.tiktok}</span>
                     </a>
                 )}
             </div>
