@@ -94,14 +94,36 @@ def create_user(user_data: dict):
         return None
 
 def get_properties():
-    """Recupera todas las propiedades de la colección 'properties'."""
+    """Recupera todas las propiedades y les adjunta la información del asesor."""
     db = get_database()
     if db is not None:
-        properties = []
-        for prop in db.properties.find():
-            prop['id'] = str(prop['_id'])
-            del prop['_id']
-            properties.append(prop)
+        pipeline = [
+            {
+                '$addFields': {
+                    'id': { '$toString': '$_id' }
+                }
+            },
+            {
+                '$lookup': {
+                    'from': 'users', 
+                    'localField': 'agentCode', 
+                    'foreignField': 'agentCode', 
+                    'as': 'agentDetails'
+                }
+            }, 
+            {
+                '$unwind': {
+                    'path': '$agentDetails', 
+                    'preserveNullAndEmptyArrays': True
+                }
+            },
+            {
+                '$project': {
+                    '_id': 0  # Excluir el campo _id original
+                }
+            }
+        ]
+        properties = list(db.properties.aggregate(pipeline))
         return properties
     return None
 

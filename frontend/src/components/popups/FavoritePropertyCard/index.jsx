@@ -2,8 +2,6 @@ import React from 'react';
 import styles from './FavoritePropertyCard.module.css';
 import { useHomePanel } from '../../../context/HomePanelContext';
 import { useNavigate } from 'react-router-dom';
-import apiClient from '../../../api/axios'; // Importar el cliente de API centralizado
-
 // Helper to parse "Key: Value" strings from customOptions
 const parseCustomOptions = (options) => {
     const details = {
@@ -36,24 +34,16 @@ const FavoritePropertyCard = ({ property, onClosePopup, onSelectProperty }) => {
     const { setPanelContent } = useHomePanel();
     const navigate = useNavigate();
 
-    const handleContactClick = async (e) => {
+    const handleContactClick = (e) => {
         e.stopPropagation(); // Prevent card click from triggering
 
-        if (!property.agentCode) {
-            alert("No se encontró información de contacto para esta propiedad.");
-            console.error("This property has no agent code.");
-            return;
-        }
-
-        try {
-            // Se utiliza apiClient para una llamada de API consistente
-            const response = await apiClient.get(`/users/advisor/${property.agentCode}`);
-            setPanelContent(response.data); // Axios devuelve los datos en la propiedad 'data'
+        if (property.agentDetails) {
+            setPanelContent(property.agentDetails);
             onClosePopup(); // Close the favorites popup
             navigate('/home'); // Navigate to home to see the panel
-        } catch (error) {
-            alert("No se pudo cargar la información del asesor. Por favor, intente más tarde.");
-            console.error("Error fetching advisor:", error);
+        } else {
+            alert("No se encontró información de contacto para esta propiedad.");
+            console.error("This property has no agent details.");
         }
     };
 
