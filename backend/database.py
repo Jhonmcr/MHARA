@@ -130,7 +130,8 @@ def get_properties():
                 }
             }
         ]
-        properties = list(db.properties.aggregate(pipeline))
+        # Añadimos un timeout de 10 segundos a la consulta para evitar que se cuelgue indefinidamente
+        properties = list(db.properties.aggregate(pipeline, maxTimeMS=10000))
         return properties
     return None
 
