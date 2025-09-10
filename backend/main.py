@@ -59,28 +59,22 @@ ADMIN_TOKEN = os.getenv("ADMIN_TOKEN")
 app = FastAPI()
 
 # --- Configuración de CORS ---
-# Cargar la URL del frontend desde las variables de entorno
-frontend_url = os.getenv("FRONTEND_URL")
-
-# Lista de orígenes permitidos
-origins = [
-    "http://localhost:5173",  # Origen para desarrollo local
-    "https://inmo-frontend.onrender.com", # Origen para el frontend desplegado
-]
-
-# Si la variable de entorno FRONTEND_URL está configurada, la procesamos
-if frontend_url:
-    # Nos aseguramos de que no haya una barra al final para evitar problemas de matching
-    cleaned_url = frontend_url.rstrip('/')
-    if cleaned_url not in origins:
-        origins.append(cleaned_url)
+# Permitir todos los orígenes para depuración.
+# En un entorno de producción, es crucial restringir esto a dominios específicos.
+# Por ejemplo:
+# origins = [
+#     "http://localhost:5173",
+#     "https://inmo-frontend.onrender.com",
+#     os.getenv("FRONTEND_URL", "").rstrip('/')
+# ]
+# origins = [origin for origin in origins if origin] # Filtrar vacíos
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"], # Permitir todos los orígenes
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"], # Permitir todos los métodos
+    allow_headers=["*"], # Permitir todos los encabezados
 )
 
 # --- Eventos de la aplicación ---
