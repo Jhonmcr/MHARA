@@ -18,7 +18,7 @@ def connect_to_mongo():
         raise EnvironmentError("La variable de entorno MONGO_URI no está configurada.")
     
     try:
-        client = MongoClient(MONGO_URI)
+        client = MongoClient(MONGO_URI, serverSelectionTimeoutMS=5000)
         client.admin.command('ismaster')
         print("Conexión a MongoDB exitosa.")
     except ConnectionFailure as e:
