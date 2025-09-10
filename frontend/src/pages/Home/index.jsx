@@ -27,9 +27,9 @@ const Home = () => {
         profileImageUrl: logo,
         contactInfo: {
             instagram: "MharaEstate",
-            phone: "+1234567890",
-            email: "info@mharaestate.com",
-            tiktok: "mharaestate" 
+            phone: "+58 4242921532",
+            email: "mharaestatehome@gmail.com",
+            instagram: "https://www.instagram.com/mharaestatehome/#" 
         }
     };
 
