@@ -92,6 +92,12 @@ async def startup_db_client():
 async def shutdown_db_client():
     close_mongo_connection()
 
+# --- Endpoint de Verificación ---
+@app.get("/api/v1/version", tags=["version"])
+def get_version():
+    """Devuelve la versión actual del despliegue para verificación."""
+    return {"version": "1.1-cors-fix", "description": "This version includes a wildcard CORS configuration."}
+
 # --- Routers ---
 auth_router = APIRouter()
 properties_router = APIRouter()
