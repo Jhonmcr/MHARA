@@ -77,7 +77,7 @@ if frontend_url:
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -86,7 +86,27 @@ app.add_middleware(
 # --- Eventos de la aplicación ---
 @app.on_event("startup")
 async def startup_db_client():
-    connect_to_mongo()
+    """
+    Intenta conectarse a la base de datos al iniciar la aplicación.
+    Si la conexión falla, se registra el error y se detiene el inicio.
+    """
+    try:
+        print("Iniciando la conexión a la base de datos...")
+        connect_to_mongo()
+        print("Conexión a la base de datos establecida exitosamente.")
+    except ConnectionFailure as e:
+        # Este es el punto crítico. Si la conexión a la base de datos falla,
+        # la aplicación no puede funcionar. Registramos un error muy claro
+        # que será visible en los logs de Render.
+        error_message = (
+            "FATAL: No se pudo conectar a la base de datos MongoDB. "
+            "La aplicación no puede iniciar. "
+            f"Error original: {e}"
+        )
+        print(error_message)
+        # Es importante relanzar la excepción para que el servidor de Render
+        # sepa que el despliegue ha fallado.
+        raise
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
@@ -160,6 +180,7 @@ def register_user(user: UserRegistration):
     user_data["password"] = hashed_pass
     user_data["role"] = role
     user_data["agentCode"] = generate_agent_code()
+    user_data["profileImageUrl"] = "https://mhara.s3.us-east-2.amazonaws.com/user_logo/user_icon.png"  # Asignar imagen por defecto
     
     new_user = create_user(user_data)
     if new_user is None:

@@ -5,9 +5,9 @@
     background-color: #f0f2f5;
     color: #333;
     font-family: 'Poppins', sans-serif;
-    width: 207vh;
-    height: 100vh;
-    overflow: hidden;
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
 /* Estilos del Buscador */
@@ -27,11 +27,27 @@
 
 /* Estilos del contenido principal */
 .catalogo-body {
-    max-width: 196.5vh;
-    height: 82vh;
     display: flex;
-    gap: 30px;
-    padding: 30px 40px;
+    flex-direction: column; /* Mobile-first */
+    gap: 1.5rem;
+    padding: 1rem;
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+    .catalogo-container {
+        width: 207vh;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .catalogo-body {
+        flex-direction: row;
+        max-width: 196.5vh;
+        height: 82vh;
+        gap: 30px;
+        padding: 30px 40px;
+    }
 }
 
 .main-house-display {

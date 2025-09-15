@@ -21,14 +21,13 @@ body {
 }
 
 .main-content {
-    width: 90%;
-    max-height: 1000rem;
+    width: 100%;
     display: flex;
-    justify-content: center;
+    flex-direction: column; /* Mobile-first: stacked column */
     align-items: center;
-    justify-content: space-evenly;
-    padding: 0 25px;
-    margin-bottom: 5rem;
+    gap: 2rem;
+    padding: 1rem;
+    margin-bottom: 2rem;
 }
 
 .glassmorphism-panel {
@@ -41,8 +40,10 @@ body {
 }
 
 .main-logo-panel {
-    width: 38rem;
-    height: 60vh;
+    width: 90%; /* Full width on mobile */
+    max-width: 500px;
+    height: auto;
+    min-height: 40vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -51,7 +52,7 @@ body {
 
 .logo-text-large {
     text-align: center;
-    font-size: 2.5em;
+    font-size: 2em; /* Slightly smaller for mobile */
     font-weight: bold;
     line-height: 1.2;
 }
@@ -66,12 +67,44 @@ body {
 .main-buttons-panel {
     display: flex;
     flex-direction: column;
-    gap: 25px;
-    width: 30%;
-    max-width: 300px;
+    gap: 20px;
+    width: 90%;
+    max-width: 500px;
 }
 
 .logoHome {
-    width: 45rem;
+    width: 90%; /* Responsive width */
+    max-width: 400px;
     height: auto;
+}
+
+/* --- Desktop Styles --- */
+@media (min-width: 768px) {
+    .main-content {
+        flex-direction: row; /* Side-by-side on desktop */
+        justify-content: space-evenly;
+        align-items: center;
+        padding: 0 25px;
+        margin-bottom: 5rem;
+        width: 90%;
+    }
+
+    .main-logo-panel {
+        width: 38rem;
+        height: 60vh;
+    }
+
+    .main-buttons-panel {
+        width: 30%;
+        max-width: 300px;
+        gap: 25px;
+    }
+
+    .logo-text-large {
+        font-size: 2.5em;
+    }
+
+    .logoHome {
+        width: 45rem;
+    }
 }

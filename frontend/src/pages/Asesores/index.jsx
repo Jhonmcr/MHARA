@@ -10,19 +10,19 @@ import apiClient from '../../api/axios'; // Importar el cliente de API centraliz
 const Asesores = () => {
     const [advisors, setAdvisors] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [loading, setLoading] = useState(true); // Estado para la carga
+    const [loading, setLoading] = useState(true);
     const { refetchTrigger } = useAuth();
+    const [isMobileView, setIsMobileView] = useState(window.innerWidth < 768);
 
     useEffect(() => {
         const fetchAdvisors = async () => {
             setLoading(true);
             try {
-                // Se utiliza el apiClient para una llamada de API consistente
                 const response = await apiClient.get('/users/advisors');
-                setAdvisors(response.data); // Axios devuelve los datos en la propiedad 'data'
+                setAdvisors(response.data);
             } catch (error) {
                 console.error("Error fetching advisors:", error);
-                setAdvisors([]); // Asegurarse de que advisors esté vacío en caso de error
+                setAdvisors([]);
             } finally {
                 setLoading(false);
             }
@@ -30,6 +30,14 @@ const Asesores = () => {
 
         fetchAdvisors();
     }, [refetchTrigger]);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobileView(window.innerWidth < 768);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const nextAdvisor = () => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % advisors.length);
@@ -45,7 +53,6 @@ const Asesores = () => {
         }
 
         if (advisors.length === 0) {
-            // Mostrar 3 tarjetas de marcador de posición
             return Array.from({ length: 3 }).map((_, index) => (
                 <AdvisorsCard
                     key={`placeholder-${index}`}
@@ -57,6 +64,12 @@ const Asesores = () => {
                         contactInfo: {}
                     }}
                 />
+            ));
+        }
+
+        if (isMobileView) {
+            return advisors.map((advisor) => (
+                <AdvisorsCard key={advisor._id} advisor={advisor} />
             ));
         }
         
@@ -85,7 +98,7 @@ const Asesores = () => {
             <main className="asesores-content">
                 <h1 data-testid="asesores-heading">Nuestros Asesores</h1>
                 <div className="slider-container">
-                    {advisors.length > 3 && (
+                    {!isMobileView && advisors.length > 3 && (
                         <button onClick={prevAdvisor} className="slider-button prev-button">
                             <FaArrowLeft />
                         </button>
@@ -93,7 +106,7 @@ const Asesores = () => {
                     <div className='ContentAdvisorCard'>
                         {renderSliderContent()}
                     </div>
-                    {advisors.length > 3 && (
+                    {!isMobileView && advisors.length > 3 && (
                         <button onClick={nextAdvisor} className="slider-button next-button">
                             <FaArrowRight />
                         </button>
