@@ -141,7 +141,7 @@ const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, on
                 <img src={iconShoping} alt="Icon Shoping" className='iconShoping'/>
             </span>
             <span onClick={toggleProfileMenu} style={{ cursor: 'pointer' }}>
-                <img src={user?.profileImageUrl || iconUser} alt="Icon User" className='iconUser'/>
+                <img src={iconUser} alt="Icon User" className='iconUser'/>
             </span>
             {isProfileMenuOpen && (
                 <ProfileDropdownMenu

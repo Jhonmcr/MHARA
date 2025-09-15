@@ -5,7 +5,7 @@ import { FaPhone, FaEnvelope, FaInstagram } from 'react-icons/fa';
 const AdvisorCard = ({ advisor }) => {
     const { fullName, profileImageUrl, testimonial, contactInfo } = advisor;
 
-    const image = profileImageUrl || `https://i.pravatar.cc/150?u=${advisor._id}`;
+    const image = profileImageUrl || 'https://mhara.s3.us-east-2.amazonaws.com/user_logo/user_icon.png';
 
     return (
         <div className={styles.card}>
