@@ -132,9 +132,7 @@ def get_properties():
             },
             {
                 '$project': {
-                    '_id': 0,  # Excluir el campo _id original de la propiedad
-                    'agentDetails._id': 0, # Excluir el ObjectId del agente anidado
-                    'agentDetails.password': 0 # Excluir el password del agente por seguridad
+                    '_id': 0  # Excluir el campo _id original
                 }
             }
         ]
