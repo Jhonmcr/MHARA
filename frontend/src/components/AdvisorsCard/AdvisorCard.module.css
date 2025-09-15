@@ -21,7 +21,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-top: -20px; /* Mueve la imagen para que se superponga al borde de la tarjeta */
     position: relative;
-    background-color: #333;
+    background-color: #f1f1f1;
     background-repeat: no-repeat;
     background-size: 140px; /* Ajusta el tamaño del icono a 70px */
     background-position: center; /* Centra el icono */
