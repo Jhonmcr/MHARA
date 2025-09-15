@@ -180,6 +180,7 @@ def register_user(user: UserRegistration):
     user_data["password"] = hashed_pass
     user_data["role"] = role
     user_data["agentCode"] = generate_agent_code()
+    user_data["profileImageUrl"] = "https://mhara.s3.us-east-2.amazonaws.com/user_logo/user_icon.png"  # Asignar imagen por defecto
     
     new_user = create_user(user_data)
     if new_user is None:
