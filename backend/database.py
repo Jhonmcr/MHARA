@@ -118,21 +118,23 @@ def get_properties():
             },
             {
                 '$lookup': {
-                    'from': 'users', 
-                    'localField': 'agentCode', 
-                    'foreignField': 'agentCode', 
+                    'from': 'users',
+                    'localField': 'agentCode',
+                    'foreignField': 'agentCode',
                     'as': 'agentDetails'
                 }
-            }, 
+            },
             {
                 '$unwind': {
-                    'path': '$agentDetails', 
+                    'path': '$agentDetails',
                     'preserveNullAndEmptyArrays': True
                 }
             },
             {
                 '$project': {
-                    '_id': 0  # Excluir el campo _id original
+                    '_id': 0,  # Excluir el campo _id original para usar 'id'
+                    'agentDetails._id': 0,  # Excluir el _id anidado del agente
+                    'agentDetails.password': 0  # Excluir el hash de la contraseña por seguridad
                 }
             }
         ]
