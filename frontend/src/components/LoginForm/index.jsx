@@ -79,6 +79,7 @@ const LoginForm = ({ onShowRegistration }) => {
                     icon={userIcon}
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
+                    autoComplete="username"
                 />
                 <InputWithIcon
                     type="password"
@@ -86,6 +87,7 @@ const LoginForm = ({ onShowRegistration }) => {
                     icon={lockIcon}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    autoComplete="current-password"
                 />
 
                 {error && <p className="error-message">{error}</p>}

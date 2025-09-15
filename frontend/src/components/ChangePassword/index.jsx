@@ -64,6 +64,7 @@ const ChangePassword = ({ onClose }) => {
                             value={formData.currentPassword}
                             onChange={handleChange}
                             required
+                            autoComplete="current-password"
                         />
                     </div>
                     <div className="form-group">
@@ -75,6 +76,7 @@ const ChangePassword = ({ onClose }) => {
                             value={formData.newPassword}
                             onChange={handleChange}
                             required
+                            autoComplete="new-password"
                         />
                     </div>
                     <div className="form-group">
@@ -86,6 +88,7 @@ const ChangePassword = ({ onClose }) => {
                             value={formData.confirmNewPassword}
                             onChange={handleChange}
                             required
+                            autoComplete="new-password"
                         />
                     </div>
                     <div className="form-actions">

@@ -89,6 +89,7 @@ const RegistrationForm = ({ onClose }) => {
                     icon={userIcon}
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
+                    autoComplete="name"
                 />
                 <InputWithIcon 
                     type="email" 
@@ -96,6 +97,7 @@ const RegistrationForm = ({ onClose }) => {
                     icon={emailIcon}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    autoComplete="email"
                 />
                 <InputWithIcon 
                     type="text" 
@@ -103,6 +105,7 @@ const RegistrationForm = ({ onClose }) => {
                     icon={userIcon}
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
+                    autoComplete="username"
                 />
                 <InputWithIcon 
                     type="password" 
@@ -110,6 +113,7 @@ const RegistrationForm = ({ onClose }) => {
                     icon={lockIcon}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
+                    autoComplete="new-password"
                 />
                 <InputWithIcon 
                     type="password" 
@@ -117,6 +121,7 @@ const RegistrationForm = ({ onClose }) => {
                     icon={lockIcon}
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
+                    autoComplete="new-password"
                 />
                 <InputWithIcon 
                     type="password" 
@@ -124,6 +129,7 @@ const RegistrationForm = ({ onClose }) => {
                     icon={lockIcon}
                     value={token}
                     onChange={(e) => setToken(e.target.value)}
+                    autoComplete="one-time-code"
                 />
                 
                 {error && <p className="error-message" style={{ color: '#d9534f', fontSize: '0.9em', marginTop: '10px' }}>{error}</p>}
