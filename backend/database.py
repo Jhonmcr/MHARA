@@ -14,13 +14,12 @@ client: MongoClient | None = None
 def connect_to_mongo():
     """
     Establece la conexión con MongoDB durante el arranque.
-    No lanza excepciones para permitir que la aplicación se inicie incluso si la base de datos no está disponible.
+    Si la conexión falla, lanza una excepción para detener el inicio de la aplicación.
     """
     global client
     if not MONGO_URI:
-        print("CRITICAL STARTUP ERROR: The MONGO_URI environment variable is not set.")
-        client = None
-        return
+        # Este es un error de configuración irrecuperable.
+        raise ValueError("CRITICAL STARTUP ERROR: The MONGO_URI environment variable is not set.")
     
     try:
         print("Attempting to connect to MongoDB at startup...")
@@ -29,9 +28,11 @@ def connect_to_mongo():
         client.admin.command('ismaster')
         print("Successfully connected to MongoDB.")
     except Exception as e:
-        print(f"CRITICAL STARTUP ERROR: Initial database connection failed: {e}")
-        print("The application will start in a degraded state. Database-dependent routes will fail.")
         client = None
+        print(f"CRITICAL STARTUP ERROR: Initial database connection failed: {e}")
+        # Relanzar la excepción para que el proceso de arranque de FastAPI falle.
+        # Esto hace que el error sea obvio en los logs de Render.
+        raise ConnectionFailure(f"Could not connect to MongoDB. Please check the MONGO_URI environment variable. Original error: {e}") from e
 
 def close_mongo_connection():
     """Cierra la conexión a MongoDB."""
@@ -43,15 +44,18 @@ def close_mongo_connection():
 
 def get_database():
     """
-    Retorna la instancia de la base de datos especificada en la variable de entorno DB_NAME.
+    Retorna la instancia de la base de datos.
+    Lanza una excepción si el cliente no está conectado.
     """
+    if not client:
+        # Si no hay cliente, es porque la conexión inicial falló.
+        # Lanzar un error aquí previene fallos silenciosos en los endpoints.
+        raise ConnectionFailure("Database client is not available. The initial connection likely failed.")
+    
     if not DB_NAME:
         raise ValueError("La variable de entorno DB_NAME no está configurada. Este es un error fatal.")
     
-    if client:
-        return client.get_database(DB_NAME)
-    
-    return None
+    return client.get_database(DB_NAME)
 
 def get_user(username: str):
     """Busca un usuario por su nombre de usuario en la base de datos."""
@@ -102,8 +106,10 @@ def create_user(user_data: dict):
 
 def get_properties():
     """Recupera todas las propiedades y les adjunta la información del asesor."""
-    db = get_database()
-    if db is not None:
+    try:
+        db = get_database()
+        # Si get_database() tiene éxito, db no será None.
+        # La función ahora lanzará una excepción si no hay conexión.
         pipeline = [
             {
                 '$addFields': {
@@ -133,7 +139,10 @@ def get_properties():
         # Añadimos un timeout de 10 segundos a la consulta para evitar que se cuelgue indefinidamente
         properties = list(db.properties.aggregate(pipeline, maxTimeMS=10000))
         return properties
-    return None
+    except Exception as e:
+        # Si la consulta de agregación falla por alguna razón, registrar y devolver una lista vacía.
+        print(f"Error during properties aggregation: {e}")
+        return []
 
 # Adding this function back from the previous task
 def get_advisors():
