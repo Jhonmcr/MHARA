@@ -2,7 +2,7 @@
  * MOBILE-FIRST:
  * Estilos para pantallas a partir de 393px.
  */
-@media (min-width: 393px) {
+@media (min-width: 350px) {
     .header-glassmorphism {
         width: 35vh;
         height: auto;
