@@ -1,66 +1,104 @@
 body {
-  margin: 0;
-  font-family: sans-serif;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    margin: 0;
+    font-family: sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .App {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-size: cover;
-  background-position: center;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    overflow-x: hidden;
 }
 
 .main-title {
-  position: absolute;
-  top: 50px;
-  left: 150px;
-  color: #1a1a1aa8;
-  font-size: 2.5em;
+    position: absolute;
+    top: 50px;
+    left: 150px;
+    color: #1a1a1aa8;
+    font-size: 2.5em;
 }
 
 .form-container {
-  position: relative;
-  /* La altura se ajustará al contenido, pero definimos un ancho fijo y perspectiva */
-  width: 350px;
-  min-height: 550px; /* Altura mínima para acomodar el formulario de registro */
-  perspective: 1000px;
+    position: relative;
+    /* La altura se ajustará al contenido, pero definimos un ancho fijo y perspectiva */
+    width: 350px;
+    min-height: 550px; /* Altura mínima para acomodar el formulario de registro */
+    perspective: 1000px;
+    top: 2.5rem;
 }
 
 .form-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.6s ease-in-out, opacity 0.5s ease-in-out;
-  backface-visibility: hidden; /* Evita parpadeos en la animación */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s ease-in-out, opacity 0.5s ease-in-out;
+    backface-visibility: hidden; /* Evita parpadeos en la animación */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .form-wrapper.active {
-  transform: translateX(0);
-  opacity: 1;
-  z-index: 2;
+    transform: translateX(0);
+    opacity: 1;
+    z-index: 2;
 }
 
 .form-wrapper.inactive-left {
-  transform: translateX(-100%);
-  opacity: 0;
-  z-index: 1;
+    transform: translateX(-100%);
+    opacity: 0;
+    z-index: 1;
 }
 
 .form-wrapper.inactive-right {
-  transform: translateX(100%);
-  opacity: 0;
-  z-index: 1;
+    transform: translateX(100%);
+    opacity: 0;
+    z-index: 1;
+}
+
+/*
+ * MOBILE-FIRST:
+ * Estilos para pantallas a partir de 393px.
+ */
+@media (min-width: 393px) {
+    .App {
+        justify-content: start;
+        top: 1rem;
+    }
+    .main-title {
+        position: relative;
+        top: 20px;
+        left: 10px;
+        color: #1a1a1aa8;
+        font-size: 2em;
+    }
+}
+
+/*
+ * Estilos para pantallas a partir de 768px.
+ * Estos estilos restauran la apariencia original del título.
+ */
+@media (min-width: 768px) {
+    .App {
+        justify-content: center;
+        top: 0;
+    }
+    .main-title {
+        position: absolute;
+        top: 50px;
+        left: 150px;
+        color: #1a1a1aa8;
+        font-size: 2.5em;
+    }
 }

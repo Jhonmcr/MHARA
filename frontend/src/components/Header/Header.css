@@ -1,109 +1,223 @@
-.header-glassmorphism {
-    width: 85%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 40px;
-    margin: 20px;
-    background: rgba(255, 255, 255, 0.459);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    position: relative;
-    z-index: 100;
+/*
+ * MOBILE-FIRST:
+ * Estilos para pantallas a partir de 393px.
+ */
+@media (min-width: 393px) {
+    .header-glassmorphism {
+        width: 35vh;
+        height: auto;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 40px;
+        margin: 0;
+        background: rgba(255, 255, 255, 0.459);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        position: absolute;
+        z-index: 100;
+    }
+    .navbar {
+        flex: 1;
+    }
+    .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 30px;
+        padding: 0;
+        margin: 0;
+    }
+    .nav-links a {
+        text-decoration: none;
+        color: #444;
+        font-weight: 600;
+        font-size: 0.9em;
+        transition: color 0.3s ease;
+        }
+    .nav-links a:hover {
+        color: #000;
+    }
+    .header-logo {
+        display: none;
+    }
+    .logo-text {
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+    .header-icons {
+        position: fixed;
+        display: flex;
+        justify-content: space-evenly;
+        padding: auto;
+        top: -3.5rem;
+        right: 0;
+        width: 70%;
+        gap: 20px;
+        font-size: 1.5em;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.459);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        position: absolute;
+        z-index: 100;
+    }
+    .header-icons span {
+        display: flex;
+        align-items: center;
+    }
+    .header-icons .icon {
+        color: black;
+    }
+    .logo-small {
+        width: 6rem;
+    }
+    .iconShoping {
+        width: 2.2rem;
+        
+    }
+    .iconUser {
+        width: 1.8rem;
+        height: 2rem;
+    }
+    .agent-code-display {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(0, 0, 0, 0.308);
+        border-radius: 15px;
+        padding: 5px 10px;
+        margin: 0 10px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+    }
+    .agent-code-text {
+        color: #fff;
+        font-weight: bold;
+        font-size: 1rem;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    }
 }
 
-.navbar {
-    flex: 1;
-}
-
-.nav-links {
-    list-style: none;
-    display: flex;
-    gap: 30px;
-    padding: 0;
-    margin: 0;
-}
-
-.nav-links a {
-    text-decoration: none;
-    color: #444;
-    font-weight: 600;
-    font-size: 1.1em;
-    transition: color 0.3s ease;
+@media (min-width: 1159px) {
+    .header-glassmorphism {
+        width: 85%;
+        height: auto;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        align-items: center;
+        padding: 10px 40px;
+        margin: 30px;
+        background: rgba(255, 255, 255, 0.459);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        position: relative;
+        z-index: 100;
     }
 
-.nav-links a:hover {
-    color: #000;
-}
+    .navbar {
+        flex: 1;
+    }
 
-.header-logo {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 12vh;
-    height: 12vh;
-    border-radius: 50%;
-    padding: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.87);
-    backdrop-filter: blur(10px);
-}
+    .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 30px;
+        padding: 0;
+        margin: 0;
+    }
 
-.logo-text {
-    font-size: 1.2em;
-    font-weight: bold;
-}
+    .nav-links a {
+        text-decoration: none;
+        color: #444;
+        font-weight: 600;
+        font-size: 1.1em;
+        transition: color 0.3s ease;
+        }
 
-.header-icons {
-    display: flex;
-    gap: 20px;
-    font-size: 1.5em;
-    cursor: pointer;
-}
+    .nav-links a:hover {
+        color: #000;
+    }
 
-.header-icons span {
-    display: flex;
-    align-items: center;
-}
+    .header-logo {
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 12vh;
+        height: 12vh;
+        border-radius: 50%;
+        padding: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.87);
+        backdrop-filter: blur(10px);
+    }
 
-.header-icons .icon {
-    color: black;
-}
+    .logo-text {
+        font-size: 1.2em;
+        font-weight: bold;
+    }
 
-.logo-small {
-    width: 6rem;
-}
+    .header-icons {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        font-size: 1.5em;
+        cursor: pointer;
+    }
 
-.iconShoping {
-    width: 2.2rem;
-}
+    .header-icons span {
+        display: flex;
+        align-items: center;
+    }
 
-.iconUser {
-    width: 1.8rem;
-    height: 2rem;
-}
+    .header-icons .icon {
+        color: black;
+    }
 
-.agent-code-display {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.308);
-    border-radius: 15px;
-    padding: 5px 10px;
-    margin: 0 10px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-}
+    .logo-small {
+        width: 6rem;
+    }
 
-.agent-code-text {
-    color: #fff;
-    font-weight: bold;
-    font-size: 1rem;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    .iconShoping {
+        width: 2.2rem;
+    }
+
+    .iconUser {
+        width: 1.8rem;
+        height: 2rem;
+    }
+
+    .agent-code-display {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(0, 0, 0, 0.308);
+        border-radius: 15px;
+        padding: 5px 10px;
+        margin: 0 10px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+    }
+
+    .agent-code-text {
+        color: #fff;
+        font-weight: bold;
+        font-size: 1rem;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    }
 }

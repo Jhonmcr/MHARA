@@ -1,12 +1,28 @@
-.sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    background-color: #2a2a2a;
-    padding: 10px;
-    border-radius: 10px;
-    color: white;
-    overflow-y: auto;
-    width: 60vh;
-    max-height: 80vh; /* Adjust as needed */
-}
+@media (min-width: 397px) {
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        background-color: #2a2a2a;
+        padding: 10px;
+        border-radius: 10px;
+        color: white;
+        overflow-y: auto;
+        height: 190vh; /* Adjust as needed */
+    }
+}  
+
+@media (min-width: 1159px) {
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        background-color: #2a2a2a;
+        padding: 10px;
+        border-radius: 10px;
+        color: white;
+        overflow-y: auto;
+        width: 60vh;
+        max-height: 80vh; /* Adjust as needed */
+    }
+}  

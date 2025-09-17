@@ -1,149 +1,308 @@
-/* Estilos del contenedor principal */
-.catalogo-container {
-    display: flex;
-    flex-direction: column;
-    background-color: #f0f2f5;
-    color: #333;
-    font-family: 'Poppins', sans-serif;
-    width: 207vh;
-    height: 100vh;
-    overflow: hidden;
+@media (min-width: 397px) {
+    /* Estilos del contenedor principal */
+    body {
+        background-color: red;
+        margin: 0;
+        padding: 0;
+    }
+
+    .catalogo-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #f0f2f5;
+        color: #333;
+        font-family: 'Poppins', sans-serif;
+        height: 100vh;
+    }
+
+    /* Estilos del Buscador */
+    .search-input {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 8px 12px;
+    }
+
+    .search-button {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 8px 12px;
+        cursor: pointer;
+    }
+
+    /* Estilos del contenido principal */
+    .catalogo-body {    
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        padding: 10px 10px;
+        width: 45vh;
+    }
+
+    .main-house-display {
+        flex: 2;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .house-image-wrapper {
+        position: relative;
+        width: 100%;
+        height: 400px;
+        background-color: #eee;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .house-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .code-tag {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background-color: rgba(0,0,0,0.5);
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 0.9rem;
+    }
+
+    .house-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .details-text h3 {
+        margin: 0;
+        font-size: 1.2rem;
+    }
+
+    .details-text p {
+        margin: 5px 0;
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .price {
+        font-weight: bold;
+        color: #000;
+    }
+
+    .details-contact {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .contact-icon {
+        background-color: #f0f0f0;
+        border-radius: 50%;
+        padding: 10px;
+    }
+
+    .contact-button {
+        background-color: #ffd700;
+        color: #000;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .sidebar {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .sidebar-item {
+        display: flex;
+        align-items: center;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+    .sidebar-image {
+        width: 100px;
+        height: 80px;
+        object-fit: cover;
+    }
+
+    .sidebar-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 15px;
+        flex-grow: 1;
+    }
+
+    .sidebar-info p {
+        margin: 2px 0;
+    }
 }
 
-/* Estilos del Buscador */
-.search-input {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 8px 12px;
-}
+@media (min-width: 1159px) {
+        /* Estilos del contenedor principal */
+    .catalogo-container {
+        display: flex;
+        flex-direction: column;
+        background-color: #f0f2f5;
+        color: #333;
+        font-family: 'Poppins', sans-serif;
+        width: 207vh;
+        height: 100vh;
+        overflow: hidden;
+    }
 
-.search-button {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 8px 12px;
-    cursor: pointer;
-}
+    /* Estilos del Buscador */
+    .search-input {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 8px 12px;
+    }
 
-/* Estilos del contenido principal */
-.catalogo-body {
-    max-width: 196.5vh;
-    height: 82vh;
-    display: flex;
-    gap: 30px;
-    padding: 30px 40px;
-}
+    .search-button {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 8px 12px;
+        cursor: pointer;
+    }
 
-.main-house-display {
-    flex: 2;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
+    /* Estilos del contenido principal */
+    .catalogo-body {
+        max-width: 196.5vh;
+        height: 82vh;
+        display: flex;
+        gap: 30px;
+        padding: 30px 40px;
+    }
 
-.house-image-wrapper {
-    position: relative;
-    width: 100%;
-    height: 400px;
-    background-color: #eee;
-    border-radius: 10px;
-    overflow: hidden;
-}
+    .main-house-display {
+        flex: 2;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
 
-.house-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+    .house-image-wrapper {
+        position: relative;
+        width: 100%;
+        height: 400px;
+        background-color: #eee;
+        border-radius: 10px;
+        overflow: hidden;
+    }
 
-.code-tag {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    background-color: rgba(0,0,0,0.5);
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 0.9rem;
-}
+    .house-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 
-.house-details {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-}
+    .code-tag {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background-color: rgba(0,0,0,0.5);
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 0.9rem;
+    }
 
-.details-text h3 {
-    margin: 0;
-    font-size: 1.2rem;
-}
+    .house-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+    }
 
-.details-text p {
-    margin: 5px 0;
-    font-size: 0.9rem;
-    color: #666;
-}
+    .details-text h3 {
+        margin: 0;
+        font-size: 1.2rem;
+    }
 
-.price {
-    font-weight: bold;
-    color: #000;
-}
+    .details-text p {
+        margin: 5px 0;
+        font-size: 0.9rem;
+        color: #666;
+    }
 
-.details-contact {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
+    .price {
+        font-weight: bold;
+        color: #000;
+    }
 
-.contact-icon {
-    background-color: #f0f0f0;
-    border-radius: 50%;
-    padding: 10px;
-}
+    .details-contact {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
 
-.contact-button {
-    background-color: #ffd700;
-    color: #000;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-weight: bold;
-}
+    .contact-icon {
+        background-color: #f0f0f0;
+        border-radius: 50%;
+        padding: 10px;
+    }
 
-.sidebar {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
+    .contact-button {
+        background-color: #ffd700;
+        color: #000;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-weight: bold;
+    }
 
-.sidebar-item {
-    display: flex;
-    align-items: center;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    overflow: hidden;
-    cursor: pointer;
-}
+    .sidebar {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
 
-.sidebar-image {
-    width: 100px;
-    height: 80px;
-    object-fit: cover;
-}
+    .sidebar-item {
+        display: flex;
+        align-items: center;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        overflow: hidden;
+        cursor: pointer;
+    }
 
-.sidebar-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 10px 15px;
-    flex-grow: 1;
-}
+    .sidebar-image {
+        width: 100px;
+        height: 80px;
+        object-fit: cover;
+    }
 
-.sidebar-info p {
-    margin: 2px 0;
+    .sidebar-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 15px;
+        flex-grow: 1;
+    }
+
+    .sidebar-info p {
+        margin: 2px 0;
+    }
 }

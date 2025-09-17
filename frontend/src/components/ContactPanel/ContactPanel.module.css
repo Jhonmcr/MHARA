@@ -1,54 +1,116 @@
-/* Simplified styles for an info panel, not a popup */
-.panel {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 2rem;
-    color: #333;
-    height: 100%;
+@media (min-width: 397px) {
+    /* Simplified styles for an info panel, not a popup */
+    .panel {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2rem;
+        color: #333;
+        height: 100%;
+    }
+
+    .advisorImage {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 1.5rem;
+        border: 3px solid #fff;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .advisorName {
+        font-size: 1.8rem;
+        margin: 0 0 1.5rem 0;
+        font-weight: bold;
+    }
+
+    .contactList {
+        max-width: 18rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+        word-break: break-all;
+        text-align: justify;
+    }
+
+    .contactItem {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        text-decoration: none;
+        color: #333;
+        font-size: 0.7rem;
+        transition: color 0.3s ease;
+    }
+
+    .contactItem:hover {
+        color: #007bff;
+    }
+
+    .contactItem svg {
+        font-size: 1.9rem;
+        width: 25px;
+    }
 }
 
-.advisorImage {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 1.5rem;
-    border: 3px solid #fff;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
 
-.advisorName {
-    font-size: 1.8rem;
-    margin: 0 0 1.5rem 0;
-    font-weight: bold;
-}
+@media (min-width: 1159px) {
+    /* Simplified styles for an info panel, not a popup */
+    .panel {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2rem;
+        color: #333;
+        height: 100%;
+    }
 
-.contactList {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    align-items: flex-start;
-}
+    .advisorImage {
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 1.5rem;
+        border: 3px solid #fff;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
 
-.contactItem {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    text-decoration: none;
-    color: #333;
-    font-size: 1.1rem;
-    transition: color 0.3s ease;
-}
+    .advisorName {
+        font-size: 1.8rem;
+        margin: 0 0 1.5rem 0;
+        font-weight: bold;
+    }
 
-.contactItem:hover {
-    color: #007bff;
-}
+    .contactList {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
 
-.contactItem svg {
-    font-size: 1.5rem;
-    width: 25px;
+    .contactItem {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        text-decoration: none;
+        color: #333;
+        font-size: 1.1rem;
+        transition: color 0.3s ease;
+    }
+
+    .contactItem:hover {
+        color: #007bff;
+    }
+
+    .contactItem svg {
+        font-size: 1.5rem;
+        width: 25px;
+    }
 }
 

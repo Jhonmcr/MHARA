@@ -246,7 +246,7 @@ const UploadPropertyPopup = ({ onClose, onPublish, propertyToEdit }) => {
     return (
         <div className="popup-overlay">
             <div className="popup-content">
-                <button onClick={onClose} className="close-button">&times;</button>
+                <button onClick={onClose} className="close-button-property">&times;</button>
                 <h2>{isEditMode ? 'Editar Propiedad' : 'Subir Nueva Propiedad'}</h2>
 
                 {/* --- Sección de Fotos --- */}
@@ -286,14 +286,14 @@ const UploadPropertyPopup = ({ onClose, onPublish, propertyToEdit }) => {
                                 {negotiationTypes.map(type => <option key={type} value={type}>{type}</option>)}
                             </select>
                             <div>
-                            <input 
-                                type="text" 
-                                value={newNegotiationType} 
-                                onChange={(e) => setNewNegotiationType(e.target.value)}
-                                placeholder="Añadir otro tipo"
-                            />
-                            <button onClick={handleAddNewNegotiationType} className="add-btn" style={{marginLeft: '10px'}}>+</button>
-                        </div>
+                                <input 
+                                    type="text" 
+                                    value={newNegotiationType} 
+                                    onChange={(e) => setNewNegotiationType(e.target.value)}
+                                    placeholder="Añadir otro tipo"
+                                />
+                                <button onClick={handleAddNewNegotiationType} className="add-btn" style={{marginLeft: '10px'}}>+</button>
+                            </div>
                         </label>
 
                         {/* --- Sección de Opciones Personalizadas --- */}

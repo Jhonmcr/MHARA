@@ -120,74 +120,74 @@ const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, on
 
     return (
         <header className="header-glassmorphism">
-        <div className="header-logo">
-            <img src={logoSmall} alt="MHARA logo" className="logo-small" />
-        </div>
-        <nav className="navbar">
-            <ul className="nav-links">
-            <li><Link to="/home" onClick={handleHomeClick}>Home</Link></li>
-            <li><Link to="/catalogo">Catalogo</Link></li>
-            <li><Link to="/nosotros">Nosotros</Link></li>
-            <li><a href="#" onClick={handleContactClick}>Contactanos</a></li>
-            </ul>
-        </nav>
-        <div className="header-icons">
-                        {user && user.agentCode && (
-                <div className="agent-code-display">
-                    <span className="agent-code-text">{user.agentCode}</span>
-                </div>
-            )}
-            <span onClick={toggleFavorites} style={{ cursor: 'pointer' }}>
-                <img src={iconShoping} alt="Icon Shoping" className='iconShoping'/>
-            </span>
-            <span onClick={toggleProfileMenu} style={{ cursor: 'pointer' }}>
-                <img src={iconUser} alt="Icon User" className='iconUser'/>
-            </span>
-            {isProfileMenuOpen && (
-                <ProfileDropdownMenu
-                    onChangeProfilePicture={handleChangeProfilePicture}
-                    onChangeUsername={handleChangeUsername}
-                    onChangePassword={handleChangePassword}
-                    onAddContactInfo={handleAddContactInfo}
-                    onLogout={handleLogout}
+            <div className="header-logo">
+                <img src={logoSmall} alt="MHARA logo" className="logo-small" />
+            </div>
+            <nav className="navbar">
+                <ul className="nav-links">
+                    <li><Link to="/home" onClick={handleHomeClick}>Home</Link></li>
+                    <li><Link to="/catalogo">Catalogo</Link></li>
+                    <li><Link to="/nosotros">Nosotros</Link></li>
+                    <li><a href="#" onClick={handleContactClick}>Contactanos</a></li>
+                </ul>
+            </nav>
+            <div className="header-icons">
+                {user && user.agentCode && (
+                    <div className="agent-code-display">
+                        <span className="agent-code-text">{user.agentCode}</span>
+                    </div>
+                )}
+                <span onClick={toggleFavorites} style={{ cursor: 'pointer' }}>
+                    <img src={iconShoping} alt="Icon Shoping" className='iconShoping'/>
+                </span>
+                <span onClick={toggleProfileMenu} style={{ cursor: 'pointer' }}>
+                    <img src={iconUser} alt="Icon User" className='iconUser'/>
+                </span>
+                {isProfileMenuOpen && (
+                    <ProfileDropdownMenu
+                        onChangeProfilePicture={handleChangeProfilePicture}
+                        onChangeUsername={handleChangeUsername}
+                        onChangePassword={handleChangePassword}
+                        onAddContactInfo={handleAddContactInfo}
+                        onLogout={handleLogout}
+                    />
+                )}
+                
+                {shouldShowMenu && (
+                    <>
+                        <span onClick={toggleMenu} style={{ cursor: 'pointer' }}>☰</span>
+                        {isMenuOpen && <DropdownMenu 
+                            onUploadPropertyClick={onUploadPropertyClick} 
+                            onEditPropertyClick={onEditPropertyClick} 
+                        />}
+                    </>
+                )}
+            </div>
+            {isFavoritesOpen && (
+                <FavoritesPopup
+                    isOpen={isFavoritesOpen}
+                    onClose={toggleFavorites}
+                    favorites={favoriteProperties}
+                    onSelectProperty={handleSelectFavorite}
                 />
             )}
-            
-            {shouldShowMenu && (
-                <>
-                    <span onClick={toggleMenu} style={{ cursor: 'pointer' }}>☰</span>
-                    {isMenuOpen && <DropdownMenu 
-                        onUploadPropertyClick={onUploadPropertyClick} 
-                        onEditPropertyClick={onEditPropertyClick} 
-                    />}
-                </>
+            {isChangeUsernameOpen && (
+                <ChangeUsername onClose={handleCloseChangeUsername} />
             )}
-        </div>
-        {isFavoritesOpen && (
-            <FavoritesPopup
-                isOpen={isFavoritesOpen}
-                onClose={toggleFavorites}
-                favorites={favoriteProperties}
-                onSelectProperty={handleSelectFavorite}
-            />
-        )}
-        {isChangeUsernameOpen && (
-            <ChangeUsername onClose={handleCloseChangeUsername} />
-        )}
-        {isChangePasswordOpen && (
-            <ChangePassword onClose={handleCloseChangePassword} />
-        )}
-        {isAdvisorContactFormOpen && (
-            <AdvisorContactForm
-                onClose={handleCloseAdvisorContactForm}
-            />
-        )}
-        {isLogoutPopupOpen && (
-            <LogoutConfirmationPopup
-                onConfirm={handleConfirmLogout}
-                onCancel={handleCancelLogout}
-            />
-        )}
+            {isChangePasswordOpen && (
+                <ChangePassword onClose={handleCloseChangePassword} />
+            )}
+            {isAdvisorContactFormOpen && (
+                <AdvisorContactForm
+                    onClose={handleCloseAdvisorContactForm}
+                />
+            )}
+            {isLogoutPopupOpen && (
+                <LogoutConfirmationPopup
+                    onConfirm={handleConfirmLogout}
+                    onCancel={handleCancelLogout}
+                />
+            )}
         </header>
     );
 };

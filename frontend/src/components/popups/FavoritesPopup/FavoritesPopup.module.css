@@ -1,7 +1,6 @@
 .popupContainer {
     position: absolute;
-    top: 60px; /* Adjust based on header height */
-    right: 20px; /* Adjust based on icon position */
+    top: 10px; /* Adjust based on header height */
     width: 380px;
     max-height: 450px;
     background-color: white;

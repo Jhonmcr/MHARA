@@ -135,17 +135,17 @@ const Home = () => {
 
                 {/* Panel de la derecha con botones */}
                 <div className="main-buttons-panel">
-                    <Link to="/catalogo">
-                        <GlassmorphismButton text="Catalogo" />
+                    <Link to="/catalogo" className='GlassmorphismButton1'>
+                        <GlassmorphismButton text="Catalogo"/>
                     </Link>
-                    <Link to="/nosotros">
-                        <GlassmorphismButton text="Nosotros" />
+                    <Link to="/nosotros" className='GlassmorphismButton2'>
+                        <GlassmorphismButton text="Nosotros"/>
                     </Link>
-                    <div onClick={handleContactClick} style={{ cursor: 'pointer' }}>
-                        <GlassmorphismButton text="Contactanos" />
+                    <div className='GlassmorphismButton3' onClick={handleContactClick} style={{ cursor: 'pointer' }}>
+                        <GlassmorphismButton text="Contactanos"/>
                     </div>
-                    <Link to="/asesores">
-                        <GlassmorphismButton text="Asesores" />
+                    <Link to="/asesores" className='GlassmorphismButton4'>
+                        <GlassmorphismButton text="Asesores"/>
                     </Link>
                 </div>
             </main>
