@@ -1,28 +1,22 @@
-@media (min-width: 350px) {
-    .sidebar {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        background-color: #2a2a2a;
-        padding: 10px;
-        border-radius: 10px;
-        color: white;
-        overflow-y: auto;
-        height: 190vh; /* Adjust as needed */
-    }
-}  
+/* Base styles for mobile */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #2a2a2a;
+    padding: 10px;
+    border-radius: 10px;
+    color: white;
+    overflow-y: auto;
+    width: 100%;
+    height: auto;
+    max-height: 70vh; /* Adjust as needed for mobile */
+}
 
-@media (min-width: 1159px) {
+/* Tablet and Desktop Styles */
+@media (min-width: 768px) {
     .sidebar {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        background-color: #2a2a2a;
-        padding: 10px;
-        border-radius: 10px;
-        color: white;
-        overflow-y: auto;
-        width: 60vh;
+        width: 250px; /* Fixed width for larger screens */
         max-height: 80vh; /* Adjust as needed */
     }
-}  
+}

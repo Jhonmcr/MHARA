@@ -1,129 +1,119 @@
-/*
- * MOBILE-FIRST:
- * Estilos para pantallas a partir de 393px.
- */
-@media (min-width: 350px) {
-    .header-glassmorphism {
-        width: 35vh;
-        height: auto;
-        display: flex;
-        justify-content: space-between;
-        flex-direction: column;
-        align-items: center;
-        padding: 10px 40px;
-        margin: 0;
-        background: rgba(255, 255, 255, 0.459);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        position: absolute;
-        z-index: 100;
-    }
-    .navbar {
-        flex: 1;
-    }
-    .nav-links {
-        list-style: none;
-        display: flex;
-        gap: 30px;
-        padding: 0;
-        margin: 0;
-    }
-    .nav-links a {
-        text-decoration: none;
-        color: #444;
-        font-weight: 600;
-        font-size: 0.9em;
-        transition: color 0.3s ease;
-        }
-    .nav-links a:hover {
-        color: #000;
-    }
-    .header-logo {
-        display: none;
-    }
-    .logo-text {
-        font-size: 1.2em;
-        font-weight: bold;
-    }
-    .header-icons {
-        position: fixed;
-        display: flex;
-        justify-content: space-evenly;
-        padding: auto;
-        top: -3.5rem;
-        right: 0;
-        width: 70%;
-        gap: 20px;
-        font-size: 1.5em;
-        cursor: pointer;
-        background: rgba(255, 255, 255, 0.459);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        position: absolute;
-        z-index: 100;
-    }
-    .header-icons span {
-        display: flex;
-        align-items: center;
-    }
-    .header-icons .icon {
-        color: black;
-    }
-    .logo-small {
-        width: 6rem;
-    }
-    .iconShoping {
-        width: 2.2rem;
-        
-    }
-    .iconUser {
-        width: 1.8rem;
-        height: 2rem;
-    }
-    .agent-code-display {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: rgba(0, 0, 0, 0.308);
-        border-radius: 15px;
-        padding: 5px 10px;
-        margin: 0 10px;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-    }
-    .agent-code-text {
-        color: #fff;
-        font-weight: bold;
-        font-size: 1rem;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-    }
+/* Base styles for mobile */
+.header-glassmorphism {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 20px;
+    margin: 10px;
+    background: rgba(255, 255, 255, 0.459);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    width: 90%;
+    max-width: 400px; /* Max width for mobile */
+    position: relative;
 }
 
-@media (min-width: 1159px) {
+.navbar {
+    width: 100%;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    padding: 0;
+    margin: 10px 0 0 0;
+    width: 100%;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #444;
+    font-weight: 600;
+    font-size: 0.9em;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #000;
+}
+
+.header-logo {
+    display: none; /* Hidden on mobile */
+}
+
+.logo-text {
+    font-size: 1.2em;
+    font-weight: bold;
+    text-align: center;
+}
+
+.header-icons {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    padding: 10px 0;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+
+.header-icons span {
+    display: flex;
+    align-items: center;
+}
+
+.header-icons .icon {
+    color: black;
+}
+
+.logo-small {
+    width: 5rem;
+    margin-bottom: 10px;
+}
+
+.iconShoping {
+    width: 2rem;
+}
+
+.iconUser {
+    width: 1.8rem;
+    height: 1.8rem;
+}
+
+.agent-code-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.308);
+    border-radius: 15px;
+    padding: 5px 10px;
+    margin-top: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.agent-code-text {
+    color: #fff;
+    font-weight: bold;
+    font-size: 1rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Tablet and Desktop Styles */
+@media (min-width: 768px) {
     .header-glassmorphism {
-        width: 85%;
-        height: auto;
-        display: flex;
-        justify-content: space-between;
         flex-direction: row;
-        align-items: center;
+        justify-content: space-between;
+        width: 85%;
+        max-width: 1200px; /* Max width for larger screens */
         padding: 10px 40px;
         margin: 30px;
-        background: rgba(255, 255, 255, 0.459);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
         border-radius: 20px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        position: relative;
-        z-index: 100;
     }
 
     .navbar {
@@ -131,93 +121,43 @@
     }
 
     .nav-links {
-        list-style: none;
-        display: flex;
+        justify-content: center;
         gap: 30px;
-        padding: 0;
         margin: 0;
     }
 
     .nav-links a {
-        text-decoration: none;
-        color: #444;
-        font-weight: 600;
         font-size: 1.1em;
-        transition: color 0.3s ease;
-        }
-
-    .nav-links a:hover {
-        color: #000;
     }
 
     .header-logo {
-        position: relative;
+        display: flex;
+        position: absolute;
         left: 50%;
         transform: translateX(-50%);
-        width: 12vh;
-        height: 12vh;
+        width: 100px;
+        height: 100px;
         border-radius: 50%;
         padding: 5px;
-        display: flex;
         justify-content: center;
         align-items: center;
         background: rgba(255, 255, 255, 0.87);
         backdrop-filter: blur(10px);
     }
 
-    .logo-text {
-        font-size: 1.2em;
-        font-weight: bold;
+    .logo-small {
+        width: 6rem;
+        margin-bottom: 0;
     }
 
     .header-icons {
-        position: relative;
-        display: flex;
-        flex-direction: row;
+        width: auto;
         gap: 20px;
-        font-size: 1.5em;
-        cursor: pointer;
-    }
-
-    .header-icons span {
-        display: flex;
-        align-items: center;
-    }
-
-    .header-icons .icon {
-        color: black;
-    }
-
-    .logo-small {
-        width: 6rem;
-    }
-
-    .iconShoping {
-        width: 2.2rem;
-    }
-
-    .iconUser {
-        width: 1.8rem;
-        height: 2rem;
+        padding: 0;
     }
 
     .agent-code-display {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: rgba(0, 0, 0, 0.308);
-        border-radius: 15px;
-        padding: 5px 10px;
-        margin: 0 10px;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-    }
-
-    .agent-code-text {
-        color: #fff;
-        font-weight: bold;
-        font-size: 1rem;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        margin-top: 0;
+        margin-left: 10px;
     }
 }
