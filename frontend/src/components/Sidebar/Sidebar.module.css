@@ -1,4 +1,4 @@
-/* Base styles for mobile */
+/* Base styles for mobile (350px) */
 .sidebar {
     display: flex;
     flex-direction: column;
@@ -9,14 +9,23 @@
     color: white;
     overflow-y: auto;
     width: 100%;
+    box-sizing: border-box;
     height: auto;
-    max-height: 70vh; /* Adjust as needed for mobile */
+    max-height: 60vh; /* Adjusted for better mobile view */
 }
 
-/* Tablet and Desktop Styles */
+/* Tablet Styles */
 @media (min-width: 768px) {
     .sidebar {
-        width: 250px; /* Fixed width for larger screens */
-        max-height: 80vh; /* Adjust as needed */
+        width: 220px;
+        max-height: 70vh;
+    }
+}
+
+/* Laptop Styles */
+@media (min-width: 1024px) {
+    .sidebar {
+        width: 250px;
+        max-height: 80vh;
     }
 }

@@ -1,36 +1,42 @@
+/* Base styles for mobile (350px) */
 .advisor-profile-container {
     background-color: #f0f2f5;
     min-height: 100vh;
+    padding: 1rem;
+    box-sizing: border-box;
 }
 
 .advisor-profile-content {
-    max-width: 800px;
+    width: 100%;
+    max-width: 350px;
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: 1rem 0;
 }
 
 .advisor-profile-header {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
     margin-bottom: 20px;
+    text-align: center;
 }
 
 .advisor-profile-image {
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     border-radius: 50%;
     object-fit: cover;
 }
 
 .advisor-profile-header h1 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: #333;
 }
 
 .advisor-profile-details {
     background: white;
-    padding: 20px;
+    padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -39,14 +45,49 @@
     background-color: #f8c009;
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 12px 20px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 1rem;
     transition: background-color 0.3s;
     margin-top: 20px;
+    width: 100%;
 }
 
 .edit-contact-button:hover {
     background-color: #e0ac00;
+}
+
+/* Tablet Styles */
+@media (min-width: 768px) {
+    .advisor-profile-content {
+        max-width: 600px;
+        padding: 2rem 0;
+    }
+
+    .advisor-profile-header {
+        flex-direction: row;
+        text-align: left;
+    }
+
+    .advisor-profile-image {
+        width: 150px;
+        height: 150px;
+    }
+
+    .advisor-profile-header h1 {
+        font-size: 1.8rem;
+    }
+}
+
+/* Laptop Styles */
+@media (min-width: 1024px) {
+    .advisor-profile-content {
+        max-width: 800px;
+        padding: 40px 20px;
+    }
+
+    .advisor-profile-header h1 {
+        font-size: 2rem;
+    }
 }
