@@ -1,308 +1,209 @@
-@media (min-width: 350px) {
-    /* Estilos del contenedor principal */
-    body {
-        background-color: red;
-        margin: 0;
-        padding: 0;
-    }
+/* Mobile First Styles (350px) */
+.catalogo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f0f2f5;
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    width: 100%;
+}
 
-    .catalogo-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: #f0f2f5;
-        color: #333;
-        font-family: 'Poppins', sans-serif;
-        height: 100vh;
-    }
+.search-input {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8px 12px;
+    width: 70%;
+}
 
-    /* Estilos del Buscador */
-    .search-input {
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        padding: 8px 12px;
-    }
+.search-button {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
 
-    .search-button {
-        background-color: #fff;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        padding: 8px 12px;
-        cursor: pointer;
-    }
+.catalogo-body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+    width: 100%;
+    max-width: 350px;
+}
 
-    /* Estilos del contenido principal */
-    .catalogo-body {    
-        display: flex;
-        flex-direction: column;
-        gap: 30px;
-        padding: 10px 10px;
-        width: 45vh;
+.main-house-display {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.house-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 250px;
+    background-color: #eee;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.house-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.code-tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: rgba(0,0,0,0.5);
+    color: #fff;
+    padding: 5px 8px;
+    border-radius: 5px;
+    font-size: 0.8rem;
+}
+
+.house-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 15px;
+}
+
+.details-text h3 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.details-text p {
+    margin: 5px 0;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.price {
+    font-weight: bold;
+    color: #000;
+    margin-top: 5px;
+}
+
+.details-contact {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.contact-icon {
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    padding: 8px;
+}
+
+.contact-button {
+    background-color: #ffd700;
+    color: #000;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.sidebar-image {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+}
+
+.sidebar-info {
+    padding: 10px;
+    flex-grow: 1;
+}
+
+.sidebar-info p {
+    margin: 2px 0;
+    font-size: 0.8rem;
+}
+
+/* Tablet Styles */
+@media (min-width: 768px) {
+    .catalogo-body {
+        flex-direction: row;
+        max-width: 90%;
     }
 
     .main-house-display {
         flex: 2;
-        background-color: #ffffff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-
-    .house-image-wrapper {
-        position: relative;
-        width: 100%;
-        height: 400px;
-        background-color: #eee;
-        border-radius: 10px;
-        overflow: hidden;
-    }
-
-    .house-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .code-tag {
-        position: absolute;
-        top: 15px;
-        left: 15px;
-        background-color: rgba(0,0,0,0.5);
-        color: #fff;
-        padding: 5px 10px;
-        border-radius: 5px;
-        font-size: 0.9rem;
-    }
-
-    .house-details {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 20px;
-    }
-
-    .details-text h3 {
-        margin: 0;
-        font-size: 1.2rem;
-    }
-
-    .details-text p {
-        margin: 5px 0;
-        font-size: 0.9rem;
-        color: #666;
-    }
-
-    .price {
-        font-weight: bold;
-        color: #000;
-    }
-
-    .details-contact {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .contact-icon {
-        background-color: #f0f0f0;
-        border-radius: 50%;
-        padding: 10px;
-    }
-
-    .contact-button {
-        background-color: #ffd700;
-        color: #000;
-        border: none;
-        border-radius: 5px;
-        padding: 10px 20px;
-        cursor: pointer;
-        font-weight: bold;
     }
 
     .sidebar {
         flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .sidebar-item {
-        display: flex;
-        align-items: center;
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        overflow: hidden;
-        cursor: pointer;
-    }
-
-    .sidebar-image {
-        width: 100px;
-        height: 80px;
-        object-fit: cover;
-    }
-
-    .sidebar-info {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 10px 15px;
-        flex-grow: 1;
-    }
-
-    .sidebar-info p {
-        margin: 2px 0;
     }
 }
 
+/* Laptop Styles */
 @media (min-width: 1159px) {
-        /* Estilos del contenedor principal */
     .catalogo-container {
-        display: flex;
-        flex-direction: column;
-        background-color: #f0f2f5;
-        color: #333;
-        font-family: 'Poppins', sans-serif;
-        width: 207vh;
-        height: 100vh;
-        overflow: hidden;
+        width: 100%;
+        overflow: auto;
     }
 
-    /* Estilos del Buscador */
-    .search-input {
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        padding: 8px 12px;
-    }
-
-    .search-button {
-        background-color: #fff;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        padding: 8px 12px;
-        cursor: pointer;
-    }
-
-    /* Estilos del contenido principal */
     .catalogo-body {
-        max-width: 196.5vh;
-        height: 82vh;
-        display: flex;
-        gap: 30px;
+        max-width: 1200px;
+        height: auto;
         padding: 30px 40px;
     }
 
-    .main-house-display {
-        flex: 2;
-        background-color: #ffffff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-
     .house-image-wrapper {
-        position: relative;
-        width: 100%;
         height: 400px;
-        background-color: #eee;
-        border-radius: 10px;
-        overflow: hidden;
-    }
-
-    .house-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .code-tag {
-        position: absolute;
-        top: 15px;
-        left: 15px;
-        background-color: rgba(0,0,0,0.5);
-        color: #fff;
-        padding: 5px 10px;
-        border-radius: 5px;
-        font-size: 0.9rem;
     }
 
     .house-details {
-        display: flex;
+        flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        margin-top: 20px;
     }
 
     .details-text h3 {
-        margin: 0;
         font-size: 1.2rem;
     }
 
     .details-text p {
-        margin: 5px 0;
         font-size: 0.9rem;
-        color: #666;
-    }
-
-    .price {
-        font-weight: bold;
-        color: #000;
-    }
-
-    .details-contact {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .contact-icon {
-        background-color: #f0f0f0;
-        border-radius: 50%;
-        padding: 10px;
-    }
-
-    .contact-button {
-        background-color: #ffd700;
-        color: #000;
-        border: none;
-        border-radius: 5px;
-        padding: 10px 20px;
-        cursor: pointer;
-        font-weight: bold;
-    }
-
-    .sidebar {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .sidebar-item {
-        display: flex;
-        align-items: center;
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        overflow: hidden;
-        cursor: pointer;
     }
 
     .sidebar-image {
         width: 100px;
         height: 80px;
-        object-fit: cover;
     }
 
     .sidebar-info {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
         padding: 10px 15px;
-        flex-grow: 1;
     }
 
     .sidebar-info p {
-        margin: 2px 0;
+        font-size: 1rem;
     }
 }

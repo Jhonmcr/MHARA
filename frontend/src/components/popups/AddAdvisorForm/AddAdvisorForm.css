@@ -1,7 +1,9 @@
+/* Base styles for mobile (350px) */
 .add-advisor-form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
+    width: 100%;
 }
 
 .input-group {
@@ -13,14 +15,17 @@
     margin-bottom: 5px;
     font-weight: 600;
     color: #495057;
+    font-size: 0.9em;
 }
 
 .input-group input {
-    padding: 12px;
+    padding: 10px;
     border: 1px solid #ced4da;
     border-radius: 4px;
     font-size: 1rem;
     transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .input-group input:focus {
@@ -30,14 +35,14 @@
 }
 
 .toggle-button-container {
-    padding-top: 15px;
+    padding-top: 10px;
     display: flex;
     justify-content: center;
 }
 
 .toggle-button {
-    width: 180px;
-    height: 45px;
+    width: 160px;
+    height: 40px;
     border-radius: 30px;
     background-color: #e74c3c; /* Red */
     color: white;
@@ -47,7 +52,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: bold;
     transition: background-color 0.4s ease;
     overflow: hidden;
@@ -61,10 +66,10 @@
 .toggle-button .toggle-switch {
     position: absolute;
     top: 50%;
-    left: 7px;
+    left: 5px;
     transform: translateY(-50%);
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     background-color: #e2e2e2ce;
     border-radius: 50%;
     transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
@@ -81,5 +86,32 @@
 }
 
 .toggle-button.toggled .toggle-switch {
-    transform: translate(130px, -50%);
+    transform: translate(115px, -50%);
+}
+
+/* Tablet and Desktop Styles */
+@media (min-width: 768px) {
+    .add-advisor-form {
+        gap: 15px;
+    }
+
+    .input-group input {
+        padding: 12px;
+    }
+
+    .toggle-button {
+        width: 180px;
+        height: 45px;
+        font-size: 1rem;
+    }
+
+    .toggle-button .toggle-switch {
+        left: 7px;
+        width: 35px;
+        height: 35px;
+    }
+
+    .toggle-button.toggled .toggle-switch {
+        transform: translate(130px, -50%);
+    }
 }

@@ -1,15 +1,17 @@
+/* Base styles for mobile (350px) */
 .login-card {
     min-height: 5rem;
     background-color: rgba(255, 255, 255, 0.89);
     backdrop-filter: blur(10px);
-    padding: 40px;
+    padding: 20px;
     border-radius: 20px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: end;
-    width: 250px;
+    justify-content: flex-end;
+    width: 90%;
+    max-width: 300px;
     transition: all 0.3s ease-in-out;
 }
 
@@ -17,41 +19,40 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: end;
-    width: 250px;
+    justify-content: flex-end;
+    width: 100%;
 }
 
 .logo-card {
     position: relative;
-    top: -6rem;
+    top: -5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.2);
     background-color: rgba(255, 255, 255, 0.89);
     backdrop-filter: blur(10px);
     border-radius: 50%;
-    padding: 10px;
-    margin-bottom: -5rem;
+    padding: 8px;
+    margin-bottom: -4rem;
 }
 
 .logo {
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
-    padding: 10px;
 }
 
 .login-button {
-    width: 80%;
-    padding: 15px;
-    margin-top: 20px;
+    width: 90%;
+    padding: 12px;
+    margin-top: 15px;
     border: none;
     border-radius: 10px;
     background-color: #f1c237be;
-    font-size: 1.2em;
+    font-size: 1em;
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
@@ -63,11 +64,11 @@
 }
 
 .create-account-link {
-    margin-top: 20px;
+    margin-top: 15px;
     color: #333;
     text-decoration: none;
-    font-size: 1em;
-    transition: background-color 0.3s ease;
+    font-size: 0.9em;
+    transition: color 0.3s ease;
 }
 
 .create-account-link:hover {
@@ -75,8 +76,42 @@
 }
 
 .error-message {
-    color: #d9534f; /* A standard red color for errors */
-    font-size: 0.9em;
+    color: #d9534f;
+    font-size: 0.8em;
     text-align: center;
-    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+/* Tablet and Desktop Styles */
+@media (min-width: 768px) {
+    .login-card {
+        width: 250px;
+        padding: 40px;
+    }
+
+    .login-card form {
+        width: 250px;
+    }
+
+    .logo-card {
+        top: -6rem;
+        width: 100px;
+        height: 100px;
+        padding: 10px;
+        margin-bottom: -5rem;
+    }
+
+    .login-button {
+        width: 80%;
+        padding: 15px;
+        font-size: 1.2em;
+    }
+
+    .create-account-link {
+        font-size: 1em;
+    }
+
+    .error-message {
+        font-size: 0.9em;
+    }
 }

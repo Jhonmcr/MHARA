@@ -1,34 +1,25 @@
+/* Base styles for mobile (350px) */
 .advisor-contact-form-overlay {
     position: fixed;
-    top: 20rem;
+    top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 10000;
-}
-
-.form-group-social {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-}
-
-.social-icon {
-    width: 24px;
-    height: 24px;
-    margin-right: 10px;
+    padding: 1rem;
+    box-sizing: border-box;
 }
 
 .advisor-contact-form-content {
     background: white;
-    padding: 20px;
+    padding: 15px;
     border-radius: 8px;
-    width: 90%;
-    max-width: 500px;
+    width: 100%;
+    max-width: 350px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
@@ -46,14 +37,14 @@
 
 .advisor-contact-form-header h2 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     color: #333;
 }
 
 .close-button {
     background: none;
     border: none;
-    font-size: 2rem;
+    font-size: 1.5rem;
     cursor: pointer;
     color: #333;
     padding: 0;
@@ -61,11 +52,11 @@
 
 .advisor-contact-form {
     width: 100%;
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .form-group label {
@@ -73,19 +64,34 @@
     margin-bottom: 5px;
     font-weight: bold;
     color: #333;
+    font-size: 0.9em;
 }
 
-.form-group input {
-    width: 96.5%;
+.form-group input,
+.form-group-social input {
+    width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-group-social {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.social-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
 }
 
 .form-actions {
     width: 100%;
     text-align: center;
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 .submit-button {
@@ -97,8 +103,25 @@
     cursor: pointer;
     font-size: 1rem;
     transition: background-color 0.3s;
+    width: 100%;
 }
 
 .submit-button:hover {
     background-color: #e0ac00;
+}
+
+/* Tablet and Desktop Styles */
+@media (min-width: 768px) {
+    .advisor-contact-form-content {
+        max-width: 500px;
+        padding: 20px;
+    }
+
+    .advisor-contact-form-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .close-button {
+        font-size: 2rem;
+    }
 }
