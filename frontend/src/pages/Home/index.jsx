@@ -26,7 +26,6 @@ const Home = () => {
         fullName: "Mhara Estate",
         profileImageUrl: logo,
         contactInfo: {
-            instagram: "MharaEstate",
             phone: "+58 4242921532",
             email: "mharaestatehome@gmail.com",
             instagram: "https://www.instagram.com/mharaestatehome/#" 
