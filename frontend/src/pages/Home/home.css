@@ -1,3 +1,7 @@
+@media (min-width: 375px) {
+  /* User-provided styles will go here */
+}
+
 /* Base styles for mobile (350px) */
 body {
     padding: 0;

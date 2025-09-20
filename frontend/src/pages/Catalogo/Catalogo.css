@@ -1,3 +1,7 @@
+@media (min-width: 375px) {
+  /* User-provided styles will go here */
+}
+
 /* Mobile First Styles (350px) */
 .catalogo-container {
     display: flex;
