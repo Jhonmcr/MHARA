@@ -1,8 +1,4 @@
-@media (min-width: 375px) {
-  /* User-provided styles will go here */
-}
-
-@media (min-width: 768px) {
+@media (min-width: 350px) {
   .input-container {
       display: flex;
       align-items: center;
