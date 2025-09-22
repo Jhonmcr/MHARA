@@ -4,11 +4,10 @@
         margin: 0;
         font-family: 'Poppins', sans-serif;
         color: #333;
-        overflow: hidden;
     }
 
     .home-container {
-        width: 100%;
+        width: 100vw;
         min-height: 100vh;
         display: flex;
         align-items: center;
@@ -17,21 +16,21 @@
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
+        gap: 0.5rem;
     }
 
     .main-content {
-        width: 100%;
+        width: 95vw;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap: 2rem;
-        margin-top: 2rem;
+        gap: 1rem;
     }
 
     .glassmorphism-panel {
         width: 100%;
-        max-width: 350px;
+        height: 25rem;
         background: rgba(255, 255, 255, 0.459);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
@@ -49,14 +48,14 @@
     }
 
     .logoHome {
-        width: 80%;
-        max-width: 250px;
+        width: 30rem;
         height: auto;
     }
 
     .main-buttons-panel {
         display: grid;
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
         gap: 1rem;
     }
 
@@ -64,6 +63,7 @@
     .GlassmorphismButton2,
     .GlassmorphismButton3,
     .GlassmorphismButton4 {
+
         width: 100%;
     }
 }
@@ -78,7 +78,6 @@
     }
 
     .home-container {
-        width: 100%;
         min-height: 100vh;
         display: flex;
         align-items: center;
@@ -87,7 +86,6 @@
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        padding: 1rem;
     }
 
     .main-content {
@@ -96,20 +94,18 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap: 2rem;
-        margin-top: 2rem;
+        gap: 1rem;
+
     }
 
     .glassmorphism-panel {
-        width: 95%;
-        max-width: 350px;
+        width: 95vw;
         background: rgba(255, 255, 255, 0.459);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.3);
         border-radius: 20px;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        padding: 1rem;
         box-sizing: border-box;
     }
 
@@ -120,8 +116,7 @@
     }
 
     .logoHome {
-        width: 80%;
-        max-width: 250px;
+        width: 30rem;
         height: auto;
     }
 
@@ -141,36 +136,29 @@
 
 /* Tablet Styles */
 @media (min-width: 768px) {
-    .home-container {
-        padding: 2rem;
-    }
-
     .main-content {
-        flex-direction: row;
+        flex-direction: column;
         justify-content: space-around;
         align-items: center;
         width: 100%;
     }
 
     .glassmorphism-panel {
-        width: 45%;
+        width: 95%;
     }
 
     .main-buttons-panel {
-        grid-template-columns: repeat(2, 1fr);
+        width: 95%;
     }
 }
 
 /* Laptop Styles */
 @media (min-width: 1159px) {
-    .home-container {
-        justify-content: center;
-    }
-
     .main-content {
-        width: 80%;
-        max-width: 1200px;
-        gap: 4rem;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 95%;
+
     }
 
     .main-logo-panel {
@@ -181,11 +169,21 @@
         max-width: 400px;
     }
 
+    .glassmorphism-panel {
+        width: 60%;
+    }
+
     .main-buttons-panel {
         width: 40%;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(2, 1fr);
-        gap: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .GlassmorphismButton1,
+    .GlassmorphismButton2,
+    .GlassmorphismButton3,
+    .GlassmorphismButton4 {
+        width: 70%;
     }
 }
