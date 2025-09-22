@@ -259,7 +259,7 @@
     .header-glassmorphism {
         width: 100%;
         max-width: 1400px;
-        padding: 15px 40px;
+        padding: 8px 40px;
         margin: 30px 0;
         border-radius: 20px;
     }
@@ -275,7 +275,7 @@
     }
 
     .nav-links a {
-        font-size: 1.3em;
+        font-size: 1.1em;
     }
 
     .header-logo {
@@ -304,12 +304,12 @@
     }
 
     .iconShoping {
-        width: 2.5rem;
+        width: 2rem;
     }
 
     .iconUser {
-        width: 2.5rem;
-        height: 2.5rem;
+        width: 2rem;
+        height: 2rem;
     }
 
     .agent-code-display {
@@ -327,7 +327,7 @@
     .agent-code-text {
         color: #fff;
         font-weight: bold;
-        font-size: 1.5rem;
+        font-size: 1.1rem;
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
     }
 }

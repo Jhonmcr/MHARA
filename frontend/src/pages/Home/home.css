@@ -158,7 +158,6 @@
         flex-direction: row;
         justify-content: space-between;
         width: 95%;
-
     }
 
     .main-logo-panel {
@@ -166,24 +165,27 @@
     }
 
     .logoHome {
-        max-width: 400px;
+        width: 50rem;
     }
 
     .glassmorphism-panel {
         width: 60%;
+        height: 32rem;
     }
 
     .main-buttons-panel {
         width: 40%;
+        height: 32rem;
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: space-between;
     }
 
     .GlassmorphismButton1,
     .GlassmorphismButton2,
     .GlassmorphismButton3,
     .GlassmorphismButton4 {
-        width: 70%;
+        width: 100%;
     }
 }
