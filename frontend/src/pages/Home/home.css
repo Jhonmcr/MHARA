@@ -1,75 +1,142 @@
-@media (min-width: 375px) {
-  /* User-provided styles will go here */
+@media (min-width: 350px) {
+    body {
+        padding: 0;
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        color: #333;
+        overflow: hidden;
+    }
+
+    .home-container {
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        background-image: url('../../assets/images/home.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .main-content {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .glassmorphism-panel {
+        width: 100%;
+        max-width: 350px;
+        background: rgba(255, 255, 255, 0.459);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 1rem;
+        box-sizing: border-box;
+    }
+
+    .main-logo-panel {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .logoHome {
+        width: 80%;
+        max-width: 250px;
+        height: auto;
+    }
+
+    .main-buttons-panel {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .GlassmorphismButton1,
+    .GlassmorphismButton2,
+    .GlassmorphismButton3,
+    .GlassmorphismButton4 {
+        width: 100%;
+    }
 }
 
-/* Base styles for mobile (350px) */
-body {
-    padding: 0;
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    color: #333;
-}
+@media (min-width: 429px) {
+    body {
+        padding: 0;
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        color: #333;
+        overflow: hidden;
+    }
 
-.home-container {
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    background-image: url('../../assets/images/home.png');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 1rem;
-    box-sizing: border-box;
-}
+    .home-container {
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        background-image: url('../../assets/images/home.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        padding: 1rem;
+    }
 
-.main-content {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
-    margin-top: 2rem;
-}
+    .main-content {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
 
-.glassmorphism-panel {
-    width: 95%;
-    max-width: 350px;
-    background: rgba(255, 255, 255, 0.459);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 1rem;
-    box-sizing: border-box;
-}
+    .glassmorphism-panel {
+        width: 95%;
+        max-width: 350px;
+        background: rgba(255, 255, 255, 0.459);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 1rem;
+        box-sizing: border-box;
+    }
 
-.main-logo-panel {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    .main-logo-panel {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-.logoHome {
-    width: 80%;
-    max-width: 250px;
-    height: auto;
-}
+    .logoHome {
+        width: 80%;
+        max-width: 250px;
+        height: auto;
+    }
 
-.main-buttons-panel {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-}
+    .main-buttons-panel {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
 
-.GlassmorphismButton1,
-.GlassmorphismButton2,
-.GlassmorphismButton3,
-.GlassmorphismButton4 {
-    width: 100%;
+    .GlassmorphismButton1,
+    .GlassmorphismButton2,
+    .GlassmorphismButton3,
+    .GlassmorphismButton4 {
+        width: 100%;
+    }
 }
 
 /* Tablet Styles */
@@ -82,7 +149,7 @@ body {
         flex-direction: row;
         justify-content: space-around;
         align-items: center;
-        width: 90%;
+        width: 100%;
     }
 
     .glassmorphism-panel {
