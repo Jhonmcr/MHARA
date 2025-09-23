@@ -1,65 +1,227 @@
-.card {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid #eee;
-    gap: 15px;
-    cursor: pointer;
+@media (min-width: 350px) {
+    .card {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+        gap: 5px;
+        cursor: pointer;
+    }
+
+    .divcard {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .card:hover {
+        background-color: #f9f9f9;
+    }
+
+    .card:last-child {
+        border-bottom: none;
+    }
+
+    .image {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .info {
+        width: 60%;
+    }
+
+    .info p {
+        margin: 0;
+        font-size: 0.9rem;
+    }
+
+    .address {
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 4px;
+    }
+
+    .details {
+        color: #666;
+        font-size: 0.8rem;
+        margin-bottom: 4px;
+    }
+
+    .price {
+        font-weight: bold;
+        color: #007bff;
+    }
+
+    .contactButton {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        white-space: nowrap;
+    }
+
+    .contactButton:hover {
+        background-color: #0056b3;
+    }
 }
 
-.card:hover {
-    background-color: #f9f9f9;
+@media (min-width: 429px) {
+    .card {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+        gap: 15px;
+        cursor: pointer;
+    }
+
+    .divcard {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .card:hover {
+        background-color: #f9f9f9;
+    }
+
+    .card:last-child {
+        border-bottom: none;
+    }
+
+    .image {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
+    .info {
+        flex-grow: 1;
+    }
+
+    .info p {
+        margin: 0;
+        font-size: 0.9rem;
+    }
+
+    .address {
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 4px;
+    }
+
+    .details {
+        color: #666;
+        font-size: 0.8rem;
+        margin-bottom: 4px;
+    }
+
+    .price {
+        font-weight: bold;
+        color: #007bff;
+    }
+
+    .contactButton {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        white-space: nowrap;
+    }
+
+    .contactButton:hover {
+        background-color: #0056b3;
+    }
 }
 
-.card:last-child {
-    border-bottom: none;
-}
+@media (min-width: 819px) {
+    .card {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+        gap: 15px;
+        cursor: pointer;
+    }
 
-.image {
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
-    border-radius: 8px;
-}
+    .divcard {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 30px;
+    }
 
-.info {
-    flex-grow: 1;
-}
+    .card:hover {
+        background-color: #f9f9f9;
+    }
 
-.info p {
-    margin: 0;
-    font-size: 0.9rem;
-}
+    .card:last-child {
+        border-bottom: none;
+    }
 
-.address {
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 4px;
-}
+    .image {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
 
-.details {
-    color: #666;
-    font-size: 0.8rem;
-    margin-bottom: 4px;
-}
+    .info {
+        flex-grow: 1;
+    }
 
-.price {
-    font-weight: bold;
-    color: #007bff;
-}
+    .info p {
+        margin: 0;
+        font-size: 0.9rem;
+    }
 
-.contactButton {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 8px 12px;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    white-space: nowrap;
-}
+    .address {
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 4px;
+    }
 
-.contactButton:hover {
-    background-color: #0056b3;
+    .details {
+        color: #666;
+        font-size: 0.8rem;
+        margin-bottom: 4px;
+    }
+
+    .price {
+        font-weight: bold;
+        color: #007bff;
+    }
+
+    .contactButton {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        white-space: nowrap;
+    }
+
+    .contactButton:hover {
+        background-color: #0056b3;
+    }
 }

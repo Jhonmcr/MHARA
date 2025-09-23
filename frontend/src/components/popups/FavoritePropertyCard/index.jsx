@@ -58,13 +58,15 @@ const FavoritePropertyCard = ({ property, onClosePopup, onSelectProperty }) => {
 
     return (
         <div className={styles.card} onClick={handleCardClick}>
-            <img src={imageUrl} alt={property.shortAddress} className={styles.image} />
-            <div className={styles.info}>
-                <p className={styles.address}>Casa en {property.shortAddress || '...'}</p>
-                <p className={styles.details}>
-                    Habitaciones: {details.Habitaciones} | Baños: {details.Baños} | Estacionamiento: {details.Estacionamiento}
-                </p>
-                <p className={styles.price}>${property.price ? property.price.toLocaleString() : 'N/A'}</p>
+            <div className={styles.divcard}>
+                <img src={imageUrl} alt={property.shortAddress} className={styles.image} />
+                <div className={styles.info}>
+                    <p className={styles.address}>Casa en {property.shortAddress || '...'}</p>
+                    <p className={styles.details}>
+                        Habitaciones: {details.Habitaciones} | Baños: {details.Baños} | Estacionamiento: {details.Estacionamiento}
+                    </p>
+                    <p className={styles.price}>${property.price ? property.price.toLocaleString() : 'N/A'}</p>
+                </div>
             </div>
             <button className={styles.contactButton} onClick={handleContactClick}>
                 Contactar

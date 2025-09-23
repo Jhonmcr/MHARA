@@ -1,68 +1,106 @@
-.popupContainer {
-    position: absolute;
-    top: 10px; /* Adjust based on header height */
-    width: 380px;
-    max-height: 450px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
-    z-index: 1001; /* Must be higher than other content */
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
+@media (min-width: 350px) {
+    .popupContainer {
+        position: absolute;
+        top: 10px; /* Adjust based on header height */
+        width: 3\280px;
+        max-height: 450px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+        z-index: 1001; /* Must be higher than other content */
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 15px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .header h3 {
+        margin: 0;
+        font-size: 1rem;
+    }
+
+    .closeButton {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #888;
+    }
+
+    .favoritesList {
+        overflow-y: auto;
+        flex-grow: 1;
+    }
+
+    .emptyMessage {
+        text-align: center;
+        padding: 40px 20px;
+        color: #888;
+    }
+
+    .seeMoreContainer {
+        padding: 15px;
+        border-top: 1px solid #eee;
+        text-align: center;
+    }
+
+    .seeMoreButton {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .seeMoreButton:hover {
+        background-color: #0056b3;
+    }
+
 }
 
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 15px;
-    border-bottom: 1px solid #eee;
+@media (min-width: 819px) {
+    .popupContainer {
+        position: absolute;
+        top: 60px; /* Adjust based on header height */
+        left: 18rem;
+        width: 480px;
+        max-height: 450px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+        z-index: 1001; /* Must be higher than other content */
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
 }
 
-.header h3 {
-    margin: 0;
-    font-size: 1rem;
+@media (min-width: 1159px) {
+    .popupContainer {
+        position: absolute;
+        top: 62px; /* Adjust based on header height */
+        left: 60rem;
+        width: 480px;
+        max-height: 450px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+        z-index: 1001; /* Must be higher than other content */
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
 }
 
-.closeButton {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: #888;
-}
-
-.favoritesList {
-    overflow-y: auto;
-    flex-grow: 1;
-}
-
-.emptyMessage {
-    text-align: center;
-    padding: 40px 20px;
-    color: #888;
-}
-
-.seeMoreContainer {
-    padding: 15px;
-    border-top: 1px solid #eee;
-    text-align: center;
-}
-
-.seeMoreButton {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-}
-
-.seeMoreButton:hover {
-    background-color: #0056b3;
-}
 
