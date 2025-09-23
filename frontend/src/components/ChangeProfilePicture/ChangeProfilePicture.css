@@ -10,6 +10,77 @@
 
     .change-profile-picture-container h2 {
         margin: 0;
+        font-size: 1.4rem;
+    }
+
+    .image-preview-container {
+        position: relative;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        overflow: hidden;
+        cursor: pointer;
+        border: 3px solid #f8c009;
+    }
+
+    .image-preview {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .image-preview-container:hover .overlay {
+        opacity: 1;
+    }
+
+    .upload-button {
+        background-color: #f8c009;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.3s;
+    }
+
+    .upload-button:hover {
+        background-color: #e0ac00;
+    }
+
+    .upload-button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+}
+
+@media (min-width: 419px) {
+    .change-profile-picture-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+        color: #333;
+    }
+
+    .change-profile-picture-container h2 {
+        margin: 0;
         font-size: 1.5rem;
     }
 

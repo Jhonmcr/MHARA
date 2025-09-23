@@ -23,12 +23,11 @@
 }
 
 .popup-header {
+    height: 6rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #ccc;
-    padding-bottom: 15px;
-    margin-bottom: 15px;
 }
 
 .popup-header h2 {
