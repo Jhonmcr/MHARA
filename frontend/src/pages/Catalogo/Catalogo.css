@@ -1,5 +1,11 @@
 @media (min-width: 350px) {
       /* Mobile First Styles (350px) */
+    body {
+        display: flex;
+        align-items: start;
+        overflow-y: scroll;
+    }
+
     .catalogo-container {
         display: flex;
         flex-direction: column;
@@ -31,11 +37,10 @@
     .catalogo-body {
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: start;
         align-items: center;
         padding: 10px;
-        height: 100%;
-        overflow-y: scroll;
+        height: 120%;
     }
 
     .main-house-display {
@@ -152,21 +157,328 @@
     }
 }
 
-/* Tablet Styles */
-@media (min-width: 768px) {
+@media (min-width: 419px) {
+      /* Mobile First Styles (350px) */
+    body {
+        display: flex;
+        align-items: start;
+        overflow-y: scroll;
+    }
+
+    .catalogo-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #f0f2f5;
+        color: #333;
+        font-family: 'Poppins', sans-serif;
+        width: 100vw;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .search-input {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 8px 12px;
+        width: 70%;
+    }
+
+    .search-button {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 8px 12px;
+        cursor: pointer;
+    }
+
     .catalogo-body {
-        flex-direction: row;
-        max-width: 90%;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+        padding: 10px;
+        height: 120%;
     }
 
     .main-house-display {
-        flex: 2;
+        background-color: #ffffff;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .house-image-wrapper {
+        position: relative;
+        width: 100%;
+        height: 250px;
+        background-color: #eee;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .house-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .code-tag {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: rgba(0,0,0,0.5);
+        color: #fff;
+        padding: 5px 8px;
+        border-radius: 5px;
+        font-size: 0.8rem;
+    }
+
+    .house-details {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 15px;
+    }
+
+    .details-text h3 {
+        margin: 0;
+        font-size: 1.1rem;
+    }
+
+    .details-text p {
+        margin: 5px 0;
+        font-size: 0.8rem;
+        color: #666;
+    }
+
+    .price {
+        font-weight: bold;
+        color: #000;
+        margin-top: 5px;
+    }
+
+    .details-contact {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .contact-icon {
+        background-color: #f0f0f0;
+        border-radius: 50%;
+        padding: 8px;
+    }
+
+    .contact-button {
+        background-color: #ffd700;
+        color: #000;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 15px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 0.9rem;
     }
 
     .sidebar {
-        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .sidebar-item {
+        display: flex;
+        align-items: center;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+    .sidebar-image {
+        width: 80px;
+        height: 60px;
+        object-fit: cover;
+    }
+
+    .sidebar-info {
+        padding: 10px;
+        flex-grow: 1;
+    }
+
+    .sidebar-info p {
+        margin: 2px 0;
+        font-size: 0.8rem;
     }
 }
+
+@media (min-width: 600px) {
+    body {
+        display: flex;
+        align-items: start;
+        overflow-y: scroll;
+    }
+
+    .catalogo-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #f0f2f5;
+        color: #333;
+        font-family: 'Poppins', sans-serif;
+        width: 100vw;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .search-input {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 8px 12px;
+        width: 70%;
+    }
+
+    .search-button {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 8px 12px;
+        cursor: pointer;
+    }
+
+    .catalogo-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+        padding: 10px;
+        height: 120%;
+    }
+
+    .main-house-display {
+        background-color: #ffffff;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .house-image-wrapper {
+        position: relative;
+        width: 100%;
+        height: 250px;
+        background-color: #eee;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .house-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .code-tag {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: rgba(0,0,0,0.5);
+        color: #fff;
+        padding: 5px 8px;
+        border-radius: 5px;
+        font-size: 0.8rem;
+    }
+
+    .house-details {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-top: 15px;
+    }
+
+    .details-text h3 {
+        margin: 0;
+        font-size: 1.1rem;
+    }
+
+    .details-text p {
+        margin: 5px 0;
+        font-size: 0.8rem;
+        color: #666;
+    }
+
+    .price {
+        font-weight: bold;
+        color: #000;
+        margin-top: 5px;
+    }
+
+    .details-contact {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .contact-icon {
+        background-color: #f0f0f0;
+        border-radius: 50%;
+        padding: 8px;
+    }
+
+    .contact-button {
+        background-color: #ffd700;
+        color: #000;
+        border: none;
+        border-radius: 5px;
+        padding: 8px 15px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .sidebar-item {
+        display: flex;
+        align-items: center;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+    .sidebar-image {
+        width: 80px;
+        height: 60px;
+        object-fit: cover;
+    }
+
+    .sidebar-info {
+        padding: 10px;
+        flex-grow: 1;
+    }
+
+    .sidebar-info p {
+        margin: 2px 0;
+        font-size: 0.8rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .catalogo-body {
+        flex-direction: row;
+    }
+}
+
+
 
 /* Laptop Styles */
 @media (min-width: 1159px) {

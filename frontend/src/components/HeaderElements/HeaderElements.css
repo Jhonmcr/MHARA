@@ -28,6 +28,9 @@
         padding: 0;
         display: flex;
         gap: 30px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
     }
 
     .header-right ul li {
@@ -88,6 +91,118 @@
 
     .filter-button:hover .filter-icon {
         stroke: #f8c009;
+    }
+}
+
+@media (min-width: 600px) {
+        /* Estilos para el encabezado */
+    .about-us-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px 0px;
+        margin: 0;
+        background-color: #252525;
+        width: 100vw;
+    }
+
+    .header-left {
+        display: none;
+    }
+
+    .header-right {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+        width: 90%;
+    }
+
+    .header-right ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        gap: 30px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .header-right ul li {
+        display: flex;
+        align-items: center;
+    }
+
+    .header-right a {
+        text-decoration: none;
+        color: #555;
+        font-weight: 500;
+        font-size: 0.8rem;
+        transition: color 0.3s;
+        color: #f1c237e0;
+        transition: background-color 0.3s ease;
+    }
+
+    .header-right a:hover {
+        color: #f8c009;
+    }
+
+    /* Search Bar Styles */
+    .search-bar-container {
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        gap: 1rem;
+        width: 90%;
+    }
+
+    .search-input {
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        outline: none;
+        transition: border-color 0.3s;
+    }
+
+    .search-input:focus {
+        border-color: #f8c009;
+    }
+
+    .filter-button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .filter-icon {
+        stroke: white;
+        transition: stroke 0.3s;
+    }
+
+    .filter-button:hover .filter-icon {
+        stroke: #f8c009;
+    }
+}
+
+@media (min-width: 1024px) {
+    .header-left {
+        display: block;
+        width: 20rem;
+        padding-left: 1rem;
+    }
+
+    .header-left h1 {
+        font-size: 1rem;
+    }
+
+    .header-left a {
+        color: #f1c237e0;
     }
 }
 
