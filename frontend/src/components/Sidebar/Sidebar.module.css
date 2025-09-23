@@ -1,31 +1,20 @@
-/* Base styles for mobile (350px) */
-.sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    background-color: #2a2a2a;
-    padding: 10px;
-    border-radius: 10px;
-    color: white;
-    overflow-y: auto;
-    width: 100%;
-    box-sizing: border-box;
-    height: auto;
-    max-height: 60vh; /* Adjusted for better mobile view */
-}
-
-/* Tablet Styles */
-@media (min-width: 768px) {
+@media (min-width: 350px) {
+        /* Base styles for mobile (350px) */
     .sidebar {
-        width: 220px;
-        max-height: 70vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+        gap: 10px;
+        background-color: #2a2a2a;
+        padding: 10px;
+        border-radius: 10px;
+        color: white;
+        overflow-y: auto;
+        box-sizing: border-box;
+        width: 95vw;
+        height: 100%; /* Adjusted for better mobile view */
     }
 }
 
-/* Laptop Styles */
-@media (min-width: 1024px) {
-    .sidebar {
-        width: 250px;
-        max-height: 80vh;
-    }
-}
+

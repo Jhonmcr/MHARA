@@ -8,8 +8,8 @@
     border-radius: 10px;
     overflow: hidden;
     position: relative;
-    width: 95%;
-    max-width: 350px;
+    width: 95vw;
+    height: 30rem;
     margin: 10px;
 }
 

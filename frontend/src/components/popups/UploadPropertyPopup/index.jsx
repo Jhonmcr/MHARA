@@ -292,7 +292,7 @@ const UploadPropertyPopup = ({ onClose, onPublish, propertyToEdit }) => {
                                     onChange={(e) => setNewNegotiationType(e.target.value)}
                                     placeholder="Añadir otro tipo"
                                 />
-                                <button onClick={handleAddNewNegotiationType} className="add-btn" style={{marginLeft: '10px'}}>+</button>
+                                <button onClick={handleAddNewNegotiationType} className="add-btn" style={{}}>+</button>
                             </div>
                         </label>
 

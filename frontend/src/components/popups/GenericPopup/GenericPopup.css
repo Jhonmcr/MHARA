@@ -1,61 +1,63 @@
-.popup-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10000; /* Use a very high z-index for consistency */
-}
-
-.popup-content {
-    background: #fff;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    width: 90%;
-    max-width: 500px;
-    position: relative;
-    animation: fadeIn 0.3s ease-out;
-}
-
-.popup-header {
-    height: 6rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #ccc;
-}
-
-.popup-header h2 {
-    margin: 0;
-    font-size: 1rem;
-    color: #333;
-}
-
-.close-button {
-    background: transparent;
-    border: none;
-    font-size: 2rem;
-    cursor: pointer;
-    color: #333;
-    line-height: 1;
-}
-
-.popup-body {
-    padding-top: 10px;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
+@media (min-width: 350px) {
+    .popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000; /* Use a very high z-index for consistency */
     }
-    to {
-        opacity: 1;
-        transform: scale(1);
+
+    .popup-content {
+        background: #fff;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        width: 90%;
+        max-width: 500px;
+        position: relative;
+        animation: fadeIn 0.3s ease-out;
+    }
+
+    .popup-header {
+        height: 6rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .popup-header h2 {
+        margin: 0;
+        font-size: 1rem;
+        color: #333;
+    }
+
+    .close-button {
+        background: transparent;
+        border: none;
+        font-size: 2rem;
+        cursor: pointer;
+        color: #333;
+        line-height: 1;
+    }
+
+    .popup-body {
+        padding-top: 10px;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
     }
 }

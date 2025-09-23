@@ -1,80 +1,76 @@
-@media (min-width: 375px) {
-  /* User-provided styles will go here */
-}
+@media (min-width: 350px) {
+    /* Contenedor de la tarjeta */
+    .card {
+        background-color: rgba(255, 255, 255, 0.9);
+        border-radius: 20px;
+        padding: 30px;
+        text-align: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        position: relative;
+        width: 20rem;
+        height: 390px;
+        margin: 20px; /* Agrega un margen entre las tarjetas */
+    }
 
-@media (min-width: 768px) {
-  /* Contenedor de la tarjeta */
-  .card {
-      background-color: rgba(255, 255, 255, 0.9);
-      border-radius: 20px;
-      padding: 30px;
-      text-align: center;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      position: relative;
-      width: 20rem;
-      height: 390px;
-      margin: 20px; /* Agrega un margen entre las tarjetas */
-  }
+    /* Imagen del asesor */
+    .advisorImage {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 1px solid #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-top: -20px; /* Mueve la imagen para que se superponga al borde de la tarjeta */
+        position: relative;
+        background-color: #f1f1f1;
+        background-repeat: no-repeat;
+        background-size: 140px; /* Ajusta el tamaño del icono a 70px */
+        background-position: center; /* Centra el icono */
+    }
 
-  /* Imagen del asesor */
-  .advisorImage {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 1px solid #fff;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      margin-top: -20px; /* Mueve la imagen para que se superponga al borde de la tarjeta */
-      position: relative;
-      background-color: #f1f1f1;
-      background-repeat: no-repeat;
-      background-size: 140px; /* Ajusta el tamaño del icono a 70px */
-      background-position: center; /* Centra el icono */
-  }
+    .advisorName {
+        margin-top: 15px;
+        font-size: 1.2rem;
+        color: #333;
+    }
 
-  .advisorName {
-      margin-top: 15px;
-      font-size: 1.2rem;
-      color: #333;
-  }
+    .testimonial {
+        font-size: 1rem;
+        color: #555;
+        line-height: 1.5;
+        margin-top: 20px;
+        text-align: left;
+        flex-grow: 1;
+    }
 
-  .testimonial {
-      font-size: 1rem;
-      color: #555;
-      line-height: 1.5;
-      margin-top: 20px;
-      text-align: left;
-      flex-grow: 1;
-  }
+    .contactContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        margin-top: 20px;
+        width: 100%;
+        padding-left: 10px; /* Indent the contact info slightly */
+    }
 
-  .contactContainer {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 12px;
-      margin-top: 20px;
-      width: 100%;
-      padding-left: 10px; /* Indent the contact info slightly */
-  }
+    .contactLink {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: #333;
+        font-size: 0.9rem;
+        transition: color 0.2s ease;
+    }
 
-  .contactLink {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      color: #333;
-      font-size: 0.9rem;
-      transition: color 0.2s ease;
-  }
+    .contactLink:hover {
+        color: #007bff;
+    }
 
-  .contactLink:hover {
-      color: #007bff;
-  }
-
-  .contactLink svg {
-      font-size: 1.2rem;
-      color: #555;
-      width: 20px; /* Ensure icons are aligned */
-      text-align: center;
-  }
-}
+    .contactLink svg {
+        font-size: 1.2rem;
+        color: #555;
+        width: 20px; /* Ensure icons are aligned */
+        text-align: center;
+    }
+    }

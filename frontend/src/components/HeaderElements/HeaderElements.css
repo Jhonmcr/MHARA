@@ -7,7 +7,7 @@
         padding: 20px 0px;
         margin: 0;
         background-color: #252525;
-        width: 100%;
+        width: 100vw;
     }
 
     .header-left {
@@ -39,7 +39,7 @@
         text-decoration: none;
         color: #555;
         font-weight: 500;
-        font-size: 0.9rem;
+        font-size: 0.8rem;
         transition: color 0.3s;
         color: #f1c237e0;
         transition: background-color 0.3s ease;

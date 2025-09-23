@@ -18,6 +18,7 @@
         background-position: center;
         background-repeat: no-repeat;
         gap: 0.5rem;
+        overflow-x: hidden;
     }
 
     .main-content {

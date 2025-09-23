@@ -1,65 +1,122 @@
-@media (min-width: 375px) {
-  /* User-provided styles will go here */
+@media (min-width: 350px) {
+    .propertyCard {
+        display: flex;
+        background-color: #333;
+        border-radius: 5px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        max-height: 90px;
+    }
+
+    .propertyCard:hover {
+        background-color: #444;
+    }
+
+    .propertyImage {
+        width: 120px;
+        height: 90px;
+        object-fit: cover;
+    }
+
+    .propertyInfo {
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex-grow: 1;
+    }
+
+    .infoLine {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .address {
+        font-size: 0.9em;
+        color: #ccc;
+        margin: 0;
+    }
+
+    .price {
+        font-weight: bold;
+        font-size: 1em;
+        margin: 0;
+    }
+
+    .favoriteButton {
+        background: none;
+        border: none;
+        color: #ccc; /* Corazón vacío */
+        cursor: pointer;
+        font-size: 1.2rem;
+        padding: 0;
+    }
+
+    .favoriteButton.isFavorite {
+        color: #ff9900; /* Corazón relleno */
+    }
 }
 
 @media (min-width: 768px) {
-  .propertyCard {
-      display: flex;
-      margin-bottom: 10px;
-      background-color: #333;
-      border-radius: 5px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      height: 90px;
-  }
+    .propertyCard {
+        display: flex;
+        margin-bottom: 10px;
+        background-color: #333;
+        border-radius: 5px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        height: 90px;
+    }
 
-  .propertyCard:hover {
-      background-color: #444;
-  }
+    .propertyCard:hover {
+        background-color: #444;
+    }
 
-  .propertyImage {
-      width: 120px;
-      height: 90px;
-      object-fit: cover;
-  }
+    .propertyImage {
+        width: 120px;
+        height: 90px;
+        object-fit: cover;
+    }
 
-  .propertyInfo {
-      padding: 10px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      flex-grow: 1;
-  }
+    .propertyInfo {
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex-grow: 1;
+    }
 
-  .infoLine {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-  }
+    .infoLine {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-  .address {
-      font-size: 0.9em;
-      color: #ccc;
-      margin: 0;
-  }
+    .address {
+        font-size: 0.9em;
+        color: #ccc;
+        margin: 0;
+    }
 
-  .price {
-      font-weight: bold;
-      font-size: 1em;
-      margin: 0;
-  }
+    .price {
+        font-weight: bold;
+        font-size: 1em;
+        margin: 0;
+    }
 
-  .favoriteButton {
-      background: none;
-      border: none;
-      color: #ccc; /* Corazón vacío */
-      cursor: pointer;
-      font-size: 1.2rem;
-      padding: 0;
-  }
+    .favoriteButton {
+        background: none;
+        border: none;
+        color: #ccc; /* Corazón vacío */
+        cursor: pointer;
+        font-size: 1.2rem;
+        padding: 0;
+    }
 
-  .favoriteButton.isFavorite {
-      color: #ff9900; /* Corazón relleno */
-  }
+    .favoriteButton.isFavorite {
+        color: #ff9900; /* Corazón relleno */
+    }
 }
