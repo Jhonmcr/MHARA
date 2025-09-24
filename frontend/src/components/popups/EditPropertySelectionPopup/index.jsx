@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from '../../Sidebar';
+import SidebarHome from '../../SidebarHome';
 import './EditPropertySelectionPopup.css';
 
 const EditPropertySelectionPopup = ({ properties, onClose, onSelectProperty }) => {
@@ -31,7 +31,7 @@ const EditPropertySelectionPopup = ({ properties, onClose, onSelectProperty }) =
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
                 <div className="sidebar-container-popup">
-                    <Sidebar
+                    <SidebarHome
                         properties={filteredProperties}
                         onSelectProperty={onSelectProperty}
                         viewMode="simplified"
