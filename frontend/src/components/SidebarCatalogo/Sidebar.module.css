@@ -1,0 +1,18 @@
+@media (min-width: 350px) {
+        /* Base styles for mobile (350px) */
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+        gap: 10px;
+        background-color: #2a2a2a;
+        padding: 10px;
+        border-radius: 10px;
+        color: white;
+        overflow-y: auto;
+        box-sizing: border-box;
+        width: 95vw;
+        height: 40%; /* Adjusted for better mobile view */
+    }
+}

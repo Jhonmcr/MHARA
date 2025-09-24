@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useOutletContext, useLocation } from 'react-router-dom';
 import './Catalogo.css';
 import MainHouseDisplay from '../../components/MainHouseDisplay';
-import Sidebar from '../../components/Sidebar';
+import SidebarCatalogo from '../../components/SidebarCatalogo';
 import HeaderElements from '../../components/HeaderElements';
 import { useFavorites } from '../../context/FavoritesContext';
 
@@ -133,7 +133,7 @@ const Catalogo = () => {
                     onFavoriteToggle={handleFavoriteToggle}
                     isFavorite={selectedProperty ? favorites.includes(selectedProperty.id) : false}
                 />
-                <Sidebar
+                <SidebarCatalogo
                     properties={filteredProperties}
                     onSelectProperty={handleSelectProperty}
                 />
