@@ -1,45 +1,54 @@
-/* Base styles for mobile (350px) */
-.asesores-container {
-    min-height: 100vh;
-    width: 100%;
-    background-image: url('../../assets/images/home.png');
-    background-size: cover;
-    background-position: center;
-    box-sizing: border-box;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
+@media (min-width: 350px) {
+        /* Base styles for mobile (350px) */
+    body {
+        overflow-y: hidden;
+    }
+    .asesores-container {
+        height: 120vh;
+        width: 100vw;
+        background-image: url('../../assets/images/home.png');
+        background-size: cover;
+        background-position: center;
+        box-sizing: border-box;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: start;
+    }
 
-.asesores-content {
-    text-align: center;
-    color: #ffffff;
-    width: 100%;
-}
+    .asesores-content {
+        text-align: center;
+        color: #ffffff;
+        width: 100%;
+    }
 
-.slider-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-    width: 100%;
-}
+    .slider-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+        width: 100%;
+    }
 
-.ContentAdvisorCard {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    overflow-x: auto; /* Enable horizontal scrolling for cards */
-    padding: 10px 0;
-}
+    .asesores-content h1 {
+        font-size: 2rem;
+    }
 
-.slider-button {
-    display: none; /* Hide buttons on mobile, rely on scroll */
+    .ContentAdvisorCard {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+        overflow-x: auto; /* Enable horizontal scrolling for cards */
+        padding: 10px 0;
+    }
+
+    .slider-button {
+        display: none; /* Hide buttons on mobile, rely on scroll */
+    }
 }
 
 /* Tablet Styles */
@@ -68,10 +77,6 @@
 
 /* Laptop Styles */
 @media (min-width: 1024px) {
-    .asesores-container {
-        padding: 2rem;
-    }
-
     .ContentAdvisorCard {
         width: 70%;
         gap: 30px;

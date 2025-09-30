@@ -12,7 +12,44 @@
         color: white;
         overflow-y: auto;
         box-sizing: border-box;
-        width: 95vw;
+        width: 95%;
         height: 40%; /* Adjusted for better mobile view */
+    }
+}
+
+@media (min-width: 600px) {
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+        gap: 10px;
+        background-color: #2a2a2a;
+        padding: 10px;
+        border-radius: 10px;
+        color: white;
+        overflow-y: auto;
+        box-sizing: border-box;
+        width: 97%;
+        height: 45%; /* Adjusted for better mobile view */
+    }
+}
+
+@media (min-width: 1024px) {
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+        gap: 10px;
+        background-color: #2a2a2a;
+        padding: 10px;
+        margin: 10px;
+        border-radius: 10px;
+        color: white;
+        overflow-y: auto;
+        box-sizing: border-box;
+        width: 30%;
+        height: 42.5rem; /* Adjusted for better mobile view */
     }
 }

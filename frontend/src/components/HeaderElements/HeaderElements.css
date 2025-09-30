@@ -7,7 +7,7 @@
         padding: 20px 0px;
         margin: 0;
         background-color: #252525;
-        width: 100vw;
+        width: 100%;
     }
 
     .header-left {
@@ -204,17 +204,12 @@
     .header-left a {
         color: #f1c237e0;
     }
-}
-
-@media (min-width: 1159px) {
-        /* Estilos para el encabezado */
     .about-us-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 20px 40px;
         background-color: #252525;
-
+        width: 100vw;
     }
 
     .header-left h1 {
@@ -232,6 +227,7 @@
     .header-right {
         display: flex;
         gap: 2rem;
+        padding-right: 1rem;
     }
 
     .header-right ul {
