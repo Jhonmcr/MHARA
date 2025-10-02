@@ -1,8 +1,5 @@
 @media (min-width: 350px) {
         /* Base styles for mobile (350px) */
-    body {
-        overflow-y: hidden;
-    }
     .asesores-container {
         height: 120vh;
         width: 100vw;

@@ -92,7 +92,7 @@
         gap: 20px;
         overflow-y: auto;
         height: 42.4rem;
-        overflow-y: hidden;
+        overflow-y: auto;
     }
 
     .content-left {
