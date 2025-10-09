@@ -50,6 +50,6 @@
         overflow-y: auto;
         box-sizing: border-box;
         width: 30%;
-        height: 42.5rem; /* Adjusted for better mobile view */
+        height: 40.5rem; 
     }
 }
