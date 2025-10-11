@@ -13,6 +13,6 @@
         overflow-y: auto;
         box-sizing: border-box;
         width: 100%;
-        height: 40%; /* Adjusted for better mobile view */
+        height: 100%; /* Adjusted for better mobile view */
     }
 }
