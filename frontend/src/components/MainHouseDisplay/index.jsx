@@ -5,7 +5,7 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import iconShoping from '../../assets/icons/shoping.png';
 import AdvisorContactPopup from '../AdvisorContactPopup'; // Import the popup
 
-const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite }) => {
+const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite, onImageClick }) => {
     const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
     const [advisor, setAdvisor] = useState(null);
     const [isContactPopupOpen, setContactPopupOpen] = useState(false); // State for popup
@@ -62,15 +62,25 @@ const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite }) => {
         }
     };
 
+    const handleImageClick = () => {
+        if (onImageClick && photos && photos.length > 0) {
+            onImageClick(photos, currentPhotoIndex);
+        }
+    };
+
     return (
         <div className={styles.container}>
-            <div className={styles.imageContainer} style={{ backgroundImage: `url(${mainImageUrl})` }}>
+            <div 
+                className={styles.imageContainer} 
+                style={{ backgroundImage: `url(${mainImageUrl})`, cursor: 'pointer' }}
+                onClick={handleImageClick}
+            >
                 {photos && photos.length > 1 && (
                     <>
-                        <button onClick={prevPhoto} className={styles.navButtonLeft}>
+                        <button onClick={(e) => { e.stopPropagation(); prevPhoto(); }} className={styles.navButtonLeft}>
                             <FaChevronLeft />
                         </button>
-                        <button onClick={nextPhoto} className={styles.navButtonRight}>
+                        <button onClick={(e) => { e.stopPropagation(); nextPhoto(); }} className={styles.navButtonRight}>
                             <FaChevronRight />
                         </button>
                     </>

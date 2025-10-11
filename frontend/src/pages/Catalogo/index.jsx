@@ -4,12 +4,14 @@ import './Catalogo.css';
 import MainHouseDisplay from '../../components/MainHouseDisplay';
 import SidebarCatalogo from '../../components/SidebarCatalogo';
 import HeaderElements from '../../components/HeaderElements';
+import FullscreenGallery from '../../components/FullscreenGallery'; // Importar el componente
 import { useFavorites } from '../../context/FavoritesContext';
 
 const Catalogo = () => {
     const { properties } = useOutletContext();
     const { favorites, handleFavoriteToggle } = useFavorites();
     const [selectedProperty, setSelectedProperty] = useState(null);
+    const [galleryState, setGalleryState] = useState({ isOpen: false, images: [], startIndex: 0 });
     const location = useLocation();
     const [searchTerm, setSearchTerm] = useState('');
     const [filters, setFilters] = useState({
@@ -119,6 +121,14 @@ const Catalogo = () => {
         });
     };
 
+    const openGallery = (images, startIndex = 0) => {
+        setGalleryState({ isOpen: true, images, startIndex });
+    };
+
+    const closeGallery = () => {
+        setGalleryState({ isOpen: false, images: [], startIndex: 0 });
+    };
+
     return (
         <div className="catalogo-container">
             <HeaderElements
@@ -132,12 +142,21 @@ const Catalogo = () => {
                     property={selectedProperty}
                     onFavoriteToggle={handleFavoriteToggle}
                     isFavorite={selectedProperty ? favorites.includes(selectedProperty.id) : false}
+                    onImageClick={openGallery}
                 />
                 <SidebarCatalogo
                     properties={filteredProperties}
                     onSelectProperty={handleSelectProperty}
                 />
             </div>
+
+            {galleryState.isOpen && (
+                <FullscreenGallery
+                    images={galleryState.images}
+                    startIndex={galleryState.startIndex}
+                    onClose={closeGallery}
+                />
+            )}
         </div>
     );
 };
