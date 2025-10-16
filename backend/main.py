@@ -325,7 +325,7 @@ async def update_property_endpoint(
 
     return {"message": "Propiedad actualizada exitosamente."}
 
-@properties_router.get("/{property_id}", status_code=status.HTTP_200_OK)
+@properties_router.get("/public/{property_id}", status_code=status.HTTP_200_OK)
 def get_single_property(property_id: str):
     """
     Endpoint público para obtener los detalles de una sola propiedad por su ID.

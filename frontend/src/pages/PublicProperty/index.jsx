@@ -15,7 +15,7 @@ const PublicProperty = () => {
         const fetchProperty = async () => {
             try {
                 setLoading(true);
-                const response = await apiClient.get(`/properties/${propertyId}`);
+                const response = await apiClient.get(`/properties/public/${propertyId}`);
                 setProperty(response.data);
                 setError(null);
             } catch (err) {
