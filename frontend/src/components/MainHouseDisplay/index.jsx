@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import apiClient from '../../api/axios';
 import styles from './MainHouseDisplay.module.css';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { IoMdShare } from "react-icons/io";
 import iconShoping from '../../assets/icons/shoping.png';
-import AdvisorContactPopup from '../AdvisorContactPopup'; // Import the popup
+import AdvisorContactPopup from '../AdvisorContactPopup';
+import { useAuth } from '../../context/AuthContext';
 
 const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite, onImageClick }) => {
+    const { user } = useAuth();
+    const navigate = useNavigate();
     const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
     const [advisor, setAdvisor] = useState(null);
     const [isContactPopupOpen, setContactPopupOpen] = useState(false);
@@ -56,12 +60,24 @@ const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite, onImageClick
     const mainImageUrl = photos && photos.length > 0 ? photos[currentPhotoIndex] : '';
 
     const handleContactClick = () => {
+        if (!user) {
+            navigate('/login');
+            return;
+        }
         if (advisor) {
-            setContactPopupOpen(true); // Open the popup
+            setContactPopupOpen(true);
         } else {
             alert("Información del asesor no disponible en este momento.");
             console.log("Advisor data is not available yet.");
         }
+    };
+
+    const handleFavoriteClick = () => {
+        if (!user) {
+            navigate('/login');
+            return;
+        }
+        onFavoriteToggle(property.id);
     };
 
     const handleImageClick = () => {
@@ -126,7 +142,7 @@ const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite, onImageClick
                     </button>
                     {showCopyMessage && <div className={styles.copyMessage}>¡Enlace copiado!</div>}
                     <button
-                        onClick={() => onFavoriteToggle(property.id)}
+                        onClick={handleFavoriteClick}
                         className={`${styles.favoriteButton} ${isFavorite ? styles.isFavorite : ''}`}
                         title="Agregar a la lista de favoritos"
                     >

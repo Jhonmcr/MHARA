@@ -27,12 +27,12 @@ const AppContent = () => {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/" element={<LoginPage />} /> {/* Default route */}
                 <Route path="/property/:propertyId" element={<PublicProperty />} />
+                <Route path="/catalogo" element={<Catalogo />} />
+                <Route path="/asesores" element={<Asesores />} />
 
                 {/* Protected Routes */}
-                <Route path="/asesores" element={<Asesores />} />
                 <Route element={<ProtectedRoutes />}>
                     <Route path="/home" element={<Home />} />
-                    <Route path="/catalogo" element={<Catalogo />} />
                     <Route path="/nosotros" element={<AboutUs />} />
                     <Route path="/asesor/:id" element={<AdvisorProfile />} />
                 </Route>

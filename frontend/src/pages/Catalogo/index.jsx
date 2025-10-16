@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useOutletContext, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import './Catalogo.css';
 import MainHouseDisplay from '../../components/MainHouseDisplay';
 import SidebarCatalogo from '../../components/SidebarCatalogo';
@@ -7,8 +7,10 @@ import HeaderElements from '../../components/HeaderElements';
 import FullscreenGallery from '../../components/FullscreenGallery'; // Importar el componente
 import { useFavorites } from '../../context/FavoritesContext';
 
+import apiClient from '../../api/axios';
+
 const Catalogo = () => {
-    const { properties } = useOutletContext();
+    const [properties, setProperties] = useState([]);
     const { favorites, handleFavoriteToggle } = useFavorites();
     const [selectedProperty, setSelectedProperty] = useState(null);
     const [galleryState, setGalleryState] = useState({ isOpen: false, images: [], startIndex: 0 });
@@ -22,6 +24,27 @@ const Catalogo = () => {
         rooms: '',
     });
     const [filteredProperties, setFilteredProperties] = useState(properties);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchProperties = async () => {
+            try {
+                setLoading(true);
+                const response = await apiClient.get('/properties');
+                setProperties(response.data);
+                setError(null);
+            } catch (err) {
+                console.error("Error fetching properties for catalog:", err);
+                setError("No se pudieron cargar las propiedades. Por favor, inténtalo de nuevo más tarde.");
+                setProperties([]); // Asegurarse de que no hay propiedades si hay un error
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProperties();
+    }, []);
 
     // Select property from location state or default to first
     useEffect(() => {
@@ -128,6 +151,14 @@ const Catalogo = () => {
     const closeGallery = () => {
         setGalleryState({ isOpen: false, images: [], startIndex: 0 });
     };
+
+    if (loading) {
+        return <div>Cargando propiedades...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
 
     return (
         <div className="catalogo-container">
