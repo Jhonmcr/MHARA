@@ -11,6 +11,7 @@ import Catalogo from './pages/Catalogo';
 import AboutUs from './pages/AboutUs';
 import Asesores from './pages/Asesores';
 import AdvisorProfile from './pages/AdvisorProfile';
+import PublicProperty from './pages/PublicProperty';
 import ProtectedRoutes from './components/ProtectedRoutes';
 import LoadingSpinner from './components/LoadingSpinner';
 import './App.css';
@@ -25,6 +26,7 @@ const AppContent = () => {
                 {/* Public Routes */}
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/" element={<LoginPage />} /> {/* Default route */}
+                <Route path="/property/:propertyId" element={<PublicProperty />} />
 
                 {/* Protected Routes */}
                 <Route path="/asesores" element={<Asesores />} />

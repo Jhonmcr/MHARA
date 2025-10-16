@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
 from dotenv import load_dotenv
 from typing import List, Dict, Any, Optional
-from database import (
+from .database import (
     connect_to_mongo,
     close_mongo_connection,
     get_database,
@@ -34,8 +34,8 @@ from database import (
     update_user_role,
     get_advisor_by_code,
 )
-from auth import hash_password, verify_password
-from s3_utils import upload_file_to_s3, delete_file_from_s3, S3_BUCKET_NAME, AWS_REGION
+from .auth import hash_password, verify_password
+from .s3_utils import upload_file_to_s3, delete_file_from_s3, S3_BUCKET_NAME, AWS_REGION
 from pymongo.errors import ConnectionFailure
 
 # Cargar variables de entorno
@@ -324,6 +324,16 @@ async def update_property_endpoint(
             raise HTTPException(status_code=500, detail="No se pudo actualizar la propiedad.")
 
     return {"message": "Propiedad actualizada exitosamente."}
+
+@properties_router.get("/{property_id}", status_code=status.HTTP_200_OK)
+def get_single_property(property_id: str):
+    """
+    Endpoint público para obtener los detalles de una sola propiedad por su ID.
+    """
+    prop = get_property_by_id(property_id)
+    if not prop:
+        raise HTTPException(status_code=404, detail="Propiedad no encontrada.")
+    return prop
 
 @properties_router.delete("/{property_id}", status_code=status.HTTP_200_OK)
 def delete_property_endpoint(property_id: str):

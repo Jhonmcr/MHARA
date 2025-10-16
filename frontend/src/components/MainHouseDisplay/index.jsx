@@ -2,18 +2,20 @@ import React, { useState, useEffect } from 'react';
 import apiClient from '../../api/axios';
 import styles from './MainHouseDisplay.module.css';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { IoMdShare } from "react-icons/io";
 import iconShoping from '../../assets/icons/shoping.png';
 import AdvisorContactPopup from '../AdvisorContactPopup'; // Import the popup
 
 const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite, onImageClick }) => {
     const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
     const [advisor, setAdvisor] = useState(null);
-    const [isContactPopupOpen, setContactPopupOpen] = useState(false); // State for popup
+    const [isContactPopupOpen, setContactPopupOpen] = useState(false);
+    const [showCopyMessage, setShowCopyMessage] = useState(false);
 
     useEffect(() => {
         setCurrentPhotoIndex(0);
         setAdvisor(null);
-        setContactPopupOpen(false); // Close popup when property changes
+        setContactPopupOpen(false);
 
         if (property && property.agentCode) {
             apiClient.get(`/users/by-code/${property.agentCode}`)
@@ -68,6 +70,14 @@ const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite, onImageClick
         }
     };
 
+    const handleShareClick = () => {
+        const publicUrl = `${window.location.origin}/property/${property.id}`;
+        navigator.clipboard.writeText(publicUrl).then(() => {
+            setShowCopyMessage(true);
+            setTimeout(() => setShowCopyMessage(false), 3000);
+        });
+    };
+
     return (
         <div className={styles.container}>
             <div 
@@ -107,6 +117,14 @@ const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite, onImageClick
                     )}
                 </div>
                 <div className={styles.contact}>
+                    <button
+                        onClick={handleShareClick}
+                        className={styles.shareButton}
+                        title="Compartir propiedad"
+                    >
+                        <IoMdShare />
+                    </button>
+                    {showCopyMessage && <div className={styles.copyMessage}>¡Enlace copiado!</div>}
                     <button
                         onClick={() => onFavoriteToggle(property.id)}
                         className={`${styles.favoriteButton} ${isFavorite ? styles.isFavorite : ''}`}
