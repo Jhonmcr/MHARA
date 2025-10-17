@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useFavorites } from '../../context/FavoritesContext';
+import toast, { Toaster } from 'react-hot-toast';
 import './Header.css';
 import logoSmall from '../../assets/images/mhara_logo.png';
 import iconShoping from '../../assets/icons/shoping.png';
@@ -14,6 +15,24 @@ import ChangePassword from '../ChangePassword';
 import AdvisorContactForm from '../AdvisorContactForm';
 import LogoutConfirmationPopup from '../LogoutConfirmationPopup';
 
+const AuthProtectedLink = ({ children, onClick, isAuthenticated }) => {
+    const handleInteraction = (e) => {
+        if (!isAuthenticated) {
+            e.preventDefault();
+            toast.error("Debes iniciar sesión para realizar esta acción.");
+        } else if (onClick) {
+            onClick(e);
+        }
+    };
+
+    const childProps = {
+        onClick: handleInteraction,
+        className: `${children.props.className || ''} ${!isAuthenticated ? 'disabled' : ''}`.trim()
+    };
+
+    return React.cloneElement(children, childProps);
+};
+
 const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, onHomeClick, onShowChangeProfilePicture }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
@@ -22,7 +41,7 @@ const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, on
     const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
     const [isAdvisorContactFormOpen, setIsAdvisorContactFormOpen] = useState(false);
     const [isLogoutPopupOpen, setLogoutPopupOpen] = useState(false);
-    const { user, logout } = useAuth();
+    const { user, logout, isAuthenticated } = useAuth();
     const { favoriteProperties } = useFavorites();
     const navigate = useNavigate();
 
@@ -37,18 +56,30 @@ const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, on
     };
 
     const toggleMenu = () => {
+        if (!isAuthenticated) {
+            toast.error("Debes iniciar sesión para acceder al menú.");
+            return;
+        }
         const wasOpen = isMenuOpen;
         closeAllPopups();
         setIsMenuOpen(!wasOpen);
     };
 
     const toggleProfileMenu = () => {
+        if (!isAuthenticated) {
+            navigate('/login');
+            return;
+        }
         const wasOpen = isProfileMenuOpen;
         closeAllPopups();
         setIsProfileMenuOpen(!wasOpen);
     };
 
     const toggleFavorites = () => {
+        if (!isAuthenticated) {
+            toast.error("Debes iniciar sesión para ver tus favoritos.");
+            return;
+        }
         const wasOpen = isFavoritesOpen;
         closeAllPopups();
         setIsFavoritesOpen(!wasOpen);
@@ -120,15 +151,16 @@ const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, on
 
     return (
         <header className="header-glassmorphism">
+            <Toaster position="top-center" reverseOrder={false} />
             <div className="header-logo">
                 <img src={logoSmall} alt="MHARA logo" className="logo-small" />
             </div>
             <nav className="navbar">
                 <ul className="nav-links">
-                    <li><Link to="/home" onClick={handleHomeClick}>Home</Link></li>
+                    <li><AuthProtectedLink isAuthenticated={isAuthenticated}><Link to="/home" onClick={handleHomeClick}>Home</Link></AuthProtectedLink></li>
                     <li><Link to="/catalogo">Catalogo</Link></li>
                     <li><Link to="/nosotros">Nosotros</Link></li>
-                    <li><a href="#" onClick={handleContactClick}>Contactanos</a></li>
+                    <li><AuthProtectedLink isAuthenticated={isAuthenticated}><a href="#" onClick={handleContactClick}>Contactanos</a></AuthProtectedLink></li>
                 </ul>
             </nav>
             <div className="header-icons">
@@ -137,13 +169,13 @@ const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, on
                         <span className="agent-code-text">{user.agentCode}</span>
                     </div>
                 )}
-                <span onClick={toggleFavorites} style={{ cursor: 'pointer' }}>
+                <span onClick={toggleFavorites} style={{ cursor: 'pointer' }} className={!isAuthenticated ? 'disabled' : ''}>
                     <img src={iconShoping} alt="Icon Shoping" className='iconShoping'/>
                 </span>
-                <span onClick={toggleProfileMenu} style={{ cursor: 'pointer' }}>
+                <span onClick={toggleProfileMenu} style={{ cursor: 'pointer' }} className={!isAuthenticated ? 'disabled' : ''}>
                     <img src={iconUser} alt="Icon User" className='iconUser'/>
                 </span>
-                {isProfileMenuOpen && (
+                {isProfileMenuOpen && isAuthenticated && (
                     <ProfileDropdownMenu
                         onChangeProfilePicture={handleChangeProfilePicture}
                         onChangeUsername={handleChangeUsername}
@@ -153,12 +185,12 @@ const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, on
                     />
                 )}
                 
-                {shouldShowMenu && (
+                {shouldShowMenu && isAuthenticated && (
                     <>
-                        <span onClick={toggleMenu} style={{ cursor: 'pointer' }}>☰</span>
-                        {isMenuOpen && <DropdownMenu 
-                            onUploadPropertyClick={onUploadPropertyClick} 
-                            onEditPropertyClick={onEditPropertyClick} 
+                        <span onClick={toggleMenu} style={{ cursor: 'pointer' }} className={!isAuthenticated ? 'disabled' : ''}>☰</span>
+                        {isMenuOpen && <DropdownMenu
+                            onUploadPropertyClick={onUploadPropertyClick}
+                            onEditPropertyClick={onEditPropertyClick}
                         />}
                     </>
                 )}
