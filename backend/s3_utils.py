@@ -2,6 +2,12 @@ import os
 import boto3
 from botocore.exceptions import NoCredentialsError, PartialCredentialsError, ClientError
 import logging
+from dotenv import load_dotenv
+
+# Cargar explícitamente el archivo .env desde el directorio raíz
+dotenv_path = os.path.join(os.path.dirname(__file__), '..', '.env')
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path=dotenv_path)
 
 # Configurar logging
 logging.basicConfig(level=logging.INFO)
@@ -11,7 +17,7 @@ logger = logging.getLogger(__name__)
 AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
 AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
 S3_BUCKET_NAME = os.getenv("S3_BUCKET_NAME")
-AWS_REGION = os.getenv("AWS_REGION")
+AWS_REGION = os.getenv("AWS_REGION", "us-east-2") # Proporcionar un valor por defecto
 
 # Validar que las variables de entorno estén configuradas
 if not all([AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, S3_BUCKET_NAME, AWS_REGION]):

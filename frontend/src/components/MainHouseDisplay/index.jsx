@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import apiClient from '../../api/axios';
 import styles from './MainHouseDisplay.module.css';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaChevronLeft, FaChevronRight, FaShareAlt } from 'react-icons/fa';
 import iconShoping from '../../assets/icons/shoping.png';
-import AdvisorContactPopup from '../AdvisorContactPopup'; // Import the popup
+import AdvisorContactPopup from '../AdvisorContactPopup';
+import { useAuth } from '../../context/AuthContext';
+import toast, { Toaster } from 'react-hot-toast';
 
 const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite, onImageClick }) => {
+    const { isAuthenticated } = useAuth();
     const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
     const [advisor, setAdvisor] = useState(null);
-    const [isContactPopupOpen, setContactPopupOpen] = useState(false); // State for popup
+    const [isContactPopupOpen, setContactPopupOpen] = useState(false);
 
     useEffect(() => {
         setCurrentPhotoIndex(0);
         setAdvisor(null);
-        setContactPopupOpen(false); // Close popup when property changes
+        setContactPopupOpen(false);
 
         if (property && property.agentCode) {
             apiClient.get(`/users/by-code/${property.agentCode}`)
@@ -54,11 +57,14 @@ const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite, onImageClick
     const mainImageUrl = photos && photos.length > 0 ? photos[currentPhotoIndex] : '';
 
     const handleContactClick = () => {
+        if (!isAuthenticated) {
+            toast.error("Debes iniciar sesión para contactar al asesor.");
+            return;
+        }
         if (advisor) {
-            setContactPopupOpen(true); // Open the popup
+            setContactPopupOpen(true);
         } else {
-            alert("Información del asesor no disponible en este momento.");
-            console.log("Advisor data is not available yet.");
+            toast.error("Información del asesor no disponible.");
         }
     };
 
@@ -68,8 +74,29 @@ const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite, onImageClick
         }
     };
 
+    const handleFavoriteClick = () => {
+        if (!isAuthenticated) {
+            toast.error("Debes iniciar sesión para agregar a favoritos.");
+            return;
+        }
+        onFavoriteToggle(property.id);
+    };
+
+    const handleShareClick = () => {
+        const propertyUrl = `${window.location.origin}/catalogo/${property.id}`;
+        navigator.clipboard.writeText(propertyUrl)
+            .then(() => {
+                toast.success("Enlace copiado al portapapeles");
+            })
+            .catch(err => {
+                toast.error("No se pudo copiar el enlace.");
+                console.error('Error al copiar el enlace:', err);
+            });
+    };
+
     return (
         <div className={styles.container}>
+            <Toaster position="top-center" reverseOrder={false} />
             <div 
                 className={styles.imageContainer} 
                 style={{ backgroundImage: `url(${mainImageUrl})`, cursor: 'pointer' }}
@@ -108,11 +135,19 @@ const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite, onImageClick
                 </div>
                 <div className={styles.contact}>
                     <button
-                        onClick={() => onFavoriteToggle(property.id)}
+                        onClick={handleFavoriteClick}
                         className={`${styles.favoriteButton} ${isFavorite ? styles.isFavorite : ''}`}
                         title="Agregar a la lista de favoritos"
+                        disabled={!isAuthenticated}
                     >
                         <img src={iconShoping} alt="Favorite" />
+                    </button>
+                    <button
+                        onClick={handleShareClick}
+                        className={styles.shareButton}
+                        title="Compartir propiedad"
+                    >
+                        <FaShareAlt />
                     </button>
                     <div className={styles.contactAction}>
                         {advisor && (
@@ -120,7 +155,11 @@ const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite, onImageClick
                                 <img src={advisor.profileImageUrl || `https://i.pravatar.cc/150?u=${advisor._id}`} alt={advisor.fullName} className={styles.advisorImage} />
                             </div>
                         )}
-                        <button onClick={handleContactClick} className={styles.contactButton}>
+                        <button
+                            onClick={handleContactClick}
+                            className={styles.contactButton}
+                            disabled={!isAuthenticated}
+                        >
                             Contactar
                         </button>
                     </div>
