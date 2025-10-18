@@ -1,6 +1,8 @@
 import os
+import sys
 import uuid
 import random
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import string
 from fastapi import FastAPI, APIRouter, HTTPException, status, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
