@@ -140,6 +140,29 @@
         background-color: #ff9900;
     }
 
+    .contactButton:disabled {
+        background-color: #5a5a5a;
+        cursor: not-allowed;
+    }
+
+    .shareButton {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 0.9em;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .shareButton:hover {
+        background-color: #0056b3;
+    }
+
     .favoriteButton {
         display: flex;
         background: none;
@@ -155,6 +178,11 @@
 
     .favoriteButton.isFavorite img {
         filter: invert(88%) sepia(61%) saturate(2000%) hue-rotate(35deg) brightness(104%) contrast(101%);
+    }
+
+    .favoriteButton:disabled img {
+        filter: grayscale(100%);
+        cursor: not-allowed;
     }
 
     .customOptions {
@@ -319,6 +347,29 @@
         background-color: #ff9900;
     }
 
+    .contactButton:disabled {
+        background-color: #5a5a5a;
+        cursor: not-allowed;
+    }
+
+    .shareButton {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 0.9em;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .shareButton:hover {
+        background-color: #0056b3;
+    }
+
     .favoriteButton {
         background: none;
         border: none;
@@ -333,6 +384,11 @@
 
     .favoriteButton.isFavorite img {
         filter: invert(88%) sepia(61%) saturate(2000%) hue-rotate(35deg) brightness(104%) contrast(101%);
+    }
+
+    .favoriteButton:disabled img {
+        filter: grayscale(100%);
+        cursor: not-allowed;
     }
 
     .customOptions {
@@ -530,6 +586,29 @@
         background-color: #ff9900;
     }
 
+    .contactButton:disabled {
+        background-color: #5a5a5a;
+        cursor: not-allowed;
+    }
+
+    .shareButton {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 0.9em;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .shareButton:hover {
+        background-color: #0056b3;
+    }
+
     .favoriteButton {
         background: none;
         border: none;
@@ -544,6 +623,11 @@
 
     .favoriteButton.isFavorite img {
         filter: invert(88%) sepia(61%) saturate(2000%) hue-rotate(35deg) brightness(104%) contrast(101%);
+    }
+
+    .favoriteButton:disabled img {
+        filter: grayscale(100%);
+        cursor: not-allowed;
     }
 
     .customOptions {
