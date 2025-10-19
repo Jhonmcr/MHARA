@@ -276,6 +276,19 @@ async def add_property(
         
     return {"message": "Propiedad creada exitosamente.", "property_id": str(new_property.inserted_id)}
 
+@properties_router.get("/{property_id}")
+def get_single_property(property_id: str):
+    """Obtiene una propiedad individual por su ID."""
+    prop = get_property_by_id(property_id)
+    if not prop:
+        raise HTTPException(status_code=404, detail="Propiedad no encontrada.")
+    
+    # Convertir ObjectId a string para la respuesta JSON
+    prop['id'] = str(prop['_id'])
+    del prop['_id']
+    
+    return prop
+
 @properties_router.put("/{property_id}", status_code=status.HTTP_200_OK)
 async def update_property_endpoint(
     property_id: str,
