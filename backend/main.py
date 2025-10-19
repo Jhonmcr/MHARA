@@ -1,13 +1,17 @@
 import os
+import sys
 import uuid
 import random
+
+# Add the backend directory to the Python path
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import string
 from fastapi import FastAPI, APIRouter, HTTPException, status, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
 from dotenv import load_dotenv
 from typing import List, Dict, Any, Optional
-from .database import (
+from database import (
     connect_to_mongo,
     close_mongo_connection,
     get_database,
@@ -34,8 +38,8 @@ from .database import (
     update_user_role,
     get_advisor_by_code,
 )
-from .auth import hash_password, verify_password
-from .s3_utils import upload_file_to_s3, delete_file_from_s3, S3_BUCKET_NAME, AWS_REGION
+from auth import hash_password, verify_password
+from s3_utils import upload_file_to_s3, delete_file_from_s3, S3_BUCKET_NAME, AWS_REGION
 from pymongo.errors import ConnectionFailure
 
 # Cargar variables de entorno
