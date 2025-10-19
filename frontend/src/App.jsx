@@ -1,9 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
-import { FavoritesProvider } from './context/FavoritesContext';
-import { HomePanelProvider } from './context/HomePanelContext';
-import { LoadingProvider, useLoading } from './context/LoadingContext';
+import { useLoading } from './context/LoadingContext';
 import LoginPage from './pages/Login';
 import Home from './pages/Home';
 import NotFound from './pages/NotFound';
@@ -11,11 +8,12 @@ import Catalogo from './pages/Catalogo';
 import AboutUs from './pages/AboutUs';
 import Asesores from './pages/Asesores';
 import AdvisorProfile from './pages/AdvisorProfile';
+import PropertyDetail from './pages/PropertyDetail';
 import ProtectedRoutes from './components/ProtectedRoutes';
 import LoadingSpinner from './components/LoadingSpinner';
 import './App.css';
 
-const AppContent = () => {
+const App = () => {
     const { isLoading } = useLoading();
 
     return (
@@ -25,6 +23,7 @@ const AppContent = () => {
                 {/* Public Routes */}
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/" element={<LoginPage />} /> {/* Default route */}
+                <Route path="/catalogo/:id" element={<PropertyDetail />} />
 
                 {/* Protected Routes */}
                 <Route path="/asesores" element={<Asesores />} />
@@ -41,19 +40,5 @@ const AppContent = () => {
         </>
     );
 };
-
-function App() {
-    return (
-        <AuthProvider>
-            <LoadingProvider>
-                <FavoritesProvider>
-                    <HomePanelProvider>
-                        <AppContent />
-                    </HomePanelProvider>
-                </FavoritesProvider>
-            </LoadingProvider>
-        </AuthProvider>
-    );
-}
 
 export default App;

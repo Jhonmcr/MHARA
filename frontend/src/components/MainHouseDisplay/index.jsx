@@ -4,11 +4,9 @@ import styles from './MainHouseDisplay.module.css';
 import { FaChevronLeft, FaChevronRight, FaShareAlt } from 'react-icons/fa';
 import iconShoping from '../../assets/icons/shoping.png';
 import AdvisorContactPopup from '../AdvisorContactPopup';
-import { useAuth } from '../../context/AuthContext';
 import toast, { Toaster } from 'react-hot-toast';
 
-const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite, onImageClick }) => {
-    const { isAuthenticated } = useAuth();
+const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite, onImageClick, isGuest }) => {
     const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
     const [advisor, setAdvisor] = useState(null);
     const [isContactPopupOpen, setContactPopupOpen] = useState(false);
@@ -57,7 +55,7 @@ const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite, onImageClick
     const mainImageUrl = photos && photos.length > 0 ? photos[currentPhotoIndex] : '';
 
     const handleContactClick = () => {
-        if (!isAuthenticated) {
+        if (isGuest) {
             toast.error("Debes iniciar sesión para contactar al asesor.");
             return;
         }
@@ -75,7 +73,7 @@ const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite, onImageClick
     };
 
     const handleFavoriteClick = () => {
-        if (!isAuthenticated) {
+        if (isGuest) {
             toast.error("Debes iniciar sesión para agregar a favoritos.");
             return;
         }
@@ -93,7 +91,7 @@ const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite, onImageClick
                 console.error('Error al copiar el enlace:', err);
             });
     };
-
+    
     return (
         <div className={styles.container}>
             <Toaster position="top-center" reverseOrder={false} />
@@ -137,8 +135,8 @@ const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite, onImageClick
                     <button
                         onClick={handleFavoriteClick}
                         className={`${styles.favoriteButton} ${isFavorite ? styles.isFavorite : ''}`}
-                        title="Agregar a la lista de favoritos"
-                        disabled={!isAuthenticated}
+                        title={isGuest ? "Inicia sesión para agregar a favoritos" : "Agregar a la lista de favoritos"}
+                        disabled={isGuest}
                     >
                         <img src={iconShoping} alt="Favorite" />
                     </button>
@@ -158,7 +156,8 @@ const MainHouseDisplay = ({ property, onFavoriteToggle, isFavorite, onImageClick
                         <button
                             onClick={handleContactClick}
                             className={styles.contactButton}
-                            disabled={!isAuthenticated}
+                            disabled={isGuest}
+                            title={isGuest ? "Inicia sesión para contactar al asesor" : "Contactar"}
                         >
                             Contactar
                         </button>
