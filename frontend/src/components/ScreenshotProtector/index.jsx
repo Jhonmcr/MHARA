@@ -7,7 +7,7 @@ const ScreenshotProtector = () => {
         var noPrint = true;
         var noCopy = true;
         var noScreenshot = true;
-        var autoBlur = true;
+        var autoBlur = false;
         `;
         document.head.appendChild(scriptConfig);
 
