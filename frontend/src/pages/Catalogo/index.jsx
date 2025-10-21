@@ -5,6 +5,7 @@ import MainHouseDisplay from '../../components/MainHouseDisplay';
 import SidebarCatalogo from '../../components/SidebarCatalogo';
 import HeaderElements from '../../components/HeaderElements';
 import FullscreenGallery from '../../components/FullscreenGallery'; // Importar el componente
+import ScreenshotProtector from '../../components/ScreenshotProtector';
 import { useFavorites } from '../../context/FavoritesContext';
 
 const Catalogo = () => {
@@ -131,6 +132,7 @@ const Catalogo = () => {
 
     return (
         <div className="catalogo-container">
+            <ScreenshotProtector />
             <HeaderElements
                 searchTerm={searchTerm}
                 onSearchChange={handleSearchChange}

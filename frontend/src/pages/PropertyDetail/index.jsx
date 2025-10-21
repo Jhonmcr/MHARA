@@ -5,6 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import MainHouseDisplay from '../../components/MainHouseDisplay'; // Reutilizando componente
 import HeaderElements from '../../components/HeaderElements'; // Reutilizando componente
 import FullscreenGallery from '../../components/FullscreenGallery';
+import ScreenshotProtector from '../../components/ScreenshotProtector';
 import { useFavorites } from '../../context/FavoritesContext';
 import './PropertyDetail.css';
 
@@ -61,6 +62,7 @@ const PropertyDetail = () => {
     
     return (
         <div className="catalogo-container">
+            <ScreenshotProtector />
             <HeaderElements isGuest={isGuest} />
             <div className="catalogo-body">
                 <MainHouseDisplay
