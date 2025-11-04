@@ -1,8 +1,8 @@
-@media (min-width: 350px) {
+@media (min-width: 320px) {
   .glassmorphism-button {
       width: 100%;
-      padding: 25px 25px;
-      font-size: 1.2em;
+      padding: 20px;
+      font-size: 1.1em;
       font-weight: 600;
       color: #333;
       cursor: pointer;

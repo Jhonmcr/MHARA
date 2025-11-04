@@ -1,5 +1,5 @@
-@media (min-width: 350px) {
-    /* Base styles for mobile (350px) */
+@media (min-width: 320px) {
+    /* Base styles for mobile (320px) */
     .add-advisor-form {
         display: flex;
         flex-direction: column;

@@ -1,5 +1,5 @@
-@media (min-width: 350px) {
-      /* Mobile First Styles (350px) */
+@media (min-width: 320px) {
+      /* Mobile First Styles (320px) */
     body {
         display: flex;
         align-items: start;

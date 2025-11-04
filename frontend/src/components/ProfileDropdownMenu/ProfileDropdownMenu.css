@@ -1,27 +1,29 @@
-.profile-dropdown-menu {
-    position: absolute;
-    top: 60px; /* Adjust as needed */
-    right: 20px; /* Adjust as needed */
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    z-index: 10000; /* Use a very high z-index for consistency */
-}
+@media (min-width: 320px) {
+    .profile-dropdown-menu {
+        position: absolute;
+        top: 60px; /* Adjust as needed */
+        right: 20px; /* Adjust as needed */
+        background-color: white;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        z-index: 10000; /* Use a very high z-index for consistency */
+    }
 
-.profile-dropdown-menu ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
+    .profile-dropdown-menu ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
 
-.profile-dropdown-menu li {
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 16px;
-    color: #333;
-}
+    .profile-dropdown-menu li {
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 16px;
+        color: #333;
+    }
 
-.profile-dropdown-menu li:hover {
-    background-color: #f5f5f5;
+    .profile-dropdown-menu li:hover {
+        background-color: #f5f5f5;
+    }
 }

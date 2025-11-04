@@ -1,5 +1,5 @@
-@media (min-width: 350px) {
-        /* Base styles for mobile (350px) */
+@media (min-width: 320px) {
+        /* Base styles for mobile (320px) */
     .asesores-container {
         height: 120vh;
         width: 100vw;

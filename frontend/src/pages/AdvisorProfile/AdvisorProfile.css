@@ -1,8 +1,6 @@
-@media (min-width: 375px) {
-  /* User-provided styles will go here */
-}
 
-/* Base styles for mobile (350px) */
+
+/* Base styles for mobile (320px) */
 .advisor-profile-container {
     background-color: #f0f2f5;
     min-height: 100vh;

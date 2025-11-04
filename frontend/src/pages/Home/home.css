@@ -1,4 +1,4 @@
-@media (min-width: 350px) {
+@media (min-width: 320px) {
     body {
         padding: 0;
         margin: 0;
@@ -55,6 +55,7 @@
     }
 
     .main-buttons-panel {
+        width: 100%;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: repeat(2, 1fr);

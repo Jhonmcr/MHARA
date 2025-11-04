@@ -33,7 +33,7 @@ const AuthProtectedLink = ({ children, onClick, isAuthenticated }) => {
     return React.cloneElement(children, childProps);
 };
 
-const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, onHomeClick, onShowChangeProfilePicture }) => {
+const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, onShowChangeProfilePicture }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
     const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
@@ -97,12 +97,12 @@ const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, on
         }
     }
 
-    const handleHomeClick = (e) => {
+    /* const handleHomeClick = (e) => {
         e.preventDefault();
         if(onHomeClick) {
             onHomeClick();
         }
-    }
+    } */
     
     const shouldShowMenu = user && (user.role === 'admin' || user.role === 'asesor');
 
@@ -157,7 +157,7 @@ const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, on
             </div>
             <nav className="navbar">
                 <ul className="nav-links">
-                    <li><AuthProtectedLink isAuthenticated={isAuthenticated}><Link to="/home" onClick={handleHomeClick}>Home</Link></AuthProtectedLink></li>
+                    <li><AuthProtectedLink isAuthenticated={isAuthenticated}><Link to="/home">Home</Link></AuthProtectedLink></li>
                     <li><Link to="/catalogo">Catalogo</Link></li>
                     <li><Link to="/nosotros">Nosotros</Link></li>
                     <li><AuthProtectedLink isAuthenticated={isAuthenticated}><a href="#" onClick={handleContactClick}>Contactanos</a></AuthProtectedLink></li>

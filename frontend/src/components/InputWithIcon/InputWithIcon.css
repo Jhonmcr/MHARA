@@ -1,28 +1,28 @@
-@media (min-width: 350px) {
-  .input-container {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      margin: 10px 0;
-      background-color: #fff;
-      border-radius: 10px;
-      padding: 10px 15px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      color: black;
-  }
+@media (min-width: 320px) {
+    .input-container {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin: 10px 0;
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 10px 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        color: black;
+    }
 
-  .input-icon {
-      width: 20px;
-      margin-right: 5px;
-      opacity: 0.7;
-  }
+    .input-icon {
+        width: 20px;
+        margin-right: 5px;
+        opacity: 0.7;
+    }
 
-  .input-field {
-      flex-grow: 1;
-      border: none;
-      outline: none;
-      background: transparent;
-      font-size: 0.86em;
-      color: black;
-  }
+    .input-field {
+        flex-grow: 1;
+        border: none;
+        outline: none;
+        background: transparent;
+        font-size: 0.86em;
+        color: black;
+    }
 }

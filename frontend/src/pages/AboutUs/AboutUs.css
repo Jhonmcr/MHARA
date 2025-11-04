@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap');
 
-@media (min-width: 350px) {
-  /* Base styles for mobile (350px) */
+@media (min-width: 320px) {
+  /* Base styles for mobile (320px) */
     .about-us-container {
         background-color: white;
         font-family: 'Poppins', sans-serif;

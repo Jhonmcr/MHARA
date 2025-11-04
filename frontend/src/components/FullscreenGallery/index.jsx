@@ -45,27 +45,27 @@ const FullscreenGallery = ({ images, startIndex = 0, onClose }) => {
 
     return (
         <div className="fullscreen-gallery-backdrop" onClick={handleBackdropClick}>
-        <button className="gallery-close-btn" onClick={onClose}>
-            &times;
-        </button>
-
-        <div className="gallery-content">
-            <button className="gallery-nav-btn prev" onClick={goToPrevious}>
-            &#10094;
+            <button className="gallery-close-btn" onClick={onClose}>
+                &times;
             </button>
-            <img
-            src={images[currentIndex]}
-            alt={`View ${currentIndex + 1} of ${images.length}`}
-            className="gallery-image"
-            />
-            <button className="gallery-nav-btn next" onClick={goToNext}>
-            &#10095;
-            </button>
-        </div>
 
-        <div className="gallery-indicator">
-            <p>{currentIndex + 1} / {images.length}</p>
-        </div>
+            <div className="gallery-content">
+                <button className="gallery-nav-btn prev" onClick={goToPrevious}>
+                &#10094;
+                </button>
+                <img
+                src={images[currentIndex]}
+                alt={`View ${currentIndex + 1} of ${images.length}`}
+                className="gallery-image"
+                />
+                <button className="gallery-nav-btn next" onClick={goToNext}>
+                &#10095;
+                </button>
+            </div>
+
+            <div className="gallery-indicator">
+                <p>{currentIndex + 1} / {images.length}</p>
+            </div>
         </div>
     );
 };

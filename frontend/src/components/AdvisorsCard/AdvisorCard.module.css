@@ -1,4 +1,4 @@
-@media (min-width: 350px) {
+@media (min-width: 320px) {
     /* Contenedor de la tarjeta */
     .card {
         background-color: rgba(255, 255, 255, 0.9);
@@ -7,7 +7,7 @@
         text-align: center;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         position: relative;
-        width: 20rem;
+        width: 15rem;
         height: 390px;
         margin: 20px; /* Agrega un margen entre las tarjetas */
     }
