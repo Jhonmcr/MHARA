@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useFavorites } from '../../context/FavoritesContext';
+import { useHomePanel } from '../../context/HomePanelContext'; // Import useHomePanel
 import toast, { Toaster } from 'react-hot-toast';
 import './Header.css';
 import logoSmall from '../../assets/images/mhara_logo.png';
+import logo from '../../assets/icons/Logo.png'; // Import the main logo for contact panel
 import iconShoping from '../../assets/icons/shoping.png';
 import iconUser from '../../assets/icons/user.png';
 import DropdownMenu from '../DropdownMenu';
@@ -33,7 +35,7 @@ const AuthProtectedLink = ({ children, onClick, isAuthenticated }) => {
     return React.cloneElement(children, childProps);
 };
 
-const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, onShowChangeProfilePicture }) => {
+const Header = ({ onUploadPropertyClick, onEditPropertyClick, onShowChangeProfilePicture }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
     const [isFavoritesOpen, setIsFavoritesOpen] = useState(false);
@@ -43,7 +45,20 @@ const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, on
     const [isLogoutPopupOpen, setLogoutPopupOpen] = useState(false);
     const { user, logout, isAuthenticated } = useAuth();
     const { favoriteProperties } = useFavorites();
+    const { setPanelContent } = useHomePanel(); // Use the context
     const navigate = useNavigate();
+
+    // Static contact info for the company
+    const companyContact = {
+        _id: 'company_contact',
+        fullName: "Mhara Estate",
+        profileImageUrl: logo,
+        contactInfo: {
+            phone: "+58 4242921532",
+            email: "mharaestatehome@gmail.com",
+            instagram: "https://www.instagram.com/mharaestatehome/#" 
+        }
+    };
 
     const closeAllPopups = () => {
         setIsMenuOpen(false);
@@ -90,19 +105,14 @@ const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, on
         navigate('/catalogo', { state: { selectedPropertyId: property.id } });
     };
 
-    const handleContactClick = (e) => {
-        e.preventDefault();
-        if(onContactClick) {
-            onContactClick();
-        }
-    }
+    const handleContactClick = () => {
+        setPanelContent(companyContact);
+        navigate('/home'); // Ensure we are on the home page
+    };
 
-    /* const handleHomeClick = (e) => {
-        e.preventDefault();
-        if(onHomeClick) {
-            onHomeClick();
-        }
-    } */
+    const handleHomeClick = () => {
+        setPanelContent('default'); // Reset the panel to default
+    };
     
     const shouldShowMenu = user && (user.role === 'admin' || user.role === 'asesor');
 
@@ -157,10 +167,10 @@ const Header = ({ onUploadPropertyClick, onEditPropertyClick, onContactClick, on
             </div>
             <nav className="navbar">
                 <ul className="nav-links">
-                    <li><AuthProtectedLink isAuthenticated={isAuthenticated}><Link to="/home">Home</Link></AuthProtectedLink></li>
+                    <li><AuthProtectedLink isAuthenticated={isAuthenticated} onClick={handleHomeClick}><Link to="/home">Home</Link></AuthProtectedLink></li>
                     <li><Link to="/catalogo">Catalogo</Link></li>
                     <li><Link to="/nosotros">Nosotros</Link></li>
-                    <li><AuthProtectedLink isAuthenticated={isAuthenticated}><a href="#" onClick={handleContactClick}>Contactanos</a></AuthProtectedLink></li>
+                    <li><AuthProtectedLink isAuthenticated={isAuthenticated} onClick={handleContactClick}><a style={{cursor: 'pointer'}}>Contactanos</a></AuthProtectedLink></li>
                 </ul>
             </nav>
             <div className="header-icons">

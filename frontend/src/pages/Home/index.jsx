@@ -103,8 +103,8 @@ const Home = () => {
     return (
         <div className="home-container">
             <Header 
-                onContactClick={handleContactClick} 
-                onHomeClick={handleHomeClick} 
+                // onContactClick={handleContactClick} 
+                // onHomeClick={handleHomeClick} 
                 onUploadPropertyClick={handleUploadPropertyClick}
                 onEditPropertyClick={handleEditPropertyClick}
                 onShowChangeProfilePicture={handleShowChangeProfilePicture}
